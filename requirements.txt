@@ -1,0 +1,22 @@
+# Core stack for the RAG pipeline. langchain-community is NOT used anywhere
+# in src/ -- it was archived by its maintainers on 19 June 2026 and receives
+# no further releases (see README). Everything below is a maintained
+# standalone package instead.
+langchain-core==1.4.9
+langchain-text-splitters==1.1.2
+langchain-huggingface==1.2.2
+langchain-chroma==1.1.0
+
+# HuggingFaceEmbeddings' backend -- local, CPU-friendly, no API key/account.
+sentence-transformers==5.6.0
+
+# PDF text extraction, used directly by adapters/ingestion.py instead of a
+# LangChain PDF loader wrapper.
+pypdf==6.14.2
+
+# Optional extras, NOT installed here on purpose (see adapters/embeddings.py
+# and adapters/llm.py): install these yourself only if you switch a
+# backend away from the local/huggingface default.
+#   langchain-ibm     -- watsonx embeddings/LLM backend (needs IBM Cloud credentials)
+#   langchain-openai  -- OpenAI embeddings/LLM backend (needs OPENAI_API_KEY)
+#   lark              -- required by SelfQueryRetriever once phase 2 builds it
