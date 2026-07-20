@@ -1,0 +1,228 @@
+tab,subcategory,question,answer
+Beneficiary,General,How many kinds of beneficiaries can be registered in the Application?,"An AWW can register 6 kinds of beneficiaries-
+- Pregnant Women
+- Lactating Mothers
+- Children between 0-6 months
+- Children between 6 months to 3 years
+- Children between 3-6 years
+- Adolescent Girls between 14-18 years (for Aspirational Districts)"
+Beneficiary,General,How to update the profile of a beneficiary?,Click on 'beneficiary list' then go to profile card and make the required changes accordingly available in profile card.
+Beneficiary,General,How many Beneficiaries can be added on one Aadhaar card?,An AWW can add one Aadhaar card details only for 4 beneficiaries (Mother + 3 children). A father/guardian's Aadhaar card details can be used for 3 children.
+Beneficiary,General,Why does an AWW get the message “Aadhaar card already exists”?,"If Aadhaar details of the beneficiary already exist in some other AWC , then the message “Aadhaar already exists” shows up."
+Beneficiary,General,How to update Child's Aadhaar instead of Parent/Guardian's Aadhaar?,A child beneficiary’s Aadhaar can be updated and verified through the “Add Child’s Aadhaar” option in the beneficiary’s profile card.
+Beneficiary,General,"What does Unverified, Verified and Partially Verified status in a Beneficiary Profile mean?","- Unverified: Beneficiary has not verified their mobile number & Aadhaar details.
+- Partially Verified: Beneficiary has only verified their mobile number.
+- Verified: Beneficiary has verified Aadhaar details."
+Beneficiary,General,How to create an ABHA ID?,"In the 'Three Dots' option of a beneficiary, click on Create or Retrieve ABHA. If a new ABHA ID is to be created, click on Create ABHA. You can choose to create ABHA by verifying Aadhaar details or by Aadhaar OTP. If ABHA ID already exists, you can retrieve it by entering ABHA ID/Address and verify or by ABHA OTP."
+Beneficiary,General,How is Anaemic Health Status calculated?,"The rule for calculating Anaemia is Haemoglobin Level should be below:
+- 10.5g/dL : Pregnant Women
+- 12g/dL : Lactating Mothers
+- 12g/dL : Adolescent Girls"
+Beneficiary,General,What is RCH Profile?,"RCH refers to Reproductive Child Health where by women are monitored throughout their reproductive cycle. It also provides assistance for health workers to enable ease of service delivery including Antenatal Check-up, Postnatal Check-up and Immunization services. The data is fetched from the RCH System and is reflected in the respective categories of the Poshan Tracker Application."
+Beneficiary,General,For whom is the RCH Profile visible in Poshan Tracker Application?,"In Poshan Tracker, RCH Profile is visible for Pregnant Women and Lactating Mothers. To view a profile, the beneficiary must have their Mobile Verified, Aadhaar Verified, ABHA ID and ABHA Address created."
+Beneficiary,General,What is an Action Centre?,"Action Centre is a section where you get all the features at one place that are frequently used. It includes-
+- Register Beneficiary
+- Verify Aadhaar
+- Upcoming Beneficiary Changes
+- Stock Register
+- Referral Register
+- Identify Father/Guardian Aadhaar
+- Beneficiary Vaccination
+- Migrated out Beneficiaries
+- Family Survey"
+Beneficiary,General,What is ‘Verify Mobile Number’ in the application?,All beneficiaries whose mobile numbers are unverified can be viewed under the ‘Verify Mobile Number’.The AWW has the option to verify the mobile number from the Action Center.
+Beneficiary,General,What is the Migrate Beneficiary feature?,"When a beneficiary shifts from one AWC to another (within or outside the state, district, project, or sector), the Migrate Beneficiary feature is used. The AWW of the destination AWC must migrate the beneficiary from the source AWC.
+To migrate a beneficiary, the destination AWW needs to enter the beneficiary’s verified registered mobile number and Aadhaar number. This mobile number is not necessarily the one linked with Aadhaar. The AWW can access the option to migrate a beneficiary from the More section."
+Beneficiary,General,What is Migrate Out?,"If a beneficiary is not reporting to the AWC and is not availing the services that he/she is entitled to, the AWW can choose to 'Migrate out' the beneficiary by selecting Migrate Out through the 'Three Dots' Option beside a beneficiary’s profile.The Migrated Out Profiles can be seen in the Migrated Out Beneficiaries list in the Action Centre."
+Beneficiary,General,For how long can the beneficiary remain in the Migrated Out Beneficiaries list?,The 'Migrated Out' beneficiary remains in the Migrated Out list till the completion of their tenure in their particular category.
+Beneficiary,General,How to retrieve beneficiaries from the Migrated Out list?,"By clicking on 'Migrate In' option from the Migrated Out Beneficiaries list, we can get back the beneficiary in their respective category list within 24 hours from the time of selecting 'Migrate In' option."
+Beneficiary,General,What is Identify Father/Guardian Aadhaar in the application?,"All the beneficiaries whose Aadhaar has been verified with Father/Guardian Aadhaar, can be seen under the “Identify Father/Guardian Aadhaar” feature. Through this, AWW can mark whether the child was verified with Father or Guardian Aadhaar. If verified with Guardian's Aadhaar, the AWW can also mark whether the child's parents are alive or not"
+Beneficiary,FRS,What is the Facial Recognition System (FRS)?,FRS stands for Facial Recognition System which is a technology for Aadhaar based biometric authentication of the beneficiaries. FRS has been introduced by the Ministry of Women and Child Development for last mile tracking of Take-Home Ration (THR) to ensure that services are provided only to the genuine beneficiaries.
+Beneficiary,FRS,How does FRS work while collecting Take-Home Ration?,"FRS is completed in two steps:
+Step 1: One-time e-KYC (One Time)
+- Anganwadi Worker enters the Aadhaar number and registered mobile number in the Poshan Tracker application.
+- An OTP is received on the registered mobile number which is entered back into the app by the worker to complete e-KYC.
+- As part of this step, a live photo of the beneficiary is also captured which is matched with the Aadhaar photo at the backed to verify beneficiary's identity.
+Step 2: Face Matching (Monthly or every time THR is collected)
+- At the time of THR distribution, a fresh photo of the beneficiary is captured and matched with the already stored verified image.
+- Upon successful face matching, FRS is completed and THR is distributed to the right beneficiary.
+- Face matching is enabled in offline mode, allowing verification even without internet connectivity."
+Beneficiary,FRS,What are the benefits of introducing FRS for THR distribution,"- Ensures THR reaches the rightful beneficiary through face-based identity verification.
+- Prevents duplication, misuse, leakage, and diversion of supplementary nutrition.
+- Makes THR distribution transparent and fair, building trust among beneficiaries and frontline workers."
+Beneficiary,FRS,Do children also need face verification to get Take-Home Ration?,"- No. Children below 6 years of age DO NOT need to undergo FRS for THR distribution.
+- THR for children is given based on the face authentication of the mother,father, or guardian.
+- No photograph of the child is required."
+Beneficiary,FRS,What should a beneficiary do if e-KYC or FRS does not work?,"- Request photo re-capture if face matching fails during THR distribution.
+- Call the POSHAN Helpline 1515 (earlier 14408).
+- Inform the Supervisor/CDPO for additional support."
+Beneficiary,FRS,What if a beneficiary cannot visit the Anganwadi Centre for receiving THR through FRS?,"- If a beneficiary (pregnant woman, lactating mother, or adolescent girl) is unable to visit the Anganwadi Centre for any reason, she may send a nominated person (nominee) to collect the Take-Home Ration (THR) on her behalf.
+- The nominee will undergo FRS before receiving the beneficiary’s THR.
+- The Anganwadi Worker will assist in adding the nominee to the Poshan Tracker."
+Beneficiary,FRS,How is beneficiary data kept safe?,"Beneficiary data is protected under data protection laws, including the Digital Personal Data Protection Act, 2023.
+Key safeguards include:
+- Consent from beneficiary is taken before e-KYC/FRS.
+- Data is accessible only to authorised officials.
+- The Poshan Tracker database is secure.
+- Face verification data
+- Images used for face matching cannot be copied or misused.
+- No photos or data are permanently stored on mobile devices; temporary data is deleted after logout."
+Beneficiary,FRS,What is the role of Anganwadi Workers and Supervisors in FRS?,"Anganwadi Workers
+- Complete one-time e-KYC and take live photos for face matching at the time of THR distribution.
+- Provide THR after successful verification.
+- Use offline mode in low-network areas.
+- Report technical issues to Supervisors.
+Anganwadi Supervisors
+- Support AWWs in troubleshooting and validation.
+- Monitor progress of e-KYC and FRS.
+- Ensure data accuracy and timely reporting.
+- Escalate unresolved issues to higher levels."
+Beneficiary,Pregnant Women,How is the pregnancy month calculated for a beneficiary?,The pregnancy month of the beneficiary is auto calculated on the basis of Last Menstrual Period (LMP) Date.
+Beneficiary,Pregnant Women,Why is 'Last Menstrual Period' (LMP) Date necessary for a beneficiary?,"LMP Date needs to be input correctly because it gives-
+- Pregnancy Months of the beneficiary
+- Expected Date of Delivery
+Based on this, Home Visits are scheduled for beneficiaries in a timely manner."
+Beneficiary,Pregnant Women,What is the color coding for the Pregnant Women category?,"The color coding is as follows:
+- Green: 0-3 months
+- Yellow: 4-6 months
+- Red: 7 months onwards"
+Beneficiary,Pregnant Women,When can the delivery date be selected for migration of a pregnant woman to a lactating mother?,From 7 months of pregnancy the beneficiary can be migrated to lactating mother after adding the delivery date.
+Beneficiary,Pregnant Women,What to do if a pregnant woman suffers miscarriage or has an abortion?,"Under Migrate to Lactating Mother, the AWW can choose one from the following options depending on the case.
+- Abortion (within 20 weeks)
+- Abortion (after 20 weeks due to medical complications)
+- Miscarriage
+- Stillbirth
+After selecting any of the above cases, the AWW has to click on the Migrate option. After this, the beneficiary will become inactive."
+Beneficiary,Pregnant Women,Which Vaccines can be given to Pregnant Women?,"Vaccines for Pregnant Women include Td1, Td2 and Td booster."
+Beneficiary,Lactating Mothers,How long can a lactating mother be active in the beneficiary list?,Lactating mother is active for 6 months.
+Beneficiary,Lactating Mothers,In how many ways AWW's can add the lactating mother in the beneficiary list?,"The AWWs can add the lactating mother in the beneficiary list in two ways.
+- New registration
+- Migrating from pregnant women to lactating mothers."
+Beneficiary,Nominee,What should be done if a beneficiary is unable to visit the AWC to collect THR?,"If a beneficiary is unable to visit the AWC to collect THR, a nominee can be added to collect the Take Home Ration (THR) on behalf of the beneficiary."
+Beneficiary,Nominee,Is beneficiary consent required to add Nominee?,Yes. An OTP is sent to the beneficiary’s mobile number for consent approval.
+Beneficiary,Nominee,Who can be selected as a nominee?,"Relationships that can be selected includes:
+Husband, Sister-in-law, Mother-in-law, Brother-in-law, Father-in-law, Sister, Mother, Brother, Father, Aunt, Uncle, Grandmother, Grandfather, Daughter, Son."
+Beneficiary,Nominee,What is the age required for a nominee?,The nominee must be at least 18 years or older.
+Beneficiary,Nominee,For which beneficiary category can a nominee be added?,"Pregnant women, Lactating mother and Adolescent Girls."
+Beneficiary,Nominee,What details are required to add a nominee?,"You will need:
+- Nominee Aadhaar number
+- Relationship with beneficiary
+- e-KYC OTP verification (sent to nominee’s Aadhaar linked mobile number)
+- Face capture for verification"
+Beneficiary,Nominee,What happens if the nominee’s Aadhaar is already used?,"If the same Aadhaar number is already used as a nominee for another beneficiary, the system will not allow the nominee to be added again."
+Beneficiary,Nominee,Can the nominee be updated after being added?,"No. Once a nominee has been added, the nominee cannot be updated or changed."
+Beneficiary,Nominee,In which cases will THR not be provided to the beneficiary/nominee?,"A beneficiary/nominee will not be able to receive THR in the following cases:
+- If the beneficiary has opted out of the SNP.
+- If the beneficiary becomes inactive."
+Beneficiary,Nominee,Can I give THR to beneficiary even after a nominee is added?,"Yes, you can give THR to the beneficiary even after a nominee is added."
+Beneficiary,Nominee,When will the added nominee appear on the THR distribution screen?,The nominee will be visible the next day on the THR distribution screen.
+Beneficiary,Nominee,How is the monthly THR (Take-Home Ration) counted when both the beneficiary and the nominee collect it?,"Each beneficiary is entitled to a maximum of 30 days of THR per month. If the THR is split, for example 15 days collected by the beneficiary and 15 days collected by the nominee—the system will show a cumulative total of 30 days."
+Beneficiary,Nominee,Who can be selected as a nominee in Adolescent girls category?,"Relationships that can be selected includes:
+Sister,Mother,Brother,Father,Aunt,Uncle,Grandmother, Grandfather."
+Beneficiary,Children (0-6 Years),How can an AWW add twins/triplets in the app?,"While registering a lactating mother, an option is available to add details of twins/triplet children."
+Beneficiary,Children (0-6 Years),Which Vaccines can be provided to Children 0-6 Months?,"Vaccines are provided from Birth till their 14 Weeks of age for Children 0-6 Months. It includes BCG, Polio, Hepatitis B, OPV, RVV, PCV, fIPV, etc. For the age chart of vaccination, kindly check Resources Section in Poshan Tracker Website or click on the 'Three Dots' Option of a beneficiary profile and select Add Vaccination Details section."
+Beneficiary,Children (0-6 Years),Is there an option to mark complementary feeding in Children 0-6 months?,Yes. It can be marked using the option 'Is the baby on complementary feeding?' under Add Growth and Nutritional Details in Nutritional Intervention through 'Three Dots' Option
+Beneficiary,Children (0-6 Years),For what duration does a beneficiary remain eligible for home visits?,The beneficiary will be eligible for Home Visits till the age of 2 years.
+Beneficiary,Children (0-6 Years),Which Vaccines can be provided to Children 6 Months to 3 Years?,"Vaccines are provided from 9 Months till their 24 Months of age for Children 6 Months to 3 Years. It includes MCV/MR, JE, Diphtheria, OPV, PCV, DPT, etc. For the age chart of vaccination, kindly check Resources Section in Poshan Tracker Website or click on the 'Three Dots' Option of a beneficiary profile and select Add Vaccination Details section."
+Beneficiary,Children (0-6 Years),What is the classification available in the category of Children (3-6 years)?,"The Children (3-6 years) beneficiary can be divided into-
+- Child going to School: Beneficiary who goes to school other than AWC
+- Child going to Anganwadi Center: Beneficiary who attends AWC"
+Beneficiary,Children (0-6 Years),"If a child gets admission in school, how to update the beneficiary?",The AWW should click on the 'Child Going To' Option within the beneficiary profile card and then select school.
+Beneficiary,Children (0-6 Years),Why is the beneficiary name seen in beneficiary listing even after marking Yes in School Going?,"Even though the beneficiary is removed from the Daily Tracking list, he/she is still eligible for Growth Monitoring and Vaccination services."
+Beneficiary,Children (0-6 Years),Which Vaccine can be provided to Children 3-6 Years?,"DPT Booster Vaccine is provided for Children 3-6 Years. For the age chart of vaccination, kindly check Resources Section in Poshan Tracker Website or click on the “Three Dots” Option of a beneficiary profile and select Add Vaccination Details section."
+Beneficiary,Children (0-6 Years),What is the color coding for the children category?,"The color coding is as follows:
+- Red- SAM
+- Yellow- MAM
+- Brown- Overweight
+- Blue- Obese
+- Green- Normal"
+Beneficiary,Children (0-6 Years),Who is eligible for Additional Supplementary Food?,Children who are identified as deficit on nutrition are eligible for additional food supplements. It includes Children from 6 Months to 6 Years.
+Beneficiary,Children (0-6 Years),How to mark Additional Supplementary Food in application?,"In the beneficiary profile, the 'Three Dots' option should be selected in which 'Add Growth and Nutritional Details' should be clicked. Under the Nutritional Intervention section, a checkbox is given to mark Additional Supplementary Food."
+Beneficiary,Adolescent Girls,What age group includes the adolescent girls category in Poshan Tracker?,Girls of age group 14-18 years.
+Beneficiary,Adolescent Girls,Which districts can see the adolescent girls category in the Poshan Tracker application?,Only the Aspirational Districts are eligible to see the adolescent girls category in the Poshan Tracker application.
+Beneficiary,Adolescent Girls,Which vaccines can be provided to Adolescent Girls?,Vaccines for Adolescent Girls include Td and Tetanus toxoid containing vaccines.
+AWC Users,,Who are AWC Users?,AWC users show the list of AWW & AWH who manage the AWC.
+AWC Users,,How can an AWW login in the Poshan Tracker application for the first time?,"The mobile number needs to be registered and activated by the CDPO or Supervisor in the respective AWC profile. Then, the AWW should go to the login page and click on “Forgot MPIN/Password.” An OTP will be sent to the registered mobile number for verification, after which the MPIN can be set. Once submitted, the AWW can log in to the application."
+AWC Users,,How to change the MPIN if forgotten?,"We need to click on “Forgot MPIN/Password,” then enter the AWC-registered mobile number. An OTP will be received, and after entering it, an option to create a new MPIN will be available."
+AWC Users,,What to do when the message “Invalid mobile/email or password” shows up?,The AWW needs to put the correct mobile/email or password
+AWC Users,,How to change or update the mobile number?,The AWW needs to contact the Sector Official to change her registered mobile number.
+AWC Users,,How to update or change the profile of the AWC user?,The AWW/AWH should contact their Sector/Project Official to change their profile details.
+AWC Users,,Whom to contact if AWW is facing any problem in Application Login?,Please contact your concerned Supervisor/CDPO or join VC at 4.15 pm through poshantracker.in/contactus.
+AWC Users,,Can AWW/AWH profile be updated? How many times can I edit that?,"Yes, the AWW/AWH profile can be edited by the Anganwadi Worker. The AWW/AWH Email Id, Years of Experience, Highest educational Qualification are the details to be submitted. However, the Anganwadi Center and Anganwadi code cannot be changed."
+Officials (Dashboard),,How to access Poshan Tracker Dashboard?,"Poshan Tracker Dashboard can be accessed by signing onto the dashboard. Dashboard can be accessed by clicking the link https://admin.poshantracker.in/ .Only nominated Nodal level officials at National, State, District, Project and Sector level are provided with unique credentials to access the dashboard."
+Officials (Dashboard),,What are the eligibility criteria for AWW Performance Incentive?,"An AWW needs to complete at least-
+- 60% of Targeted Home Visit for PW, LM and Children from 0-2 years and
+- 80% of Growth Monitoring of children for 0 to 6  years"
+Officials (Dashboard),,How is AWH incentive calculated?,AWH is eligible for an incentive if the AWC is open at least for 21 days.
+Officials (Dashboard),,What kind of Reports are available in Poshan Tracker Portal?,"- Current Month Reports: In the Current Month Reports section, data is available till the previous day of the ongoing month. For AWC Daily Monitoring, data is visible for previous day and onwards.(Offline data will be visible after five days.)
+- Monthly Reports: The previous month's Report is visible in the Monthly Reports Section. For instance, in the month of February, you can see the January month's report."
+Officials (Dashboard),,Why does data on the dashboard not match with the Beneficiary list?,The Data in the app reflects on the dashboard after one day.
+Officials (Dashboard),,"Why does the count of Beneficiaries, AWC, District, Project, Sector, etc shown in the Main Internal Dashboard does not match with that of the Master List?",Data Shown in the Main Internal Dashboard are of the previous months whereas that of the Master List are current data which are reflected instantly.
+Officials (Dashboard),,Where can one calculate the child's health status?,It can be checked through the Poshan Calculator available on the Poshan Tracker Website.
+Officials (Dashboard),,What is AWC Infra?,"This feature checks the AWC infrastructure details. It includes building details, AWC facilities available like water, storage space, playground, toilets, lights, fans, crockeries, weighing scales for beneficiaries, etc. The details can be updated from the AWC Infra section present in the Master List of the Dashboard."
+Officials (Dashboard),,What is Saksham AWC?,"Saksham AWC is part of the Poshan 2.0 which is a Centrally sponsored scheme implemented by the States/UTs. In this, the Government owned AWC with space for Poshan Vatikas are to be upgraded into Saksham AWC at 40,000 AWCs per year from 2021-22 to 2025-26.
+The proposed AWC is supposed to have either/all of the 4 components with all other infrastructures -
+- RO Filter
+- Rain Water Harvesting
+- LED Screens
+- Poshan Vatikas"
+Officials (Dashboard),,Where to mark the components of Saksham AWC if an AWC is a Targeted Saksham AWC?,"The State/District/Project/Sector officials should mark the components of Saksham AWC mandatorily in two sections.
+- Click on the Master List and select AWC. The checkbox for Targeted AWC should be clicked and the rest of the components are marked automatically. If either of the components are not present, the checkbox beside the component can be unchecked.
+- Click on the Master List and select AWC Infra. The components of Saksham AWC are given along with    other infrastructure facilities. Kindly mark Yes or No depending on its presence in the AWC."
+Officials (Dashboard),,Where can we find Inactive Beneficiaries in the Dashboard?,"By clicking on Beneficiary in the Master List, if we choose the Filter as Inactive, we get to see the list of Inactive Beneficiaries. The inactivated beneficiary remains in the list for 3 months from the date he/she was inactivated."
+Officials (Dashboard),,How to know if the Beneficiary was marked dead?,A new heading of “Deceased” has been added in the Beneficiary section of Master List through which we can see if the Beneficiary is marked dead and converted as Inactive.
+Poshan Tracker Application,Daily Tracking,What can be marked in Daily tracking?,"We can mark the AWC status (open/closed), attendance of children, morning snacks, HCM, ECCE learning modules, and activities such as preschool education and/or personal hygiene."
+Poshan Tracker Application,Daily Tracking,Can we edit the status of an AWC (Open/Close)?,"No. Once the AWW status is marked, it cannot be changed."
+Poshan Tracker Application,Daily Tracking,Which beneficiary category of children can be considered for attendance?,Children 3 years to 6 years who attend the AWC are eligible to be considered for attendance.
+Poshan Tracker Application,Daily Tracking,Can we do daily tracking/attendance on Sunday?,No. Daily Tracking module is restricted on Sundays for access.
+Poshan Tracker Application,Daily Tracking,Can we change the attendance?,"Yes, an AWW can change the attendance of the marked students anytime in the day till 9.59 pm."
+Poshan Tracker Application,Home Visit,What is a Home Visit?,"Home Visits are routine visits made by AWWs to beneficiaries to ensure proper maternal and child health care. This includes counselling, follow up on health status, ensuring behavioral change and community support, providing awareness regarding nutritional essence and various services available, etc."
+Poshan Tracker Application,Home Visit,Which categories of beneficiaries are entitled to receive Home Visits?,"Pregnant Women, Lactating Mothers, Children up to the age of 2 years and Malnourished Children are eligible for Home Visit by AWW."
+Poshan Tracker Application,Home Visit,What is available in the Home Visits section?,"AWWs can see Completed, Due and Missed Record of Home Visits with Count and listing."
+Poshan Tracker Application,Home Visit,What is the minimum percentage of Home Visit required by an AWW to be eligible for Performance Incentive?,The minimum percentage of Home Visit required to be eligible for Performance Incentive is 60%.
+Poshan Tracker Application,Home Visit,"If an AWW has missed a Home Visit, can it be completed again?","No. Once the time period for a Visit is over, AWW cannot mark that particular Visit."
+Poshan Tracker Application,Growth Monitoring,Which categories of beneficiaries are entitled to receive Growth Monitoring Service?,Children from 0 months to 6 years and Adolescent Girls (Only for Aspirational Districts) are eligible for Growth Monitoring by AWW.
+Poshan Tracker Application,Growth Monitoring,Where can one see growth monitoring details?,"Within the beneficiary profile, growth monitoring details and health status can be viewed in the Care Profile section of the profile card."
+Poshan Tracker Application,Growth Monitoring,How many times Growth Monitoring can be done in a Month?,"Growth monitoring can be done four times a month for SAM and SUW children. For all other children, it can be done once a month. If the AWW enters incorrect data, the supervisor has access to correct it the next day."
+Poshan Tracker Application,Growth Monitoring,What is available in the Growth Monitoring section?,AWWs can see Completed and Pending Record of Growth Monitoring with Count and listing.
+Poshan Tracker Application,Growth Monitoring,What is SAM & MAM?,SAM stands for Severe Acute Malnutrition. It is a term used to identify children who are severely undernourished.MAM stands for Moderately Acute Malnourished.It is a term used to identify children who are moderately undernourished.
+Poshan Tracker Application,Growth Monitoring,How is my child identified as Stunted/Wasted/Underweight?,"According to the growth monitoring charts provided by WHO, the age of the child is compared with its weight and height to be identified as Stunted/Wasted/Underweight. The growth monitoring charts are available in the Resource Section within More in the application or in Poshan Tracker website."
+Poshan Tracker Application,Growth Monitoring,Where can we see the list of SAM and Underweight children?,The list of SAM and Underweight children of the previous month is visible in the AWW Application Dashboard.
+Poshan Tracker Application,Growth Monitoring,Which beneficiaries are calculated for Growth Monitoring?,Only Active Beneficiaries for Children from 0-6 years are calculated for Growth Monitoring.
+Poshan Tracker Application,Hot Cooked Meal (HCM),Who can avail HCM facilities?,HCM is provided to Children between 3 to 6 years who visit AWCs.
+Poshan Tracker Application,Hot Cooked Meal (HCM),Is Aadhaar verification necessary to avail HCM?,"Yes, it is mandatory."
+Poshan Tracker Application,Hot Cooked Meal (HCM),Where do we get information about HCM?,Please enquire in the nearest AWC where the beneficiary is registered.
+Poshan Tracker Application,Take Home Ration (THR),Who can avail THR?,"THR is provided to pregnant women, lactating mothers, children aged 6 months to 3 years, and adolescent girls (in aspirational districts) from the time of their registration until they become inactive"
+Poshan Tracker Application,Take Home Ration (THR),Is Aadhaar card verification mandatory for THR?,"Yes, it is mandatory."
+Poshan Tracker Application,Take Home Ration (THR),For how many days can THR be provided in a month?,Maximum of 25 days
+Poshan Tracker Application,Take Home Ration (THR),How to submit THR?,"To provide the THR to the Beneficiary, kindly follow the steps below: -
+- Login to the Poshan Tracker app
+- Select the beneficiary such as [Pregnant Women, Lactating Mother, Children (6 months-3 years) and Adolescent girls]
+- Select the number of days and packets
+- Verify the face of the beneficiary"
+Poshan Tracker Application,More,What can we find in resources?,All learning videos and modules related to growth charts are available for AWW.
+Poshan Tracker Application,More,How many Events are listed in the application?,"There are three events in the application which AWW can mark and enter details.
+- VHSND
+- CBE
+- AWW Training"
+Poshan Tracker Application,More,How many times can the events enlisted in Poshan Tracker be submitted in a month?,"- CBE can be submitted twice in a month.
+- VHSND can be submit once in a month"
+Poshan Tracker Application,More,How many training modules are listed in the application?,There are 10 training modules.
+Poshan Tracker Application,More,What is the use of Beneficiary Redressal?,It is a platform for AWW to check the issue raised by the beneficiary and resolve the same at her end.
+Poshan Tracker Application,More,What does “Raise Issue?” mean in application?,Raise Issue is a platform made available for AWW. Here AWW can mention their issue related to the functionality of the application. Their issues will be mailed to the National Poshan Support Team.
+Poshan Tracker Application,More,Should I inform you about all events we have celebrated in my Anganwadi through Raise Issue?,No. It is not necessary or compulsory.
+Poshan Tracker Application,More,Is Poshan Tracker available in my regional language?,Poshan tracker is now available in 24 languages. You can select your regional language from More Section->Select language and confirm.
+Poshan Tracker Application,More,How can AWW update the AWC Location?,"AWW can Map the AWC location in online mode, on clicking “Update AWC Location” from More page. This feature is used only once, when AWW is at the AWC location. If the AWC changes its location changes at any point of time, then the feature should be used again to map the new location."
+Miscellaneous,,What is Poshan Abhiyaan?,"Poshan Abhiyaan is India's flagship programme to improve nutritional outcomes for children, adolescents, pregnant women and lactating mothers by leveraging technology, a targeted approach and convergence."
+Miscellaneous,,What is the purpose of Poshan Tracker?,"The purpose of Poshan Tracker application is to provide a 360-degree view of the activities of the Anganwadi Centre (AWC), service deliveries of Anganwadi Workers (AWWs) and complete beneficiary management for pregnant women, lactating mothers and children."
+Miscellaneous,,Where can we download the Poshan Tracker Application?,Poshan Tracker Application is available over Google Play Store. Kindly type Poshan Tracker in the Search box and install the Application. It is advised not to download from any other unknown platforms.
+Miscellaneous,,Can the Application be used by everyone?,"The application can be accessed only by Anganwadi Workers, Supervisors, CDPOs, DPOs, and Poshan Tracker beneficiaries (for existing beneficiary services and new registrations)."
+Miscellaneous,,Can the Application be installed in any kind of phone?,No. The Application can be installed only on Android phones. It works smoothly in Android phones with Version 6.0 and above.
+Miscellaneous,,Can the Application be accessed without the internet?,The application can be used in offline mode only for daily tracking. It can store data for the last 5 days.
+Miscellaneous,,Is the Application available only in English Language?,No. The Application is available in 24 different languages. The various languages available are:
+Miscellaneous,,Can all the data entry be done in a regional language?,Most of the features are provided in check boxes or with drop down selection menu that are available in regional languages. Name can be entered in regional languages along with English and for other fields numeric values are required.
+Miscellaneous,,Why does it take time for data to get submitted?,"Please make sure you are online and have sufficient internet connection. Sometimes due to data loading, the app can take time."
+Miscellaneous,,Whom to contact for issues regarding Poshan Tracker Application and Dashboard?,"- CDPO/Supervisor
+- State VC on Monday to Friday from  4.15 pm to 5.15 pm through Google Meet (link available in Poshan Tracker website)
+- Helpline No.1515 available from Monday to Saturday between 9 am to 6 pm"
+Miscellaneous,,From where can we check our application version?,Application version can be checked in the More section below logout.
