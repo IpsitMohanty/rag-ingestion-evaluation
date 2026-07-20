@@ -1,0 +1,10 @@
+.venv/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+new-Policies.txt
+markdown-sample.md
+facebook-chat.json
+mlb-teams-2012.csv
+file-sample.docx
+instructlab.pdf

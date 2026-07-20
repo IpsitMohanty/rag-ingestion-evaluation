@@ -1,0 +1,17 @@
+langchain-community==0.2.1
+pypdf==4.2.0
+PyMuPDF==1.24.5
+unstructured==0.14.8
+markdown==3.6
+pandas==2.2.2
+docx2txt==0.8
+requests==2.32.3
+beautifulsoup4==4.12.3
+nltk==3.8.0
+pypdfium2
+arxiv==2.1.3
+
+# Note: `jq` (used by LangChain's JSONLoader for jq-schema queries) has no
+# prebuilt wheel for Windows and requires a C toolchain to build from source.
+# On Windows, either install it via WSL/a C compiler, or use the plain-Python
+# extraction shown in the notebook as a substitute for jq_schema.

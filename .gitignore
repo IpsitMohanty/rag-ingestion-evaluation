@@ -1,0 +1,9 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ipynb_checkpoints/
+
+# Persisted Chroma vector store -- rebuilt by `python src/cli.py ingest ...`,
+# not something to track.
+.chroma/
