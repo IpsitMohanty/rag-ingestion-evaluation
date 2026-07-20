@@ -16,6 +16,11 @@ REFERENCE_DIR = REPO_ROOT / "reference"
 # same thing done explicitly.
 sys.path.insert(0, str(SRC_DIR))
 
+# The eval/ package (phase 2 harness) is imported as `eval.metrics`,
+# `eval.query_set`, etc. -- needs the repo root on sys.path regardless of
+# pytest's own rootdir insertion.
+sys.path.insert(0, str(REPO_ROOT))
+
 RUN_NETWORK_TESTS = os.environ.get("RUN_NETWORK_TESTS") == "1"
 requires_network = pytest.mark.skipif(
     not RUN_NETWORK_TESTS,
