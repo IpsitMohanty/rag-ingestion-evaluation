@@ -1,0 +1,581 @@
+# PROPOSED query set (v2) for phase 2's retrieval evaluation -- NOT reviewed
+# yet. Do not build the harness against this file until it's been corrected.
+#
+# v2 changes from the first draft:
+#   - folded in all 13 of the MoWCD Poshan 2.0 FAQ-page questions, each
+#     independently verified against the corpus (grep the PDF, cross-check
+#     data/faq/all_faq.json) rather than trusted at face value
+#   - added retrievable_but_incomplete: a real gap between "the right chunk
+#     was retrieved" (hit-rate says 1.0) and "the question is actually
+#     answered" -- true wherever the corpus states a concept exists /
+#     is referenced but doesn't spell out the specifics being asked for
+#   - the MoWCD FAQ page's own answers are NOT added to the corpus, even
+#     though published -- see the note at the end of the file for why
+#
+# Schema per entry:
+#   id                        stable short id, never reused/renumbered once reviewed
+#   text                       the query text
+#   expected_source            faq | policy_pdf | either | neither
+#   origin                     mowcd_page_given | policy_derived | faq_reworded | neither_constructed
+#                              -- see legend at the bottom of this file for what each means
+#   retrievable_but_incomplete (omitted for "neither" -- not applicable) true when the
+#                              correct chunk(s) are genuinely retrievable but don't fully
+#                              answer what was asked (concept referenced, specifics absent)
+#   ground_truth               null for "neither"; otherwise one or more {source, ...} refs:
+#                                {source: faq, faq_index: N}       -- N is the 0-based row index
+#                                                                     in data/faq/all_faq.json
+#                                {source: policy_pdf, page: N}     -- PDF page number. Page, not
+#                                                                     chunk id: chunk boundaries
+#                                                                     shift across the chunk_size/
+#                                                                     overlap sweep, page numbers
+#                                                                     don't.
+#   original_question          (faq_reworded only) the stored FAQ question this was reworded
+#                              from, so you can check the paraphrase kept the meaning
+#   note                       caveats, especially where the corpus only partially answers
+#                              the query, or where a query moved buckets from v1
+
+queries:
+
+  # --- policy_pdf only (11) ---
+
+  - id: pol-01
+    text: "What are the population norms and any other criteria for setting up of AWCs? Are these norms applicable across all States including North-Eastern States?"
+    expected_source: policy_pdf
+    origin: mowcd_page_given
+    retrievable_but_incomplete: true
+    ground_truth:
+      - {source: policy_pdf, page: 31}
+    note: >
+      Page 31 references "population norms of Main AWC" as the upgrade
+      criterion for a Mini-Anganwadi, but this document never states the
+      actual numeric thresholds (e.g. per-400/800 population) anywhere I
+      could find. Page 44 (hilly/sparse-population construction cost
+      norms) is adjacent but doesn't give the norms either. The
+      NE-states-applicability half of the question also isn't
+      specifically addressed. Retrieval finding page 31 is a correct hit
+      on topic; the chunk itself still won't fully answer the question --
+      hence retrievable_but_incomplete.
+
+  - id: pol-02
+    text: "What is the minimum age and educational qualification to become an Anganwadi Worker or Helper, and what is their retirement age?"
+    expected_source: policy_pdf
+    origin: policy_derived
+    retrievable_but_incomplete: false
+    ground_truth:
+      - {source: policy_pdf, page: 20}
+    note: "12th standard, age 18-35 at engagement, retirement age set by the state government but capped at 65 -- page 20."
+
+  - id: pol-03
+    text: "Under which law are the Anganwadi and Poshan 2.0 scheme guidelines issued?"
+    expected_source: policy_pdf
+    origin: policy_derived
+    retrievable_but_incomplete: false
+    ground_truth:
+      - {source: policy_pdf, page: 9}
+    note: "National Food Security Act, 2013, Sections 4(a), 5(1)(a), 6 & 7 -- page 9."
+
+  - id: pol-04
+    text: "How many calories per day is a normal child aged 6 to 72 months entitled to receive under the scheme?"
+    expected_source: policy_pdf
+    origin: policy_derived
+    retrievable_but_incomplete: false
+    ground_truth:
+      - {source: policy_pdf, page: 22}
+    note: "Nutritional norms table: 500 kcal / 12-15g protein for that category -- page 22. Not covered anywhere in the FAQ set."
+
+  - id: pol-05
+    text: "How is Anganwadi Services under Mission Poshan 2.0 different from the erstwhile ICDS? What new components have been added?"
+    expected_source: policy_pdf
+    origin: mowcd_page_given
+    retrievable_but_incomplete: true
+    ground_truth:
+      - {source: policy_pdf, page: 7}
+      - {source: policy_pdf, page: 9}
+    note: >
+      No single passage does a direct "ICDS vs Poshan 2.0" comparison.
+      Page 7 critiques the erstwhile ICDS-era approach (calorie-only
+      focus, weak community ownership, poor last-mile tracking); page 9
+      lists Poshan 2.0's reorganized components (SNP, ECCE, Anganwadi
+      Infrastructure, Poshan Abhiyaan under one umbrella). Answering the
+      question means synthesizing both pages, which a single retrieved
+      chunk won't do -- marked incomplete even though the material is
+      genuinely present.
+
+  - id: pol-06
+    text: "Who are the beneficiaries under the Anganwadi Services scheme?"
+    expected_source: policy_pdf
+    origin: mowcd_page_given
+    retrievable_but_incomplete: false
+    ground_truth:
+      - {source: policy_pdf, page: 18}
+    note: "Explicit list: children up to 6 years, PW&LM, and Adolescent Girls (14-18) in Aspirational Districts/NER -- page 18, clean single-chunk answer."
+
+  - id: pol-07
+    text: "What services (benefits) are provided under the Anganwadi Services scheme?"
+    expected_source: policy_pdf
+    origin: mowcd_page_given
+    retrievable_but_incomplete: false
+    ground_truth:
+      - {source: policy_pdf, page: 18}
+    note: >
+      Explicit, itemized "3.1 Package of Services" list on the same page
+      as pol-06: supplementary nutrition, pre-school non-formal
+      education, nutrition & health education, immunization, health
+      check-up, referral services -- page 18, clean.
+
+  - id: pol-08
+    text: "What is the role of Poshan Abhiyaan within Saksham Anganwadi and Mission Poshan 2.0?"
+    expected_source: policy_pdf
+    origin: mowcd_page_given
+    retrievable_but_incomplete: false
+    ground_truth:
+      - {source: policy_pdf, page: 8}
+    note: >
+      Distinct from either-02 (which asks "what is the mission" generically
+      and is answerable from FAQ[115]'s basic definition too) -- this asks
+      specifically about Poshan Abhiyaan's integration/role, which pages
+      8-9 answer directly ("Poshan Abhiyaan aligned under Poshan 2.0 as an
+      Integrated Nutrition Support Programme"). Kept policy-only since
+      FAQ[115] doesn't address the integration angle, only the basic
+      definition.
+
+  - id: pol-09
+    text: "What is Jan Andolan under Poshan Abhiyaan, and what themes or activities does it cover?"
+    expected_source: policy_pdf
+    origin: mowcd_page_given
+    retrievable_but_incomplete: false
+    ground_truth:
+      - {source: policy_pdf, page: 33}
+    note: "Section 4.1 'Community Mobilization and Behavioural Change' gives an itemized list of Poshan Panchayat/Jan Andolan activities -- page 33. Not in the FAQ set."
+
+  - id: pol-10
+    text: "What is a Village Health Sanitation and Nutrition Day (VHSND)?"
+    expected_source: policy_pdf
+    origin: mowcd_page_given
+    retrievable_but_incomplete: true
+    ground_truth:
+      - {source: policy_pdf, page: 13}
+    note: >
+      "VHSND meetings" appears verbatim on page 13 (DPO's role: "participate
+      in the VHSND meetings, community-based events, Jan Andolan
+      activities"); page 65 separately mentions VHSNC organizing monthly
+      "VHNDs" (note: different acronym, missing "Sanitation"). Neither
+      passage actually defines what a VHSND/VHND is or what happens during
+      one -- it's referenced as something officials attend/organize, never
+      explained. Marked incomplete. Not in the FAQ set at all.
+
+  - id: pol-11
+    text: "What do you understand by Poshan Vatika (Nutri-garden)?"
+    expected_source: policy_pdf
+    origin: mowcd_page_given
+    retrievable_but_incomplete: false
+    ground_truth:
+      - {source: policy_pdf, page: 28}
+    note: "Dedicated section '3.12 Poshan Vatikas' with setup/plant details -- page 28, clean. Not mentioned anywhere in the FAQ set."
+
+  # --- either (cross-source, genuinely verified overlap) (9) ---
+
+  - id: either-01
+    text: "Why was the Poshan Tracker platform introduced?"
+    expected_source: either
+    origin: policy_derived
+    retrievable_but_incomplete: false
+    ground_truth:
+      - {source: faq, faq_index: 116}
+      - {source: policy_pdf, page: 16}
+    note: "FAQ answers at the app-purpose level; PDF section 2.6 covers it at the policy/rationale level."
+
+  - id: either-02
+    text: "What is the national nutrition mission that this Anganwadi scheme is aligned under?"
+    expected_source: either
+    origin: policy_derived
+    retrievable_but_incomplete: false
+    ground_truth:
+      - {source: faq, faq_index: 115}
+      - {source: policy_pdf, page: 8}
+    note: "FAQ[115] is literally \"What is Poshan Abhiyaan?\"; PDF pages 8-9 describe Poshan 2.0 absorbing Poshan Abhiyaan."
+
+  - id: either-03
+    text: "Who are SAM children, and how does the system define severe versus moderate malnutrition?"
+    expected_source: either
+    origin: mowcd_page_given
+    retrievable_but_incomplete: false
+    ground_truth:
+      - {source: faq, faq_index: 95}
+      - {source: policy_pdf, page: 22}
+    note: >
+      MoWCD question #8. Originally framed by you as policy-only; it's
+      actually answerable from both: FAQ[95] "What is SAM & MAM?" (app
+      growth-monitoring classification) and the PDF's nutrition norms
+      table / glossary, page 22 (policy definition + enhanced nutrition
+      entitlement for SAM children). Moved to "either" -- flag if you
+      intended something more specific (e.g. the clinical diagnostic
+      criteria, weight-for-height/MUAC thresholds), which isn't in
+      either source at that level of detail.
+
+  - id: either-04
+    text: "Who is eligible to receive a hot cooked meal at the Anganwadi Centre?"
+    expected_source: either
+    origin: policy_derived
+    retrievable_but_incomplete: false
+    ground_truth:
+      - {source: faq, faq_index: 99}
+      - {source: policy_pdf, page: 23}
+    note: "FAQ[99] app-level eligibility; PDF 3.5 'Hot Cooked Meals' section, page 23."
+
+  - id: either-05
+    text: "What's the monthly limit on the number of days take-home ration can be given?"
+    expected_source: either
+    origin: policy_derived
+    retrievable_but_incomplete: false
+    ground_truth:
+      - {source: faq, faq_index: 104}
+      - {source: policy_pdf, page: 23}
+    note: "FAQ[104] app-level; PDF 3.6/3.7 THR periodicity sections, page 23."
+
+  - id: either-06
+    text: "Which districts are covered under the nutrition scheme for adolescent girls?"
+    expected_source: either
+    origin: policy_derived
+    retrievable_but_incomplete: false
+    ground_truth:
+      - {source: faq, faq_index: 59}
+      - {source: policy_pdf, page: 38}
+    note: "FAQ[59] asks which districts show the category in-app; PDF page 38 defines SAG coverage (Aspirational Districts + Assam/NER)."
+
+  - id: either-07
+    text: "What is a Saksham Anganwadi?"
+    expected_source: either
+    origin: mowcd_page_given
+    retrievable_but_incomplete: false
+    ground_truth:
+      - {source: faq, faq_index: 77}
+      - {source: policy_pdf, page: 32}
+    note: >
+      MoWCD question #5. FAQ[77] "What is Saksham AWC?" and PDF section
+      '3.17 Saksham Anganwadi' (page 32) describe the same upgrade
+      program -- genuinely cross-source, both reasonably complete
+      individually. (This absorbs what was previously drafted as
+      faq-17 in the reworded-FAQ bucket -- removed from there to avoid
+      double-counting the same content under two labels.)
+
+  - id: either-08
+    text: "What is stunting, wasting, and underweight in children?"
+    expected_source: either
+    origin: mowcd_page_given
+    retrievable_but_incomplete: true
+    ground_truth:
+      - {source: faq, faq_index: 96}
+      - {source: policy_pdf, page: 19}
+    note: >
+      MoWCD question #7. Both sources touch this without actually
+      defining the terms: FAQ[96] explains the MECHANISM (WHO growth
+      charts comparing age/weight/height) without stating that stunting =
+      low height-for-age, wasting = low weight-for-height, underweight =
+      low weight-for-age; PDF page 19 lists "Normal, Underweight, Stunted,
+      SAM or MAM" as growth-monitoring outcome categories, same gap. Both
+      grounds are correct topically and both incomplete -- a genuinely
+      interesting case for the retrievable_but_incomplete metric on both
+      arms at once.
+
+  - id: either-09
+    text: "Who are MAM children?"
+    expected_source: either
+    origin: mowcd_page_given
+    retrievable_but_incomplete: false
+    ground_truth:
+      - {source: faq, faq_index: 95}
+      - {source: policy_pdf, page: 6}
+    note: >
+      MoWCD question #9, companion to either-03/Q8. Same FAQ[95] answer
+      covers SAM and MAM together; PDF glossary entry "21. MAM -
+      Moderately Acute Malnourished" is page 6 (distinct from either-03's
+      page-22 nutrition-norms grounding, since the norms table only
+      breaks out a separate row for severely malnourished children, not
+      MAM specifically).
+
+  # --- neither (5) ---
+  # Verified absent from both sources by direct search, not assumed.
+
+  - id: neither-01
+    text: "What are Poshan ke Paanch Sutra?"
+    expected_source: neither
+    origin: mowcd_page_given
+    ground_truth: null
+    note: >
+      MoWCD question #13, confirmed as neither by direct search: no
+      match for this phrase, or an enumerated "five principles/tenets"
+      list, anywhere in the policy PDF (checked the phrase directly and
+      the underlying themes -- breastfeeding, complementary feeding,
+      anemia, hygiene -- which appear individually but never as a named
+      "five sutras" list), nor in the FAQ set.
+
+      WHY THIS ONE MATTERS MORE THAN A SYNTHETIC NEGATIVE: it's a real,
+      well-known, domain-appropriate question -- exactly the kind of
+      thing a real user of this corpus would ask, sourced from the
+      ministry's own published FAQ page, not invented to be obviously
+      out-of-scope. A system that confidently retrieves something and
+      presents it as an answer here is failing in the way that actually
+      matters (plausible-sounding wrong answer to a plausible question),
+      not just failing to answer an irrelevant one. The neither set
+      should skew toward more probes like this one and fewer like
+      neither-02..05 below, which are real but more obviously
+      out-of-domain (a different ministry's scheme entirely) by
+      comparison.
+
+  - id: neither-02
+    text: "How much cash benefit is given under PMMVY for a pregnant woman's first child?"
+    expected_source: neither
+    origin: neither_constructed
+    ground_truth: null
+    note: "PMMVY is a separate scheme; not mentioned in either source."
+
+  - id: neither-03
+    text: "Is Ayushman Bharat health insurance coverage linked to a beneficiary's Poshan Tracker profile?"
+    expected_source: neither
+    origin: neither_constructed
+    ground_truth: null
+    note: "Not mentioned in either source."
+
+  - id: neither-04
+    text: "What is the daily mid-day meal entitlement for school children under PM POSHAN?"
+    expected_source: neither
+    origin: neither_constructed
+    ground_truth: null
+    note: "PM POSHAN (school mid-day meals, Ministry of Education) is a different scheme; not in this corpus."
+
+  - id: neither-05
+    text: "Can a beneficiary link their Jan Dhan bank account inside the Poshan Tracker app?"
+    expected_source: neither
+    origin: neither_constructed
+    ground_truth: null
+    note: "Not mentioned in either source."
+
+  # --- faq_reworded (26) ---
+  # Reworded from the Poshan Tracker FAQ set to avoid lexical overlap with the
+  # stored question text. Spans all 5 tabs and 10 of 13 subcategories.
+
+  - id: faq-01
+    text: "What are the different categories of people an Anganwadi worker can enrol using the app?"
+    expected_source: faq
+    origin: faq_reworded
+    ground_truth: [{source: faq, faq_index: 0}]
+    original_question: "How many kinds of beneficiaries can be registered in the Application?"
+
+  - id: faq-02
+    text: "What does it mean if the app says a beneficiary's Aadhaar number is already in use?"
+    expected_source: faq
+    origin: faq_reworded
+    ground_truth: [{source: faq, faq_index: 3}]
+    original_question: "Why does an AWW get the message “Aadhaar card already exists”?"
+
+  - id: faq-03
+    text: "In a beneficiary's profile, what do the different verification status labels indicate?"
+    expected_source: faq
+    origin: faq_reworded
+    ground_truth: [{source: faq, faq_index: 5}]
+    original_question: "What does Unverified, Verified and Partially Verified status in a Beneficiary Profile mean?"
+
+  - id: faq-04
+    text: "What does the RCH Profile feature refer to?"
+    expected_source: faq
+    origin: faq_reworded
+    high_lexical_overlap: true
+    ground_truth: [{source: faq, faq_index: 8}]
+    original_question: "What is RCH Profile?"
+    note: "Jaccard=0.50 vs original_question (shares 'profile','rch') -- named-feature question, see METHODOLOGY.md #4."
+
+  - id: faq-05
+    text: "How does the app confirm a beneficiary's identity using their face?"
+    expected_source: faq
+    origin: faq_reworded
+    ground_truth: [{source: faq, faq_index: 17}]
+    original_question: "What is the Facial Recognition System (FRS)?"
+
+  - id: faq-06
+    text: "Why was face-based verification added to the ration distribution process?"
+    expected_source: faq
+    origin: faq_reworded
+    ground_truth: [{source: faq, faq_index: 19}]
+    original_question: "What are the benefits of introducing FRS for THR distribution"
+
+  - id: faq-07
+    text: "How does the system determine which month of pregnancy a woman is currently in?"
+    expected_source: faq
+    origin: faq_reworded
+    ground_truth: [{source: faq, faq_index: 25}]
+    original_question: "How is the pregnancy month calculated for a beneficiary?"
+
+  - id: faq-08
+    text: "What immunizations are recorded for expectant mothers in the app?"
+    expected_source: faq
+    origin: faq_reworded
+    ground_truth: [{source: faq, faq_index: 30}]
+    original_question: "Which Vaccines can be given to Pregnant Women?"
+
+  - id: faq-09
+    text: "Which people are eligible to be designated as someone's ration nominee?"
+    expected_source: faq
+    origin: faq_reworded
+    ground_truth: [{source: faq, faq_index: 35}]
+    original_question: "Who can be selected as a nominee?"
+
+  - id: faq-10
+    text: "What's the process for registering multiple-birth children in the system?"
+    expected_source: faq
+    origin: faq_reworded
+    ground_truth: [{source: faq, faq_index: 46}]
+    original_question: "How can an AWW add twins/triplets in the app?"
+
+  - id: faq-11
+    text: "What immunizations does the app track for teenage girl beneficiaries?"
+    expected_source: faq
+    origin: faq_reworded
+    ground_truth: [{source: faq, faq_index: 60}]
+    original_question: "Which vaccines can be provided to Adolescent Girls?"
+
+  - id: faq-12
+    text: "Which staff roles fall under the 'AWC User' login category?"
+    expected_source: faq
+    origin: faq_reworded
+    ground_truth: [{source: faq, faq_index: 61}]
+    original_question: "Who are AWC Users?"
+
+  - id: faq-13
+    text: "What should a user do if their login credentials are rejected by the app?"
+    expected_source: faq
+    origin: faq_reworded
+    ground_truth: [{source: faq, faq_index: 64}]
+    original_question: "What to do when the message “Invalid mobile/email or password” shows up?"
+
+  - id: faq-14
+    text: "Who should an Anganwadi worker reach out to for help signing into the app?"
+    expected_source: faq
+    origin: faq_reworded
+    ground_truth: [{source: faq, faq_index: 67}]
+    original_question: "Whom to contact if AWW is facing any problem in Application Login?"
+
+  - id: faq-15
+    text: "Where does an official go to view the Poshan Tracker Dashboard?"
+    expected_source: faq
+    origin: faq_reworded
+    high_lexical_overlap: true
+    ground_truth: [{source: faq, faq_index: 69}]
+    original_question: "How to access Poshan Tracker Dashboard?"
+    note: "Jaccard=0.43 vs original_question (shares 'dashboard','poshan','tracker') -- named-feature question, see METHODOLOGY.md #4."
+
+  - id: faq-16
+    text: "What conditions must an Anganwadi worker meet to qualify for a performance bonus?"
+    expected_source: faq
+    origin: faq_reworded
+    ground_truth: [{source: faq, faq_index: 70}]
+    original_question: "What are the eligibility criteria for AWW Performance Incentive?"
+    note: "Watch this one: policy_derived pol-02 also touches AWW attributes generally (age/qualification), but performance incentive criteria specifically is app/dashboard content, not in the PDF -- kept as faq-only."
+
+  - id: faq-17
+    text: "Why might the dashboard's beneficiary count differ from the actual Master List?"
+    expected_source: faq
+    origin: faq_reworded
+    ground_truth: [{source: faq, faq_index: 73}]
+    original_question: "Why does data on the dashboard not match with the Beneficiary list?"
+    note: >
+      Replaces an earlier draft of this slot (originally FAQ[77]
+      "Saksham AWC", reworded here) -- that content turned out to be
+      genuinely cross-source and now lives at either-07 instead, so it
+      was removed from here to avoid double-counting.
+
+  - id: faq-18
+    text: "What information gets recorded through the daily tracking feature?"
+    expected_source: faq
+    origin: faq_reworded
+    ground_truth: [{source: faq, faq_index: 81}]
+    original_question: "What can be marked in Daily tracking?"
+
+  - id: faq-19
+    text: "What does the Home Visit module in the app cover?"
+    expected_source: faq
+    origin: faq_reworded
+    high_lexical_overlap: true
+    ground_truth: [{source: faq, faq_index: 86}]
+    original_question: "What is a Home Visit?"
+    note: "Jaccard=0.50 vs original_question (shares 'home','visit') -- named-feature question, see METHODOLOGY.md #4."
+
+  - id: faq-20
+    text: "Whose growth gets measured under the Growth Monitoring feature?"
+    expected_source: faq
+    origin: faq_reworded
+    ground_truth: [{source: faq, faq_index: 91}]
+    original_question: "Which categories of beneficiaries are entitled to receive Growth Monitoring Service?"
+
+  - id: faq-21
+    text: "In which section of the app can growth-tracking records be viewed?"
+    expected_source: faq
+    origin: faq_reworded
+    ground_truth: [{source: faq, faq_index: 92}]
+    original_question: "Where can one see growth monitoring details?"
+
+  - id: faq-22
+    text: "Does a beneficiary need Aadhaar-based verification to receive the cooked meal?"
+    expected_source: faq
+    origin: faq_reworded
+    ground_truth: [{source: faq, faq_index: 100}]
+    original_question: "Is Aadhaar verification necessary to avail HCM?"
+
+  - id: faq-23
+    text: "Is Aadhaar identity verification required before giving out take-home ration?"
+    expected_source: faq
+    origin: faq_reworded
+    ground_truth: [{source: faq, faq_index: 103}]
+    original_question: "Is Aadhaar card verification mandatory for THR?"
+
+  - id: faq-24
+    text: "Does the app support languages other than English?"
+    expected_source: faq
+    origin: faq_reworded
+    ground_truth: [{source: faq, faq_index: 113}]
+    original_question: "Is Poshan Tracker available in my regional language?"
+
+  - id: faq-25
+    text: "How can someone install the app on their phone?"
+    expected_source: faq
+    origin: faq_reworded
+    ground_truth: [{source: faq, faq_index: 117}]
+    original_question: "Where can we download the Poshan Tracker Application?"
+
+  - id: faq-26
+    text: "Who provides support for technical problems with the app or dashboard?"
+    expected_source: faq
+    origin: faq_reworded
+    ground_truth: [{source: faq, faq_index: 124}]
+    original_question: "Whom to contact for issues regarding Poshan Tracker Application and Dashboard?"
+
+# Totals: 11 policy_pdf + 9 either + 5 neither + 26 faq = 51 queries.
+#
+# All 13 of the MoWCD FAQ-page questions are folded in now (origin:
+# mowcd_page_given): pol-01, pol-05, pol-06, pol-07, pol-08, pol-09,
+# pol-10, pol-11 (8, policy_pdf-only), either-03, either-07, either-08,
+# either-09 (4, cross-source), neither-01 (1, neither). That's fewer
+# "neither" than you expected going in -- only Paanch Sutra didn't turn
+# up anywhere. The ones that needed reclassifying from your original
+# framing (SAM and Paanch Sutra from the first round; Saksham Anganwadi,
+# stunting/wasting/underweight, and MAM landing as "either" rather than
+# assumed-policy this round) are exactly the discriminating cases this
+# eval is supposed to surface -- also 4 of the 11 policy_pdf entries are
+# flagged retrievable_but_incomplete, i.e. the topic is genuinely in the
+# PDF but the specific fact asked for isn't spelled out.
+#
+# origin legend:
+#   mowcd_page_given     - one of the 13 MoWCD Poshan 2.0 FAQ-page questions you supplied
+#                          this round. Each was independently verified against the corpus
+#                          (not trusted at face value) before being placed and labeled.
+#   policy_derived       - written by me directly from a verified PDF passage (page cited).
+#   faq_reworded         - paraphrased from a real all_faq.json row (original_question given).
+#   neither_constructed  - written by me about a real, named, adjacent scheme/concept that a
+#                          direct search confirmed is absent from both corpus files.
+#
+# On not adding the MoWCD FAQ page's own answers to the corpus: per your
+# instruction, deliberately not done. The two-source opposition (126 atomic
+# FAQ pairs vs. one long policy PDF) is the experimental design; a third
+# source blurs it, and these questions are more useful as external probes
+# precisely because the corpus doesn't already contain their answers
+# verbatim from that page.
