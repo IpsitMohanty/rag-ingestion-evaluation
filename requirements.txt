@@ -7,12 +7,23 @@ langchain-text-splitters==1.1.2
 langchain-huggingface==1.2.2
 langchain-chroma==1.1.0
 
+# ParentDocumentRetriever (adapters/retriever.py's parent_document
+# strategy). NOT langchain-community -- LangChain's 1.0 line slimmed the
+# main `langchain` package down to agents/chat_models/embeddings/messages/
+# rate_limiters/tools and moved legacy chain/retriever abstractions like
+# this one into this separate, still-maintained compatibility package.
+langchain-classic==1.0.8
+
 # HuggingFaceEmbeddings' backend -- local, CPU-friendly, no API key/account.
 sentence-transformers==5.6.0
 
 # PDF text extraction, used directly by adapters/ingestion.py instead of a
 # LangChain PDF loader wrapper.
 pypdf==6.14.2
+
+# eval/query_set.py reads eval/queries.yaml directly -- declared explicitly
+# even though several of the above already pull it in transitively.
+pyyaml==6.0.3
 
 # Optional extras, NOT installed here on purpose (see adapters/embeddings.py
 # and adapters/llm.py): install these yourself only if you switch a

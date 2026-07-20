@@ -75,6 +75,13 @@ class RetrieverConfig:
         "similarity", "multi_query", "self_query", "parent_document"
     ] = "similarity"
     k: int = 4
+    # Only read when strategy="parent_document". Parent splitter is
+    # deliberately not independently configurable beyond a fixed ratio to
+    # the child settings -- see eval/METHODOLOGY.md #6.
+    child_chunk_size: int = 400
+    child_chunk_overlap: int = 50
+    parent_chunk_size: int = 1200
+    parent_chunk_overlap: int = 150
 
 
 @dataclass(frozen=True)
