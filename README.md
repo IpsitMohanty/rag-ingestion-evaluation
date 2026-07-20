@@ -1,15 +1,19 @@
-# Poshan RAG Evaluation -- Phase 1: Pipeline Scaffold
+# Poshan RAG Evaluation
 
 A RAG pipeline (ingest -> split -> embed -> index -> retrieve) built around
-two structurally opposite public corpora, designed from the start around a
-phase 2 retrieval evaluation: format-aware, per-source-type ingestion
-versus uniform chunking, and retrieval versus naive whole-document context
-stuffing.
+two structurally opposite public corpora, plus a retrieval evaluation
+testing the pipeline's central design bet: format-aware, per-source-type
+ingestion beats forcing everything through uniform chunking.
 
-Phase 1 (this repo, as it stands) covers ingestion through retrieval,
-end to end, runnable via CLI. No evaluation harness, no UI, no LLM
-generation yet -- see [Phase 2](#phase-2-design-notes-not-built-yet) below
-for what's designed for but deliberately not built.
+**Phase 1** built the pipeline (ingest through retrieve, end to end,
+runnable via CLI). **Phase 2** built and ran the evaluation --
+`eval/METHODOLOGY.md` settles the scoring rules in writing, and
+`results/ANALYSIS.md` has the findings, including where the hypothesis
+held and where the evidence doesn't support a strong claim. Still not
+built: an LLM generation step, a UI, and the whole-document-into-prompt
+baseline arm (see [Baseline arm: cost-and-recall, not
+LLM-judged](#baseline-arm-cost-and-recall-not-llm-judged) below for why
+that one's a documented seam, not an oversight).
 
 ## Corpus
 
@@ -103,20 +107,21 @@ comparison only means something if neither path is hardcoded.
 
 ### Retriever strategies
 
-Only `"similarity"` (a plain Chroma `as_retriever()`) is implemented.
-`config.RetrieverConfig.strategy` is real, selectable config for the
-others; each raises `NotImplementedError` naming the specific reason it
-isn't built, instead of silently falling back to similarity:
+`"similarity"` (a plain Chroma `as_retriever()`) and `"parent_document"`
+are implemented. `config.RetrieverConfig.strategy` is real, selectable
+config for the rest; each raises `NotImplementedError` naming the
+specific reason it isn't built, instead of silently falling back to
+similarity:
 
-- **`parent_document`** -- promoted to a **phase 2 implementation
-  target**, not just a seam. It needs no LLM at retrieval time (only a
+- **`parent_document`** -- needs no LLM at retrieval time (just a
   child/parent splitter pair and a docstore alongside the vectorstore),
-  so it's the one other strategy that can run in this repo's no-API-key
-  path -- and small-chunk-match/large-parent-return pairs naturally with
-  the format-aware ingestion thesis.
+  which is why it's the one other strategy phase 2 could actually
+  evaluate in this repo's no-API-key path. Built on `langchain_classic`,
+  not `langchain` -- see [Stack](#stack). Phase 2's finding: it can't be
+  distinguished from plain similarity search at this corpus's scale (11
+  policy queries) -- see `results/ANALYSIS.md`.
 - **`multi_query`** -- needs an LLM at retrieval time to generate query
-  variants. Seam only; out of scope while phase 1 has no LLM adapter
-  wired in.
+  variants. Seam only; out of scope while there's no LLM adapter wired in.
 - **`self_query`** -- needs an LLM to build a structured metadata filter
   *and* the `lark` package. The reference lab (see below) flags it as
   flaky even with a working LLM ("you might encounter errors or blank
@@ -133,10 +138,21 @@ not used anywhere in `src/`. Instead:
 | `langchain-text-splitters` | 1.1.2 | `RecursiveCharacterTextSplitter` |
 | `langchain-huggingface` | 1.2.2 | Local embeddings backend |
 | `langchain-chroma` | 1.1.0 | Chroma vector store integration |
+| `langchain-classic` | 1.0.8 | `ParentDocumentRetriever` (see below) |
 | `sentence-transformers` | 5.6.0 | Backend `HuggingFaceEmbeddings` needs |
 | `pypdf` | 6.14.2 | Direct PDF text extraction (see below) |
+| `pyyaml` | 6.0.3 | `eval/queries.yaml` |
 
 All current-as-of-writing on PyPI; check before assuming they still are.
+
+**Finding from building phase 2**: LangChain's 1.0 line slimmed the main
+`langchain` package down to `agents`/`chat_models`/`embeddings`/`messages`/
+`rate_limiters`/`tools` and moved legacy chain/retriever abstractions --
+including `ParentDocumentRetriever`, which the phase 1 brief assumed would
+just be `from langchain.retrievers import ParentDocumentRetriever` -- into
+a separate, still-maintained `langchain-classic` compatibility package.
+Confirmed by import error against `langchain==1.3.14`; not something
+either brief anticipated.
 
 PDF and FAQ loading do not use LangChain document loaders at all --
 `adapters/ingestion.py` reads the PDF with `pypdf` directly (which is all
@@ -174,19 +190,55 @@ pip install -r requirements-dev.txt
 pytest
 ```
 
-51 tests, ~24s on this machine. All but one run fully offline: no network
+85 tests, ~26s on this machine. All but one run fully offline: no network
 call, no model download. The one exception
 (`test_huggingface_backend_produces_expected_dimension`) actually
 constructs the real `HuggingFaceEmbeddings` backend, which is *eager* --
 it downloads/loads the sentence-transformers model at construction time,
 not on first use -- so it's gated behind `RUN_NETWORK_TESTS=1` and not run
-in CI. Everywhere else, adapter/pipeline contract tests use
+in CI. Everywhere else, adapter/pipeline contract tests -- including the
+phase 2 harness tests (`test_eval_*.py`) -- use
 `langchain_core.embeddings.DeterministicFakeEmbedding`, a hash-based
 Embeddings implementation, to prove the vectorstore/retriever adapters
 work with *any* Embeddings implementation -- which is the actual claim
 "swappable backend" is making.
 
-## Phase 2 design notes (not built yet)
+The phase 2 **sweep** (real embeddings, 12 config cells x 51 queries) is
+not part of this suite and not run in CI -- it's a several-minute run, not
+a test. Run it with:
+
+```bash
+python -m eval.run_sweep   # first run needs network to download+cache the
+                            # embedding model; HF_HUB_OFFLINE=1 once cached
+```
+
+## Phase 2: retrieval evaluation
+
+Built and run. Full methodology (settled in writing before any run --
+scoring rules for "either"/"neither", how retrievable-but-incomplete and
+lexical-overlap are handled, what "uniform chunking" means for a corpus
+of already-atomic FAQ rows) is in `eval/METHODOLOGY.md`; the 51-query
+labeled set is `eval/queries.yaml`; full results are
+`results/sweep_results.json` and `results/ANALYSIS.md`. Headline, with
+the caveat that headlines flatten nuance the linked analysis doesn't:
+
+- **Format-aware ingestion beats uniform chunking on the FAQ bucket**,
+  and the win's size tracks a directly-measured mechanism (average
+  number of distinct FAQ rows merged into one chunk under uniform
+  chunking -- 1.00 at chunk_size 200, rising to 2.51 at chunk_size 800),
+  not just an unexplained hit-rate gap.
+- **Similarity vs `ParentDocumentRetriever` cannot be distinguished** on
+  this policy corpus at this scale (11 labeled policy queries) -- hit@1
+  is identical in every comparison.
+- **The system cannot reliably tell "found the answer" from "didn't"
+  from its similarity score alone**, in any of the 12 configurations
+  tested -- confirmed by comparing top-1 score distributions on
+  unanswerable ("neither") queries against answerable ones. Means point
+  the right way; ranges overlap every time.
+- **A real share of FAQ retrieval's apparent quality is lexical, not
+  semantic**: 3 named-UI-feature queries score a perfect hit@1;
+  same-cell hit@1 on the other 23 is 0.435, not the ~0.46-0.50 the
+  whole-bucket number suggests.
 
 ### Baseline arm: cost-and-recall, not LLM-judged
 
