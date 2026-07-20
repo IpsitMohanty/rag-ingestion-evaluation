@@ -1,0 +1,236 @@
+# Poshan RAG Evaluation -- Phase 1: Pipeline Scaffold
+
+A RAG pipeline (ingest -> split -> embed -> index -> retrieve) built around
+two structurally opposite public corpora, designed from the start around a
+phase 2 retrieval evaluation: format-aware, per-source-type ingestion
+versus uniform chunking, and retrieval versus naive whole-document context
+stuffing.
+
+Phase 1 (this repo, as it stands) covers ingestion through retrieval,
+end to end, runnable via CLI. No evaluation harness, no UI, no LLM
+generation yet -- see [Phase 2](#phase-2-design-notes-not-built-yet) below
+for what's designed for but deliberately not built.
+
+## Corpus
+
+Two public sources, structurally opposite:
+
+1. **Poshan Tracker app FAQs** -- 126 scraped Q&A pairs
+   (`data/faq/all_faq.json`). Fields: `tab` (5 values), `subcategory`
+   (13 named values + null for 31 rows), `question`, `answer`. Answers
+   average ~178 characters -- already atomic retrieval units, so they are
+   never split (see [Ingestion design](#ingestion-per-source-type-not-global)).
+
+2. **Mission Saksham Anganwadi & Poshan 2.0 scheme guidelines** (PDF, ~1.5MB,
+   `data/policy/`) -- the broad policy document covering ICDS and Poshan
+   Abhiyaan. Deliberately excludes the ministry's circulars, device
+   specifications, and inter-government communications: those are
+   administrative correspondence, not policy content.
+
+**Constraint: public documents only, no internal material, no
+individual-level data.** Do not add other document types to this corpus
+without explicit sign-off -- the per-source-type design makes it easy to
+add a new source, which is exactly why this needs to stay a deliberate
+decision rather than something that happens by accident.
+
+### FAQ format: JSON, not CSV
+
+Both formats are supplied (`data/faq/all_faq.json` and `all_faq.csv`); the
+pipeline defaults to JSON. Several answers contain embedded newlines and
+markdown-style bullet lists (e.g. the "kinds of beneficiaries" answer);
+JSON represents these natively with zero ambiguity, while CSV requires
+trusting that multi-line fields were quoted correctly by whatever scraped
+the data. Both parse to the same 126 rows (see `tests/test_ingestion_faq.py`),
+but JSON is the loader's default source; the CSV is kept for provenance,
+not actively loaded by `pipeline/ingest.py`'s extension map.
+
+## Architecture
+
+```
+src/
+  config.py       chunk size/overlap, model names, k, per-source-type
+                   settings -- all in one place
+  adapters/        the ONLY layer that imports a LangChain integration
+    ingestion.py     FAQ loader (no LangChain loader at all -- stdlib
+                      csv/json) + PDF loader (pypdf directly, not a
+                      LangChain PDF loader wrapper) + splitting
+    embeddings.py    swappable backend: huggingface (default, local) /
+                      watsonx / openai, same interface either way
+    vectorstore.py   Chroma, persisted to disk
+    llm.py           swappable backend seam -- not called by any phase 1
+                      pipeline code
+    retriever.py     strategy is a config value; only "similarity" is
+                      implemented (see below)
+  pipeline/        application code -- depends on adapters/, never
+                   imports a LangChain integration directly
+    ingest.py        discover corpus files, load into raw Documents
+    split.py         apply per-source-type splitting
+    index.py         embed + store
+    retrieve.py      build a retriever, run a query
+  cli.py           `python src/cli.py ingest <folder>...` /
+                   `python src/cli.py query "<text>"`
+```
+
+The adapter boundary is the point: `langchain-community` was archived by
+its maintainers on 19 June 2026 and receives no further releases (see
+[Stack](#stack) below). LangChain's own post-sunset migration guidance is
+to keep integrations behind your own adapters so a deprecated package
+means swapping one adapter, not rewriting the application. `pipeline/` and
+`cli.py` never import `langchain_huggingface`, `langchain_chroma`, etc.
+directly -- only `adapters/` does.
+
+### Ingestion: per-source-type, not global
+
+`config.IngestionConfig.source_types` is a dict keyed by source type
+(`"faq"`, `"policy_pdf"`), each with its own `split: bool` and, if
+splitting, its own `chunk_size`/`chunk_overlap`:
+
+- **FAQ**: `split=False`. Each Q&A pair loads as exactly one `Document`
+  (`page_content` = "Question: ...\nAnswer: ..."), with `tab` and
+  `subcategory` preserved as queryable metadata (subcategory is
+  normalized from `null` to `""` for the 31 rows that have none -- Chroma's
+  metadata store rejects `None`).
+- **Policy PDF**: `split=True`, `RecursiveCharacterTextSplitter`
+  (chunk_size=800, chunk_overlap=100). Loaded page-by-page first
+  (`page` number kept in metadata), then split.
+
+Switching either source type's behavior -- turning splitting on for FAQs,
+changing the PDF's chunk size, adding a third source type -- is a
+`config.py` change, not a code change. This is deliberate: phase 2's
+evaluation is exactly a comparison of this format-aware ingestion against
+forcing both source types through identical, uniform chunking, and that
+comparison only means something if neither path is hardcoded.
+
+### Retriever strategies
+
+Only `"similarity"` (a plain Chroma `as_retriever()`) is implemented.
+`config.RetrieverConfig.strategy` is real, selectable config for the
+others; each raises `NotImplementedError` naming the specific reason it
+isn't built, instead of silently falling back to similarity:
+
+- **`parent_document`** -- promoted to a **phase 2 implementation
+  target**, not just a seam. It needs no LLM at retrieval time (only a
+  child/parent splitter pair and a docstore alongside the vectorstore),
+  so it's the one other strategy that can run in this repo's no-API-key
+  path -- and small-chunk-match/large-parent-return pairs naturally with
+  the format-aware ingestion thesis.
+- **`multi_query`** -- needs an LLM at retrieval time to generate query
+  variants. Seam only; out of scope while phase 1 has no LLM adapter
+  wired in.
+- **`self_query`** -- needs an LLM to build a structured metadata filter
+  *and* the `lark` package. The reference lab (see below) flags it as
+  flaky even with a working LLM ("you might encounter errors or blank
+  content... re-run it several times"). Seam only.
+
+## Stack
+
+`langchain-community` is archived (19 June 2026, no further releases) --
+not used anywhere in `src/`. Instead:
+
+| Package | Pinned | Why |
+|---|---|---|
+| `langchain-core` | 1.4.9 | Document/Embeddings/VectorStore/Retriever base types |
+| `langchain-text-splitters` | 1.1.2 | `RecursiveCharacterTextSplitter` |
+| `langchain-huggingface` | 1.2.2 | Local embeddings backend |
+| `langchain-chroma` | 1.1.0 | Chroma vector store integration |
+| `sentence-transformers` | 5.6.0 | Backend `HuggingFaceEmbeddings` needs |
+| `pypdf` | 6.14.2 | Direct PDF text extraction (see below) |
+
+All current-as-of-writing on PyPI; check before assuming they still are.
+
+PDF and FAQ loading do not use LangChain document loaders at all --
+`adapters/ingestion.py` reads the PDF with `pypdf` directly (which is all
+`langchain_community.PyPDFLoader` ever was, a thin wrapper around it) and
+the FAQ files with the stdlib `csv`/`json` modules, building
+`langchain_core.documents.Document` objects itself. This sidesteps the
+community package for loading entirely, not just for the pieces this repo
+happens to use.
+
+**Embedding model**: `sentence-transformers/all-MiniLM-L6-v2` (~90MB,
+384-dim, CPU-friendly, no API key or account) is the default over the
+course's `all-mpnet-base-v2` (~420MB, 768-dim) -- CPU/CI-friendliness
+matters more here than the marginal quality difference. Swapping to
+mpnet, or to watsonx/OpenAI embeddings, is a `config.EmbeddingConfig`
+change (see `adapters/embeddings.py`); the watsonx/openai branches are
+real code reading real environment variables, not stubs, though neither
+package is installed by default so the repo runs with zero API keys out
+of the box.
+
+## Running it
+
+```bash
+python -m venv .venv
+.venv\Scripts\activate       # Windows
+pip install -r requirements.txt
+
+python src/cli.py ingest data/faq data/policy
+python src/cli.py query "How many kinds of beneficiaries can be registered?"
+```
+
+## Tests
+
+```bash
+pip install -r requirements-dev.txt
+pytest
+```
+
+51 tests, ~24s on this machine. All but one run fully offline: no network
+call, no model download. The one exception
+(`test_huggingface_backend_produces_expected_dimension`) actually
+constructs the real `HuggingFaceEmbeddings` backend, which is *eager* --
+it downloads/loads the sentence-transformers model at construction time,
+not on first use -- so it's gated behind `RUN_NETWORK_TESTS=1` and not run
+in CI. Everywhere else, adapter/pipeline contract tests use
+`langchain_core.embeddings.DeterministicFakeEmbedding`, a hash-based
+Embeddings implementation, to prove the vectorstore/retriever adapters
+work with *any* Embeddings implementation -- which is the actual claim
+"swappable backend" is making.
+
+## Phase 2 design notes (not built yet)
+
+### Baseline arm: cost-and-recall, not LLM-judged
+
+The reference course notebook that was expected to justify chunking
+(`reference/course-notebooks/Full document retrieve limitation-v1.ipynb`)
+doesn't actually measure a failure: it stuffs an ~8,235-token document into
+a large-context-window model and the model answers correctly, because the
+document fits. It never demonstrates truncation or a wrong answer -- the
+"limitation" is asserted narratively, not measured.
+
+Given that, and given this corpus is genuinely small enough that
+whole-document context stuffing is a real competitor rather than a straw
+man, phase 2's baseline arm is designed as **deterministic, no LLM**:
+
+- Context stuffing has **recall = 1.0 by construction** -- the whole
+  corpus is in the prompt, so nothing relevant can be missed. State this
+  plainly rather than manufacturing a retrieval "win" on recall.
+- The actual measured comparison is **tokens per query**: whole-corpus
+  token count vs. `k * chunk_size` (plus one-time index build cost for
+  the retrieval arm).
+- **Lost-in-the-middle degradation** (LLMs attending less reliably to
+  content buried in the middle of a long context) is cited as a known,
+  literature-supported limitation of context stuffing -- **not** asserted
+  as something this repo measured, since nothing here does.
+
+An optional LLM-answer-quality arm (actually generating answers from both
+arms and judging them) is documented as a future extension, gated behind
+an API key via the `llm` adapter, and explicitly excluded from CI.
+
+### Whole-document-into-prompt: a baseline, not a feature
+
+`pipeline/` has no context-stuffing code path yet -- this is the seam
+phase 2 fills in, not a phase 1 deliverable. It's a comparison baseline
+against retrieval, not an alternative retrieval strategy.
+
+## Reference material
+
+`reference/course-notebooks/` -- the 6 (of 8) IBM "Generative AI
+Applications with RAG and LangChain" course notebooks on hand, read for
+what the labs covered but never executed and never ported: zero cells
+have outputs or an execution count. Lab scaffolding and starter code are
+IBM's; this repo's design was informed by them but doesn't reuse their
+code. Licensed Apache 2.0 by IBM/Skills Network.
+
+`reference/document-loaders-lab/` -- an earlier, unrelated, already
+executed exploration of LangChain's document loaders from a prior
+session, kept for reference and not part of this pipeline.
