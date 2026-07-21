@@ -26,7 +26,7 @@ st.title("RAG Ingestion Evaluation")
 st.caption(
     "Retrieval over two public corpora: Poshan Tracker app FAQs and the "
     "Mission Saksham Anganwadi & Poshan 2.0 scheme guidelines. "
-    "Retrieval-only by default -- no API key or LLM call required."
+    "Retrieval-only by default. No API key or LLM call required."
 )
 
 
@@ -49,7 +49,7 @@ with st.sidebar:
         "⚠️ Not stored, not logged, not written to disk anywhere in this "
         "app. Held in memory for this session only and used server-side to "
         "call OpenAI, then discarded. Note this app runs on Streamlit "
-        "Community Cloud, so the key transits their infrastructure -- if "
+        "Community Cloud, so the key transits their infrastructure. If "
         "you'd rather it didn't, run the app locally instead."
     )
 
@@ -59,7 +59,7 @@ with st.sidebar:
     )
     st.caption(
         "Try raising k on the ⚠️ preset below (a query the corpus can't "
-        "answer) -- results stop improving well before k=10. That's phase "
+        "answer). Results stop improving well before k=10. That's phase "
         "2's Finding #1/#4: raising k doesn't rescue a miss caused by the "
         "embedding model's representation, not retrieval depth. Full "
         "writeup: `results/ANALYSIS.md`."
@@ -75,7 +75,7 @@ query = st.text_input("Ask a question", key="query")
 
 with st.expander("What do the similarity scores mean?"):
     st.markdown(
-        "Each result below shows Chroma's raw similarity **distance** -- "
+        "Each result below shows Chroma's raw similarity **distance**: "
         "**lower means more similar**, not a percentage or a probability, "
         "and there's no fixed scale where a particular number means "
         '"confident."\n\n'
@@ -87,7 +87,7 @@ with st.expander("What do the similarity scores mean?"):
         "|---|---|---|---|\n"
         "| should-hit (46 queries, a real answer exists) | 0.738 | 0.337 | 1.308 |\n"
         "| neither (5 queries, no correct passage exists) | 0.829 | 0.622 | 0.990 |\n\n"
-        "**The entire `neither` range sits inside the should-hit range** -- "
+        "**The entire `neither` range sits inside the should-hit range**: "
         "not hard to separate, impossible to separate at any threshold, "
         "across the full labeled query set.\n\n"
         "Three live examples, for intuition:\n\n"
@@ -97,10 +97,10 @@ with st.expander("What do the similarity scores mean?"):
         'Application?" | answerable | 0.4597 |\n'
         '| "awc" | answerable | 0.9190 |\n'
         '| "What are Poshan ke Paanch Sutra?" | **no answer exists** | 0.9881 |\n\n'
-        "0.9190 and 0.9881 are 0.07 apart -- a cutoff at 0.95 rejects the "
+        "0.9190 and 0.9881 are 0.07 apart. A cutoff at 0.95 rejects the "
         'valid "awc" query; a cutoff at 1.00 accepts the query with no '
         "answer. Try the ⚠️ preset above and compare its score to the "
-        "others -- it won't obviously stand out.\n\n"
+        "others. It won't obviously stand out.\n\n"
         "Full analysis, including the k=5-to-k=10 plateau this UI's k "
         "slider lets you reproduce: `results/ANALYSIS.md`."
     )
@@ -137,7 +137,7 @@ if query:
                 detail = f"page={metadata.get('page')}"
 
             st.markdown(
-                f"**[{i}] {source_label}** -- {detail} -- "
+                f"**[{i}] {source_label}** | {detail} | "
                 f"distance={result['score']:.4f} *(lower = more similar)*"
             )
             st.text(result["content"][:500])
