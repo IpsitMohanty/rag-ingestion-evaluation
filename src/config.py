@@ -25,9 +25,18 @@ class SourceTypeSettings:
     split=False means the loader's Documents are indexed as-is (one
     Document per record) -- no text splitter runs. split=True means the
     loader's Documents are passed through `splitter`.
+
+    clean is policy_pdf-specific (harmlessly ignored for other source
+    types -- see adapters/ingestion.py's load_source): strips running
+    headers/footers and drops front matter (title page, table of
+    contents) before splitting. False (raw) is the default so existing
+    CLI/app behavior is unchanged; True is a real, swept alternative, not
+    a replacement -- see eval/METHODOLOGY.md #8 for why both are kept and
+    results/ANALYSIS.md for whether cleaning measurably helps.
     """
     split: bool
     splitter: SplitterSettings | None = None
+    clean: bool = False
 
 
 @dataclass(frozen=True)

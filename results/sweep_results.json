@@ -93,27 +93,29 @@
       "confidence_separation": {
         "neither": {
           "n": 5,
-          "mean": 0.8329610228538513,
-          "median": 0.8013862371444702,
-          "min": 0.7278978824615479,
+          "mean": 0.832961106300354,
+          "median": 0.8013861179351807,
+          "min": 0.727898120880127,
           "max": 0.9727613925933838
         },
         "should_hit": {
           "n": 46,
-          "mean": 0.6816643275644468,
-          "median": 0.6995360851287842,
-          "min": 0.337321400642395,
+          "mean": 0.6816643146069153,
+          "median": 0.6995362043380737,
+          "min": 0.33732151985168457,
           "max": 1.3076627254486084
         },
         "ranges_overlap": true
       },
-      "cell_id": "format_aware__cs200_ov20__similarity",
+      "cell_id": "raw_pdf__format_aware__cs200_ov20__similarity",
+      "pdf_variant": "raw",
       "ingestion_mode": "format_aware",
       "chunk_size": 200,
       "chunk_overlap": 20,
       "retriever_strategy": "similarity",
       "n_faq_documents": 126,
       "n_policy_chunks": 799,
+      "n_policy_raw_pages": 77,
       "mean_rows_per_uniform_chunk": 1.0
     },
     {
@@ -209,27 +211,29 @@
       "confidence_separation": {
         "neither": {
           "n": 5,
-          "mean": 0.8135309457778931,
-          "median": 0.8013862371444702,
-          "min": 0.7278978824615479,
-          "max": 0.9103834629058838
+          "mean": 0.8135309815406799,
+          "median": 0.8013861179351807,
+          "min": 0.727898120880127,
+          "max": 0.9103836417198181
         },
         "should_hit": {
           "n": 46,
-          "mean": 0.6839225745719412,
-          "median": 0.6971744000911713,
-          "min": 0.337321400642395,
+          "mean": 0.6839225771634475,
+          "median": 0.6971743106842041,
+          "min": 0.33732151985168457,
           "max": 1.3076627254486084
         },
         "ranges_overlap": true
       },
-      "cell_id": "format_aware__cs200_ov20__parent_document",
+      "cell_id": "raw_pdf__format_aware__cs200_ov20__parent_document",
+      "pdf_variant": "raw",
       "ingestion_mode": "format_aware",
       "chunk_size": 200,
       "chunk_overlap": 20,
       "retriever_strategy": "parent_document",
       "n_faq_documents": 126,
       "n_policy_chunks": 799,
+      "n_policy_raw_pages": 77,
       "mean_rows_per_uniform_chunk": 1.0
     },
     {
@@ -325,27 +329,29 @@
       "confidence_separation": {
         "neither": {
           "n": 5,
-          "mean": 0.8531048178672791,
+          "mean": 0.8531048655509949,
           "median": 0.8153513669967651,
-          "min": 0.6641387343406677,
-          "max": 1.0836637020111084
+          "min": 0.6641388535499573,
+          "max": 1.083663821220398
         },
         "should_hit": {
           "n": 46,
-          "mean": 0.7242389528647714,
-          "median": 0.7184581756591797,
-          "min": 0.337321400642395,
+          "mean": 0.7242389399072399,
+          "median": 0.7184582352638245,
+          "min": 0.33732151985168457,
           "max": 1.3076627254486084
         },
         "ranges_overlap": true
       },
-      "cell_id": "format_aware__cs500_ov50__similarity",
+      "cell_id": "raw_pdf__format_aware__cs500_ov50__similarity",
+      "pdf_variant": "raw",
       "ingestion_mode": "format_aware",
       "chunk_size": 500,
       "chunk_overlap": 50,
       "retriever_strategy": "similarity",
       "n_faq_documents": 126,
       "n_policy_chunks": 317,
+      "n_policy_raw_pages": 77,
       "mean_rows_per_uniform_chunk": 1.0
     },
     {
@@ -441,27 +447,29 @@
       "confidence_separation": {
         "neither": {
           "n": 5,
-          "mean": 0.8606762290000916,
+          "mean": 0.8606762528419495,
           "median": 0.8153513669967651,
-          "min": 0.6641387343406677,
+          "min": 0.6641388535499573,
           "max": 1.121520757675171
         },
         "should_hit": {
           "n": 46,
-          "mean": 0.7251441997030507,
-          "median": 0.7381037473678589,
-          "min": 0.337321400642395,
+          "mean": 0.7251441880412723,
+          "median": 0.7381038069725037,
+          "min": 0.33732151985168457,
           "max": 1.3076627254486084
         },
         "ranges_overlap": true
       },
-      "cell_id": "format_aware__cs500_ov50__parent_document",
+      "cell_id": "raw_pdf__format_aware__cs500_ov50__parent_document",
+      "pdf_variant": "raw",
       "ingestion_mode": "format_aware",
       "chunk_size": 500,
       "chunk_overlap": 50,
       "retriever_strategy": "parent_document",
       "n_faq_documents": 126,
       "n_policy_chunks": 317,
+      "n_policy_raw_pages": 77,
       "mean_rows_per_uniform_chunk": 1.0
     },
     {
@@ -557,27 +565,29 @@
       "confidence_separation": {
         "neither": {
           "n": 5,
-          "mean": 0.8286578178405761,
+          "mean": 0.8286578774452209,
           "median": 0.8153513669967651,
-          "min": 0.6216886043548584,
+          "min": 0.6216885447502136,
           "max": 0.9902118444442749
         },
         "should_hit": {
           "n": 46,
-          "mean": 0.7378420622452445,
-          "median": 0.7286398410797119,
-          "min": 0.337321400642395,
+          "mean": 0.7378420466962068,
+          "median": 0.7286398708820343,
+          "min": 0.33732151985168457,
           "max": 1.3076627254486084
         },
         "ranges_overlap": true
       },
-      "cell_id": "format_aware__cs800_ov100__similarity",
+      "cell_id": "raw_pdf__format_aware__cs800_ov100__similarity",
+      "pdf_variant": "raw",
       "ingestion_mode": "format_aware",
       "chunk_size": 800,
       "chunk_overlap": 100,
       "retriever_strategy": "similarity",
       "n_faq_documents": 126,
       "n_policy_chunks": 213,
+      "n_policy_raw_pages": 77,
       "mean_rows_per_uniform_chunk": 1.0
     },
     {
@@ -673,27 +683,29 @@
       "confidence_separation": {
         "neither": {
           "n": 5,
-          "mean": 0.8286578178405761,
+          "mean": 0.8286578774452209,
           "median": 0.8153513669967651,
-          "min": 0.6216886043548584,
+          "min": 0.6216885447502136,
           "max": 0.9902118444442749
         },
         "should_hit": {
           "n": 46,
-          "mean": 0.7378407703793567,
-          "median": 0.7286398410797119,
-          "min": 0.337321400642395,
+          "mean": 0.7378407600133315,
+          "median": 0.7286398708820343,
+          "min": 0.33732151985168457,
           "max": 1.3076627254486084
         },
         "ranges_overlap": true
       },
-      "cell_id": "format_aware__cs800_ov100__parent_document",
+      "cell_id": "raw_pdf__format_aware__cs800_ov100__parent_document",
+      "pdf_variant": "raw",
       "ingestion_mode": "format_aware",
       "chunk_size": 800,
       "chunk_overlap": 100,
       "retriever_strategy": "parent_document",
       "n_faq_documents": 126,
       "n_policy_chunks": 213,
+      "n_policy_raw_pages": 77,
       "mean_rows_per_uniform_chunk": 1.0
     },
     {
@@ -789,27 +801,29 @@
       "confidence_separation": {
         "neither": {
           "n": 5,
-          "mean": 0.7953965783119201,
+          "mean": 0.795396602153778,
           "median": 0.7559258937835693,
           "min": 0.7296692132949829,
           "max": 0.9727613925933838
         },
         "should_hit": {
           "n": 46,
-          "mean": 0.6251425660498764,
-          "median": 0.6498883664608002,
-          "min": 0.1059241071343422,
+          "mean": 0.6251425453178261,
+          "median": 0.6498883366584778,
+          "min": 0.10592406243085861,
           "max": 1.3076627254486084
         },
         "ranges_overlap": true
       },
-      "cell_id": "uniform__cs200_ov20__similarity",
+      "cell_id": "raw_pdf__uniform__cs200_ov20__similarity",
+      "pdf_variant": "raw",
       "ingestion_mode": "uniform",
       "chunk_size": 200,
       "chunk_overlap": 20,
       "retriever_strategy": "similarity",
       "n_faq_documents": 249,
       "n_policy_chunks": 799,
+      "n_policy_raw_pages": 77,
       "mean_rows_per_uniform_chunk": 1.0040160642570282
     },
     {
@@ -905,27 +919,29 @@
       "confidence_separation": {
         "neither": {
           "n": 5,
-          "mean": 0.7759665012359619,
+          "mean": 0.775966477394104,
           "median": 0.7559258937835693,
           "min": 0.7296692132949829,
-          "max": 0.8963743448257446
+          "max": 0.8963742256164551
         },
         "should_hit": {
           "n": 46,
-          "mean": 0.6263371312423892,
-          "median": 0.638240247964859,
-          "min": 0.1059241071343422,
+          "mean": 0.6263371325381424,
+          "median": 0.6382401585578918,
+          "min": 0.10592406243085861,
           "max": 1.3076627254486084
         },
         "ranges_overlap": true
       },
-      "cell_id": "uniform__cs200_ov20__parent_document",
+      "cell_id": "raw_pdf__uniform__cs200_ov20__parent_document",
+      "pdf_variant": "raw",
       "ingestion_mode": "uniform",
       "chunk_size": 200,
       "chunk_overlap": 20,
       "retriever_strategy": "parent_document",
       "n_faq_documents": 249,
       "n_policy_chunks": 799,
+      "n_policy_raw_pages": 77,
       "mean_rows_per_uniform_chunk": 1.0040160642570282
     },
     {
@@ -1021,27 +1037,29 @@
       "confidence_separation": {
         "neither": {
           "n": 5,
-          "mean": 0.8649637341499329,
-          "median": 0.8746459484100342,
-          "min": 0.6641387343406677,
-          "max": 1.0836637020111084
+          "mean": 0.8649638175964356,
+          "median": 0.8746461272239685,
+          "min": 0.6641388535499573,
+          "max": 1.083663821220398
         },
         "should_hit": {
           "n": 46,
-          "mean": 0.7685655005600142,
-          "median": 0.7762369811534882,
+          "mean": 0.7685654876024827,
+          "median": 0.7762370109558105,
           "min": 0.3373214900493622,
-          "max": 1.4804596900939941
+          "max": 1.480459213256836
         },
         "ranges_overlap": true
       },
-      "cell_id": "uniform__cs500_ov50__similarity",
+      "cell_id": "raw_pdf__uniform__cs500_ov50__similarity",
+      "pdf_variant": "raw",
       "ingestion_mode": "uniform",
       "chunk_size": 500,
       "chunk_overlap": 50,
       "retriever_strategy": "similarity",
       "n_faq_documents": 87,
       "n_policy_chunks": 317,
+      "n_policy_raw_pages": 77,
       "mean_rows_per_uniform_chunk": 1.5172413793103448
     },
     {
@@ -1137,27 +1155,29 @@
       "confidence_separation": {
         "neither": {
           "n": 5,
-          "mean": 0.8725351452827453,
-          "median": 0.8746459484100342,
-          "min": 0.6641387343406677,
+          "mean": 0.8725352048873901,
+          "median": 0.8746461272239685,
+          "min": 0.6641388535499573,
           "max": 1.121520757675171
         },
         "should_hit": {
           "n": 46,
-          "mean": 0.7672411721685658,
-          "median": 0.7762369811534882,
+          "mean": 0.7672411527322687,
+          "median": 0.7762370407581329,
           "min": 0.3373214900493622,
-          "max": 1.4804596900939941
+          "max": 1.480459213256836
         },
         "ranges_overlap": true
       },
-      "cell_id": "uniform__cs500_ov50__parent_document",
+      "cell_id": "raw_pdf__uniform__cs500_ov50__parent_document",
+      "pdf_variant": "raw",
       "ingestion_mode": "uniform",
       "chunk_size": 500,
       "chunk_overlap": 50,
       "retriever_strategy": "parent_document",
       "n_faq_documents": 87,
       "n_policy_chunks": 317,
+      "n_policy_raw_pages": 77,
       "mean_rows_per_uniform_chunk": 1.5172413793103448
     },
     {
@@ -1253,27 +1273,29 @@
       "confidence_separation": {
         "neither": {
           "n": 5,
-          "mean": 0.8540660977363587,
+          "mean": 0.8540661334991455,
           "median": 0.9324005842208862,
-          "min": 0.6216886043548584,
-          "max": 1.022698998451233
+          "min": 0.6216885447502136,
+          "max": 1.0226991176605225
         },
         "should_hit": {
           "n": 46,
-          "mean": 0.8311403160509856,
+          "mean": 0.8311403361351594,
           "median": 0.8414813876152039,
-          "min": 0.4924418330192566,
+          "min": 0.4924418032169342,
           "max": 1.3380366563796997
         },
         "ranges_overlap": true
       },
-      "cell_id": "uniform__cs800_ov100__similarity",
+      "cell_id": "raw_pdf__uniform__cs800_ov100__similarity",
+      "pdf_variant": "raw",
       "ingestion_mode": "uniform",
       "chunk_size": 800,
       "chunk_overlap": 100,
       "retriever_strategy": "similarity",
       "n_faq_documents": 51,
       "n_policy_chunks": 213,
+      "n_policy_raw_pages": 77,
       "mean_rows_per_uniform_chunk": 2.5098039215686274
     },
     {
@@ -1369,27 +1391,1445 @@
       "confidence_separation": {
         "neither": {
           "n": 5,
-          "mean": 0.8540660977363587,
+          "mean": 0.8540661334991455,
           "median": 0.9324005842208862,
-          "min": 0.6216886043548584,
-          "max": 1.022698998451233
+          "min": 0.6216885447502136,
+          "max": 1.0226991176605225
         },
         "should_hit": {
           "n": 46,
-          "mean": 0.8311390241850978,
+          "mean": 0.8311390494522841,
           "median": 0.8414813876152039,
-          "min": 0.4924418330192566,
+          "min": 0.4924418032169342,
           "max": 1.3380366563796997
         },
         "ranges_overlap": true
       },
-      "cell_id": "uniform__cs800_ov100__parent_document",
+      "cell_id": "raw_pdf__uniform__cs800_ov100__parent_document",
+      "pdf_variant": "raw",
       "ingestion_mode": "uniform",
       "chunk_size": 800,
       "chunk_overlap": 100,
       "retriever_strategy": "parent_document",
       "n_faq_documents": 51,
       "n_policy_chunks": 213,
+      "n_policy_raw_pages": 77,
+      "mean_rows_per_uniform_chunk": 2.5098039215686274
+    },
+    {
+      "buckets": {
+        "faq": {
+          "n": 26,
+          "hit_rate_at_k": {
+            "1": 0.46153846153846156,
+            "3": 0.6923076923076923,
+            "5": 0.7692307692307693,
+            "10": 0.8076923076923077
+          },
+          "mrr": 0.5869047619047619,
+          "source_routing_accuracy": 0.6538461538461539,
+          "by_lexical_overlap": {
+            "high_overlap": {
+              "n": 3,
+              "hit_rate_at_k": {
+                "1": 1.0,
+                "3": 1.0,
+                "5": 1.0,
+                "10": 1.0
+              },
+              "mrr": 1.0
+            },
+            "low_overlap": {
+              "n": 23,
+              "hit_rate_at_k": {
+                "1": 0.391304347826087,
+                "3": 0.6521739130434783,
+                "5": 0.7391304347826086,
+                "10": 0.782608695652174
+              },
+              "mrr": 0.5330227743271222
+            }
+          }
+        },
+        "policy_pdf": {
+          "n": 11,
+          "hit_rate_at_k": {
+            "1": 0.2727272727272727,
+            "3": 0.5454545454545454,
+            "5": 0.9090909090909091,
+            "10": 0.9090909090909091
+          },
+          "mrr": 0.4803030303030303,
+          "source_routing_accuracy": 1.0,
+          "excluding_retrievable_but_incomplete": {
+            "n": 8,
+            "hit_rate_at_k": {
+              "1": 0.375,
+              "3": 0.75,
+              "5": 1.0,
+              "10": 1.0
+            },
+            "mrr": 0.5979166666666667
+          },
+          "retrievable_but_incomplete_ids": [
+            "pol-01",
+            "pol-05",
+            "pol-10"
+          ]
+        },
+        "either": {
+          "n": 9,
+          "hit_rate_at_k": {
+            "1": 0.4444444444444444,
+            "3": 0.7777777777777778,
+            "5": 0.7777777777777778,
+            "10": 1.0
+          },
+          "mrr": 0.6188271604938271,
+          "excluding_retrievable_but_incomplete": {
+            "n": 8,
+            "hit_rate_at_k": {
+              "1": 0.5,
+              "3": 0.75,
+              "5": 0.75,
+              "10": 1.0
+            },
+            "mrr": 0.6336805555555556
+          },
+          "retrievable_but_incomplete_ids": [
+            "either-08"
+          ]
+        },
+        "neither": {
+          "n": 5,
+          "hit_rate": null,
+          "note": "undefined for neither -- see confidence_separation instead (METHODOLOGY.md #3)"
+        }
+      },
+      "confidence_separation": {
+        "neither": {
+          "n": 5,
+          "mean": 0.8587956666946411,
+          "median": 0.8153513669967651,
+          "min": 0.727898120880127,
+          "max": 0.9881395101547241
+        },
+        "should_hit": {
+          "n": 46,
+          "mean": 0.6929658029390418,
+          "median": 0.6935904324054718,
+          "min": 0.33732151985168457,
+          "max": 1.3076627254486084
+        },
+        "ranges_overlap": true
+      },
+      "cell_id": "cleaned_pdf__format_aware__cs200_ov20__similarity",
+      "pdf_variant": "cleaned",
+      "ingestion_mode": "format_aware",
+      "chunk_size": 200,
+      "chunk_overlap": 20,
+      "retriever_strategy": "similarity",
+      "n_faq_documents": 126,
+      "n_policy_chunks": 720,
+      "n_policy_raw_pages": 73,
+      "mean_rows_per_uniform_chunk": 1.0
+    },
+    {
+      "buckets": {
+        "faq": {
+          "n": 26,
+          "hit_rate_at_k": {
+            "1": 0.4230769230769231,
+            "3": 0.6538461538461539,
+            "5": 0.6923076923076923,
+            "10": 0.8076923076923077
+          },
+          "mrr": 0.5517399267399268,
+          "source_routing_accuracy": 0.6153846153846154,
+          "by_lexical_overlap": {
+            "high_overlap": {
+              "n": 3,
+              "hit_rate_at_k": {
+                "1": 1.0,
+                "3": 1.0,
+                "5": 1.0,
+                "10": 1.0
+              },
+              "mrr": 1.0
+            },
+            "low_overlap": {
+              "n": 23,
+              "hit_rate_at_k": {
+                "1": 0.34782608695652173,
+                "3": 0.6086956521739131,
+                "5": 0.6521739130434783,
+                "10": 0.782608695652174
+              },
+              "mrr": 0.4932712215320911
+            }
+          }
+        },
+        "policy_pdf": {
+          "n": 11,
+          "hit_rate_at_k": {
+            "1": 0.18181818181818182,
+            "3": 0.6363636363636364,
+            "5": 0.7272727272727273,
+            "10": 0.9090909090909091
+          },
+          "mrr": 0.4318181818181818,
+          "source_routing_accuracy": 1.0,
+          "excluding_retrievable_but_incomplete": {
+            "n": 8,
+            "hit_rate_at_k": {
+              "1": 0.25,
+              "3": 0.75,
+              "5": 0.75,
+              "10": 1.0
+            },
+            "mrr": 0.5208333333333334
+          },
+          "retrievable_but_incomplete_ids": [
+            "pol-01",
+            "pol-05",
+            "pol-10"
+          ]
+        },
+        "either": {
+          "n": 9,
+          "hit_rate_at_k": {
+            "1": 0.3333333333333333,
+            "3": 0.6666666666666666,
+            "5": 0.7777777777777778,
+            "10": 0.8888888888888888
+          },
+          "mrr": 0.5380952380952381,
+          "excluding_retrievable_but_incomplete": {
+            "n": 8,
+            "hit_rate_at_k": {
+              "1": 0.375,
+              "3": 0.625,
+              "5": 0.75,
+              "10": 0.875
+            },
+            "mrr": 0.5428571428571428
+          },
+          "retrievable_but_incomplete_ids": [
+            "either-08"
+          ]
+        },
+        "neither": {
+          "n": 5,
+          "hit_rate": null,
+          "note": "undefined for neither -- see confidence_separation instead (METHODOLOGY.md #3)"
+        }
+      },
+      "confidence_separation": {
+        "neither": {
+          "n": 5,
+          "mean": 0.8407427549362183,
+          "median": 0.8013861179351807,
+          "min": 0.727898120880127,
+          "max": 0.9881395101547241
+        },
+        "should_hit": {
+          "n": 46,
+          "mean": 0.6690207408822101,
+          "median": 0.6935904324054718,
+          "min": 0.27319175004959106,
+          "max": 1.3076627254486084
+        },
+        "ranges_overlap": true
+      },
+      "cell_id": "cleaned_pdf__format_aware__cs200_ov20__parent_document",
+      "pdf_variant": "cleaned",
+      "ingestion_mode": "format_aware",
+      "chunk_size": 200,
+      "chunk_overlap": 20,
+      "retriever_strategy": "parent_document",
+      "n_faq_documents": 126,
+      "n_policy_chunks": 720,
+      "n_policy_raw_pages": 73,
+      "mean_rows_per_uniform_chunk": 1.0
+    },
+    {
+      "buckets": {
+        "faq": {
+          "n": 26,
+          "hit_rate_at_k": {
+            "1": 0.5,
+            "3": 0.8076923076923077,
+            "5": 0.8461538461538461,
+            "10": 0.8846153846153846
+          },
+          "mrr": 0.6461538461538462,
+          "source_routing_accuracy": 0.8076923076923077,
+          "by_lexical_overlap": {
+            "high_overlap": {
+              "n": 3,
+              "hit_rate_at_k": {
+                "1": 1.0,
+                "3": 1.0,
+                "5": 1.0,
+                "10": 1.0
+              },
+              "mrr": 1.0
+            },
+            "low_overlap": {
+              "n": 23,
+              "hit_rate_at_k": {
+                "1": 0.43478260869565216,
+                "3": 0.782608695652174,
+                "5": 0.8260869565217391,
+                "10": 0.8695652173913043
+              },
+              "mrr": 0.6
+            }
+          }
+        },
+        "policy_pdf": {
+          "n": 11,
+          "hit_rate_at_k": {
+            "1": 0.5454545454545454,
+            "3": 0.6363636363636364,
+            "5": 0.6363636363636364,
+            "10": 0.7272727272727273
+          },
+          "mrr": 0.6038961038961039,
+          "source_routing_accuracy": 1.0,
+          "excluding_retrievable_but_incomplete": {
+            "n": 8,
+            "hit_rate_at_k": {
+              "1": 0.625,
+              "3": 0.75,
+              "5": 0.75,
+              "10": 0.75
+            },
+            "mrr": 0.6875
+          },
+          "retrievable_but_incomplete_ids": [
+            "pol-01",
+            "pol-05",
+            "pol-10"
+          ]
+        },
+        "either": {
+          "n": 9,
+          "hit_rate_at_k": {
+            "1": 0.4444444444444444,
+            "3": 0.6666666666666666,
+            "5": 0.7777777777777778,
+            "10": 1.0
+          },
+          "mrr": 0.5962962962962963,
+          "excluding_retrievable_but_incomplete": {
+            "n": 8,
+            "hit_rate_at_k": {
+              "1": 0.375,
+              "3": 0.625,
+              "5": 0.75,
+              "10": 1.0
+            },
+            "mrr": 0.5458333333333333
+          },
+          "retrievable_but_incomplete_ids": [
+            "either-08"
+          ]
+        },
+        "neither": {
+          "n": 5,
+          "hit_rate": null,
+          "note": "undefined for neither -- see confidence_separation instead (METHODOLOGY.md #3)"
+        }
+      },
+      "confidence_separation": {
+        "neither": {
+          "n": 5,
+          "mean": 0.8505004525184632,
+          "median": 0.8153513669967651,
+          "min": 0.6374495625495911,
+          "max": 1.0836637020111084
+        },
+        "should_hit": {
+          "n": 46,
+          "mean": 0.7251881646073383,
+          "median": 0.7389726042747498,
+          "min": 0.33732151985168457,
+          "max": 1.3076627254486084
+        },
+        "ranges_overlap": true
+      },
+      "cell_id": "cleaned_pdf__format_aware__cs500_ov50__similarity",
+      "pdf_variant": "cleaned",
+      "ingestion_mode": "format_aware",
+      "chunk_size": 500,
+      "chunk_overlap": 50,
+      "retriever_strategy": "similarity",
+      "n_faq_documents": 126,
+      "n_policy_chunks": 292,
+      "n_policy_raw_pages": 73,
+      "mean_rows_per_uniform_chunk": 1.0
+    },
+    {
+      "buckets": {
+        "faq": {
+          "n": 26,
+          "hit_rate_at_k": {
+            "1": 0.5,
+            "3": 0.8076923076923077,
+            "5": 0.8461538461538461,
+            "10": 0.8461538461538461
+          },
+          "mrr": 0.6358974358974359,
+          "source_routing_accuracy": 0.7692307692307693,
+          "by_lexical_overlap": {
+            "high_overlap": {
+              "n": 3,
+              "hit_rate_at_k": {
+                "1": 1.0,
+                "3": 1.0,
+                "5": 1.0,
+                "10": 1.0
+              },
+              "mrr": 1.0
+            },
+            "low_overlap": {
+              "n": 23,
+              "hit_rate_at_k": {
+                "1": 0.43478260869565216,
+                "3": 0.782608695652174,
+                "5": 0.8260869565217391,
+                "10": 0.8260869565217391
+              },
+              "mrr": 0.5884057971014492
+            }
+          }
+        },
+        "policy_pdf": {
+          "n": 11,
+          "hit_rate_at_k": {
+            "1": 0.5454545454545454,
+            "3": 0.7272727272727273,
+            "5": 0.7272727272727273,
+            "10": 0.8181818181818182
+          },
+          "mrr": 0.6454545454545455,
+          "source_routing_accuracy": 1.0,
+          "excluding_retrievable_but_incomplete": {
+            "n": 8,
+            "hit_rate_at_k": {
+              "1": 0.625,
+              "3": 0.75,
+              "5": 0.75,
+              "10": 0.875
+            },
+            "mrr": 0.7
+          },
+          "retrievable_but_incomplete_ids": [
+            "pol-01",
+            "pol-05",
+            "pol-10"
+          ]
+        },
+        "either": {
+          "n": 9,
+          "hit_rate_at_k": {
+            "1": 0.5555555555555556,
+            "3": 0.6666666666666666,
+            "5": 0.8888888888888888,
+            "10": 1.0
+          },
+          "mrr": 0.674074074074074,
+          "excluding_retrievable_but_incomplete": {
+            "n": 8,
+            "hit_rate_at_k": {
+              "1": 0.5,
+              "3": 0.625,
+              "5": 0.875,
+              "10": 1.0
+            },
+            "mrr": 0.6333333333333333
+          },
+          "retrievable_but_incomplete_ids": [
+            "either-08"
+          ]
+        },
+        "neither": {
+          "n": 5,
+          "hit_rate": null,
+          "note": "undefined for neither -- see confidence_separation instead (METHODOLOGY.md #3)"
+        }
+      },
+      "confidence_separation": {
+        "neither": {
+          "n": 5,
+          "mean": 0.8594846367835999,
+          "median": 0.8153513669967651,
+          "min": 0.6374495625495911,
+          "max": 1.128584623336792
+        },
+        "should_hit": {
+          "n": 46,
+          "mean": 0.7271787757458894,
+          "median": 0.7389726042747498,
+          "min": 0.33732151985168457,
+          "max": 1.3076627254486084
+        },
+        "ranges_overlap": true
+      },
+      "cell_id": "cleaned_pdf__format_aware__cs500_ov50__parent_document",
+      "pdf_variant": "cleaned",
+      "ingestion_mode": "format_aware",
+      "chunk_size": 500,
+      "chunk_overlap": 50,
+      "retriever_strategy": "parent_document",
+      "n_faq_documents": 126,
+      "n_policy_chunks": 292,
+      "n_policy_raw_pages": 73,
+      "mean_rows_per_uniform_chunk": 1.0
+    },
+    {
+      "buckets": {
+        "faq": {
+          "n": 26,
+          "hit_rate_at_k": {
+            "1": 0.5,
+            "3": 0.7692307692307693,
+            "5": 0.8461538461538461,
+            "10": 0.8846153846153846
+          },
+          "mrr": 0.6458333333333334,
+          "source_routing_accuracy": 0.8846153846153846,
+          "by_lexical_overlap": {
+            "high_overlap": {
+              "n": 3,
+              "hit_rate_at_k": {
+                "1": 1.0,
+                "3": 1.0,
+                "5": 1.0,
+                "10": 1.0
+              },
+              "mrr": 1.0
+            },
+            "low_overlap": {
+              "n": 23,
+              "hit_rate_at_k": {
+                "1": 0.43478260869565216,
+                "3": 0.7391304347826086,
+                "5": 0.8260869565217391,
+                "10": 0.8695652173913043
+              },
+              "mrr": 0.5996376811594203
+            }
+          }
+        },
+        "policy_pdf": {
+          "n": 11,
+          "hit_rate_at_k": {
+            "1": 0.45454545454545453,
+            "3": 0.6363636363636364,
+            "5": 0.7272727272727273,
+            "10": 0.9090909090909091
+          },
+          "mrr": 0.5773809523809523,
+          "source_routing_accuracy": 0.9090909090909091,
+          "excluding_retrievable_but_incomplete": {
+            "n": 8,
+            "hit_rate_at_k": {
+              "1": 0.625,
+              "3": 0.75,
+              "5": 0.75,
+              "10": 1.0
+            },
+            "mrr": 0.7209821428571429
+          },
+          "retrievable_but_incomplete_ids": [
+            "pol-01",
+            "pol-05",
+            "pol-10"
+          ]
+        },
+        "either": {
+          "n": 9,
+          "hit_rate_at_k": {
+            "1": 0.4444444444444444,
+            "3": 0.7777777777777778,
+            "5": 1.0,
+            "10": 1.0
+          },
+          "mrr": 0.6481481481481481,
+          "excluding_retrievable_but_incomplete": {
+            "n": 8,
+            "hit_rate_at_k": {
+              "1": 0.375,
+              "3": 0.75,
+              "5": 1.0,
+              "10": 1.0
+            },
+            "mrr": 0.6041666666666666
+          },
+          "retrievable_but_incomplete_ids": [
+            "either-08"
+          ]
+        },
+        "neither": {
+          "n": 5,
+          "hit_rate": null,
+          "note": "undefined for neither -- see confidence_separation instead (METHODOLOGY.md #3)"
+        }
+      },
+      "confidence_separation": {
+        "neither": {
+          "n": 5,
+          "mean": 0.8286578893661499,
+          "median": 0.8153513669967651,
+          "min": 0.6216886043548584,
+          "max": 0.9902118444442749
+        },
+        "should_hit": {
+          "n": 46,
+          "mean": 0.7344649874645731,
+          "median": 0.7389726042747498,
+          "min": 0.33732151985168457,
+          "max": 1.3076627254486084
+        },
+        "ranges_overlap": true
+      },
+      "cell_id": "cleaned_pdf__format_aware__cs800_ov100__similarity",
+      "pdf_variant": "cleaned",
+      "ingestion_mode": "format_aware",
+      "chunk_size": 800,
+      "chunk_overlap": 100,
+      "retriever_strategy": "similarity",
+      "n_faq_documents": 126,
+      "n_policy_chunks": 196,
+      "n_policy_raw_pages": 73,
+      "mean_rows_per_uniform_chunk": 1.0
+    },
+    {
+      "buckets": {
+        "faq": {
+          "n": 26,
+          "hit_rate_at_k": {
+            "1": 0.5,
+            "3": 0.7692307692307693,
+            "5": 0.8461538461538461,
+            "10": 0.8846153846153846
+          },
+          "mrr": 0.6458333333333334,
+          "source_routing_accuracy": 0.8846153846153846,
+          "by_lexical_overlap": {
+            "high_overlap": {
+              "n": 3,
+              "hit_rate_at_k": {
+                "1": 1.0,
+                "3": 1.0,
+                "5": 1.0,
+                "10": 1.0
+              },
+              "mrr": 1.0
+            },
+            "low_overlap": {
+              "n": 23,
+              "hit_rate_at_k": {
+                "1": 0.43478260869565216,
+                "3": 0.7391304347826086,
+                "5": 0.8260869565217391,
+                "10": 0.8695652173913043
+              },
+              "mrr": 0.5996376811594203
+            }
+          }
+        },
+        "policy_pdf": {
+          "n": 11,
+          "hit_rate_at_k": {
+            "1": 0.45454545454545453,
+            "3": 0.6363636363636364,
+            "5": 0.7272727272727273,
+            "10": 0.9090909090909091
+          },
+          "mrr": 0.5773809523809523,
+          "source_routing_accuracy": 0.9090909090909091,
+          "excluding_retrievable_but_incomplete": {
+            "n": 8,
+            "hit_rate_at_k": {
+              "1": 0.625,
+              "3": 0.75,
+              "5": 0.75,
+              "10": 1.0
+            },
+            "mrr": 0.7209821428571429
+          },
+          "retrievable_but_incomplete_ids": [
+            "pol-01",
+            "pol-05",
+            "pol-10"
+          ]
+        },
+        "either": {
+          "n": 9,
+          "hit_rate_at_k": {
+            "1": 0.4444444444444444,
+            "3": 0.7777777777777778,
+            "5": 1.0,
+            "10": 1.0
+          },
+          "mrr": 0.6481481481481481,
+          "excluding_retrievable_but_incomplete": {
+            "n": 8,
+            "hit_rate_at_k": {
+              "1": 0.375,
+              "3": 0.75,
+              "5": 1.0,
+              "10": 1.0
+            },
+            "mrr": 0.6041666666666666
+          },
+          "retrievable_but_incomplete_ids": [
+            "either-08"
+          ]
+        },
+        "neither": {
+          "n": 5,
+          "hit_rate": null,
+          "note": "undefined for neither -- see confidence_separation instead (METHODOLOGY.md #3)"
+        }
+      },
+      "confidence_separation": {
+        "neither": {
+          "n": 5,
+          "mean": 0.8286578893661499,
+          "median": 0.8153513669967651,
+          "min": 0.6216886043548584,
+          "max": 0.9902118444442749
+        },
+        "should_hit": {
+          "n": 46,
+          "mean": 0.7342937497988992,
+          "median": 0.7389726042747498,
+          "min": 0.33732151985168457,
+          "max": 1.3076627254486084
+        },
+        "ranges_overlap": true
+      },
+      "cell_id": "cleaned_pdf__format_aware__cs800_ov100__parent_document",
+      "pdf_variant": "cleaned",
+      "ingestion_mode": "format_aware",
+      "chunk_size": 800,
+      "chunk_overlap": 100,
+      "retriever_strategy": "parent_document",
+      "n_faq_documents": 126,
+      "n_policy_chunks": 196,
+      "n_policy_raw_pages": 73,
+      "mean_rows_per_uniform_chunk": 1.0
+    },
+    {
+      "buckets": {
+        "faq": {
+          "n": 26,
+          "hit_rate_at_k": {
+            "1": 0.46153846153846156,
+            "3": 0.6538461538461539,
+            "5": 0.7307692307692307,
+            "10": 0.8076923076923077
+          },
+          "mrr": 0.5667582417582417,
+          "source_routing_accuracy": 0.7692307692307693,
+          "by_lexical_overlap": {
+            "high_overlap": {
+              "n": 3,
+              "hit_rate_at_k": {
+                "1": 1.0,
+                "3": 1.0,
+                "5": 1.0,
+                "10": 1.0
+              },
+              "mrr": 1.0
+            },
+            "low_overlap": {
+              "n": 23,
+              "hit_rate_at_k": {
+                "1": 0.391304347826087,
+                "3": 0.6086956521739131,
+                "5": 0.6956521739130435,
+                "10": 0.782608695652174
+              },
+              "mrr": 0.510248447204969
+            }
+          }
+        },
+        "policy_pdf": {
+          "n": 11,
+          "hit_rate_at_k": {
+            "1": 0.2727272727272727,
+            "3": 0.5454545454545454,
+            "5": 0.9090909090909091,
+            "10": 0.9090909090909091
+          },
+          "mrr": 0.47575757575757577,
+          "source_routing_accuracy": 0.8181818181818182,
+          "excluding_retrievable_but_incomplete": {
+            "n": 8,
+            "hit_rate_at_k": {
+              "1": 0.375,
+              "3": 0.75,
+              "5": 1.0,
+              "10": 1.0
+            },
+            "mrr": 0.5979166666666667
+          },
+          "retrievable_but_incomplete_ids": [
+            "pol-01",
+            "pol-05",
+            "pol-10"
+          ]
+        },
+        "either": {
+          "n": 9,
+          "hit_rate_at_k": {
+            "1": 0.6666666666666666,
+            "3": 0.7777777777777778,
+            "5": 0.7777777777777778,
+            "10": 1.0
+          },
+          "mrr": 0.751984126984127,
+          "excluding_retrievable_but_incomplete": {
+            "n": 8,
+            "hit_rate_at_k": {
+              "1": 0.625,
+              "3": 0.75,
+              "5": 0.75,
+              "10": 1.0
+            },
+            "mrr": 0.7209821428571429
+          },
+          "retrievable_but_incomplete_ids": [
+            "either-08"
+          ]
+        },
+        "neither": {
+          "n": 5,
+          "hit_rate": null,
+          "note": "undefined for neither -- see confidence_separation instead (METHODOLOGY.md #3)"
+        }
+      },
+      "confidence_separation": {
+        "neither": {
+          "n": 5,
+          "mean": 0.806121826171875,
+          "median": 0.7721003293991089,
+          "min": 0.7296692132949829,
+          "max": 0.9597464203834534
+        },
+        "should_hit": {
+          "n": 46,
+          "mean": 0.626934636708187,
+          "median": 0.6427370607852936,
+          "min": 0.10592406243085861,
+          "max": 1.3076627254486084
+        },
+        "ranges_overlap": true
+      },
+      "cell_id": "cleaned_pdf__uniform__cs200_ov20__similarity",
+      "pdf_variant": "cleaned",
+      "ingestion_mode": "uniform",
+      "chunk_size": 200,
+      "chunk_overlap": 20,
+      "retriever_strategy": "similarity",
+      "n_faq_documents": 249,
+      "n_policy_chunks": 720,
+      "n_policy_raw_pages": 73,
+      "mean_rows_per_uniform_chunk": 1.0040160642570282
+    },
+    {
+      "buckets": {
+        "faq": {
+          "n": 26,
+          "hit_rate_at_k": {
+            "1": 0.46153846153846156,
+            "3": 0.6538461538461539,
+            "5": 0.6923076923076923,
+            "10": 0.7692307692307693
+          },
+          "mrr": 0.5580586080586081,
+          "source_routing_accuracy": 0.7692307692307693,
+          "by_lexical_overlap": {
+            "high_overlap": {
+              "n": 3,
+              "hit_rate_at_k": {
+                "1": 1.0,
+                "3": 1.0,
+                "5": 1.0,
+                "10": 1.0
+              },
+              "mrr": 1.0
+            },
+            "low_overlap": {
+              "n": 23,
+              "hit_rate_at_k": {
+                "1": 0.391304347826087,
+                "3": 0.6086956521739131,
+                "5": 0.6521739130434783,
+                "10": 0.7391304347826086
+              },
+              "mrr": 0.5004140786749482
+            }
+          }
+        },
+        "policy_pdf": {
+          "n": 11,
+          "hit_rate_at_k": {
+            "1": 0.18181818181818182,
+            "3": 0.6363636363636364,
+            "5": 0.7272727272727273,
+            "10": 0.9090909090909091
+          },
+          "mrr": 0.4251082251082251,
+          "source_routing_accuracy": 0.8181818181818182,
+          "excluding_retrievable_but_incomplete": {
+            "n": 8,
+            "hit_rate_at_k": {
+              "1": 0.25,
+              "3": 0.75,
+              "5": 0.75,
+              "10": 1.0
+            },
+            "mrr": 0.5178571428571429
+          },
+          "retrievable_but_incomplete_ids": [
+            "pol-01",
+            "pol-05",
+            "pol-10"
+          ]
+        },
+        "either": {
+          "n": 9,
+          "hit_rate_at_k": {
+            "1": 0.5555555555555556,
+            "3": 0.6666666666666666,
+            "5": 0.7777777777777778,
+            "10": 1.0
+          },
+          "mrr": 0.665079365079365,
+          "excluding_retrievable_but_incomplete": {
+            "n": 8,
+            "hit_rate_at_k": {
+              "1": 0.5,
+              "3": 0.625,
+              "5": 0.75,
+              "10": 1.0
+            },
+            "mrr": 0.6232142857142857
+          },
+          "retrievable_but_incomplete_ids": [
+            "either-08"
+          ]
+        },
+        "neither": {
+          "n": 5,
+          "hit_rate": null,
+          "note": "undefined for neither -- see confidence_separation instead (METHODOLOGY.md #3)"
+        }
+      },
+      "confidence_separation": {
+        "neither": {
+          "n": 5,
+          "mean": 0.7876270771026611,
+          "median": 0.7559258937835693,
+          "min": 0.7296692132949829,
+          "max": 0.9546772241592407
+        },
+        "should_hit": {
+          "n": 46,
+          "mean": 0.6173603853777699,
+          "median": 0.6427370607852936,
+          "min": 0.10592406243085861,
+          "max": 1.3076627254486084
+        },
+        "ranges_overlap": true
+      },
+      "cell_id": "cleaned_pdf__uniform__cs200_ov20__parent_document",
+      "pdf_variant": "cleaned",
+      "ingestion_mode": "uniform",
+      "chunk_size": 200,
+      "chunk_overlap": 20,
+      "retriever_strategy": "parent_document",
+      "n_faq_documents": 249,
+      "n_policy_chunks": 720,
+      "n_policy_raw_pages": 73,
+      "mean_rows_per_uniform_chunk": 1.0040160642570282
+    },
+    {
+      "buckets": {
+        "faq": {
+          "n": 26,
+          "hit_rate_at_k": {
+            "1": 0.4230769230769231,
+            "3": 0.6538461538461539,
+            "5": 0.7692307692307693,
+            "10": 0.8076923076923077
+          },
+          "mrr": 0.5653846153846154,
+          "source_routing_accuracy": 0.8076923076923077,
+          "by_lexical_overlap": {
+            "high_overlap": {
+              "n": 3,
+              "hit_rate_at_k": {
+                "1": 0.6666666666666666,
+                "3": 1.0,
+                "5": 1.0,
+                "10": 1.0
+              },
+              "mrr": 0.8333333333333334
+            },
+            "low_overlap": {
+              "n": 23,
+              "hit_rate_at_k": {
+                "1": 0.391304347826087,
+                "3": 0.6086956521739131,
+                "5": 0.7391304347826086,
+                "10": 0.782608695652174
+              },
+              "mrr": 0.5304347826086957
+            }
+          }
+        },
+        "policy_pdf": {
+          "n": 11,
+          "hit_rate_at_k": {
+            "1": 0.5454545454545454,
+            "3": 0.6363636363636364,
+            "5": 0.6363636363636364,
+            "10": 0.7272727272727273
+          },
+          "mrr": 0.6038961038961039,
+          "source_routing_accuracy": 1.0,
+          "excluding_retrievable_but_incomplete": {
+            "n": 8,
+            "hit_rate_at_k": {
+              "1": 0.625,
+              "3": 0.75,
+              "5": 0.75,
+              "10": 0.75
+            },
+            "mrr": 0.6875
+          },
+          "retrievable_but_incomplete_ids": [
+            "pol-01",
+            "pol-05",
+            "pol-10"
+          ]
+        },
+        "either": {
+          "n": 9,
+          "hit_rate_at_k": {
+            "1": 0.4444444444444444,
+            "3": 0.5555555555555556,
+            "5": 0.6666666666666666,
+            "10": 1.0
+          },
+          "mrr": 0.5530864197530864,
+          "excluding_retrievable_but_incomplete": {
+            "n": 8,
+            "hit_rate_at_k": {
+              "1": 0.375,
+              "3": 0.5,
+              "5": 0.625,
+              "10": 1.0
+            },
+            "mrr": 0.49722222222222223
+          },
+          "retrievable_but_incomplete_ids": [
+            "either-08"
+          ]
+        },
+        "neither": {
+          "n": 5,
+          "hit_rate": null,
+          "note": "undefined for neither -- see confidence_separation instead (METHODOLOGY.md #3)"
+        }
+      },
+      "confidence_separation": {
+        "neither": {
+          "n": 5,
+          "mean": 0.8623594045639038,
+          "median": 0.8746461272239685,
+          "min": 0.6374495625495911,
+          "max": 1.0836637020111084
+        },
+        "should_hit": {
+          "n": 46,
+          "mean": 0.768795617248701,
+          "median": 0.7945830225944519,
+          "min": 0.3373214900493622,
+          "max": 1.480459213256836
+        },
+        "ranges_overlap": true
+      },
+      "cell_id": "cleaned_pdf__uniform__cs500_ov50__similarity",
+      "pdf_variant": "cleaned",
+      "ingestion_mode": "uniform",
+      "chunk_size": 500,
+      "chunk_overlap": 50,
+      "retriever_strategy": "similarity",
+      "n_faq_documents": 87,
+      "n_policy_chunks": 292,
+      "n_policy_raw_pages": 73,
+      "mean_rows_per_uniform_chunk": 1.5172413793103448
+    },
+    {
+      "buckets": {
+        "faq": {
+          "n": 26,
+          "hit_rate_at_k": {
+            "1": 0.4230769230769231,
+            "3": 0.6538461538461539,
+            "5": 0.7307692307692307,
+            "10": 0.8076923076923077
+          },
+          "mrr": 0.5621794871794872,
+          "source_routing_accuracy": 0.7692307692307693,
+          "by_lexical_overlap": {
+            "high_overlap": {
+              "n": 3,
+              "hit_rate_at_k": {
+                "1": 0.6666666666666666,
+                "3": 1.0,
+                "5": 1.0,
+                "10": 1.0
+              },
+              "mrr": 0.8333333333333334
+            },
+            "low_overlap": {
+              "n": 23,
+              "hit_rate_at_k": {
+                "1": 0.391304347826087,
+                "3": 0.6086956521739131,
+                "5": 0.6956521739130435,
+                "10": 0.782608695652174
+              },
+              "mrr": 0.5268115942028986
+            }
+          }
+        },
+        "policy_pdf": {
+          "n": 11,
+          "hit_rate_at_k": {
+            "1": 0.5454545454545454,
+            "3": 0.7272727272727273,
+            "5": 0.7272727272727273,
+            "10": 0.8181818181818182
+          },
+          "mrr": 0.6454545454545455,
+          "source_routing_accuracy": 1.0,
+          "excluding_retrievable_but_incomplete": {
+            "n": 8,
+            "hit_rate_at_k": {
+              "1": 0.625,
+              "3": 0.75,
+              "5": 0.75,
+              "10": 0.875
+            },
+            "mrr": 0.7
+          },
+          "retrievable_but_incomplete_ids": [
+            "pol-01",
+            "pol-05",
+            "pol-10"
+          ]
+        },
+        "either": {
+          "n": 9,
+          "hit_rate_at_k": {
+            "1": 0.5555555555555556,
+            "3": 0.5555555555555556,
+            "5": 0.7777777777777778,
+            "10": 0.8888888888888888
+          },
+          "mrr": 0.6185185185185185,
+          "excluding_retrievable_but_incomplete": {
+            "n": 8,
+            "hit_rate_at_k": {
+              "1": 0.5,
+              "3": 0.5,
+              "5": 0.75,
+              "10": 0.875
+            },
+            "mrr": 0.5708333333333333
+          },
+          "retrievable_but_incomplete_ids": [
+            "either-08"
+          ]
+        },
+        "neither": {
+          "n": 5,
+          "hit_rate": null,
+          "note": "undefined for neither -- see confidence_separation instead (METHODOLOGY.md #3)"
+        }
+      },
+      "confidence_separation": {
+        "neither": {
+          "n": 5,
+          "mean": 0.8713435888290405,
+          "median": 0.8746461272239685,
+          "min": 0.6374495625495911,
+          "max": 1.128584623336792
+        },
+        "should_hit": {
+          "n": 46,
+          "mean": 0.7708768792774366,
+          "median": 0.7769100368022919,
+          "min": 0.3373214900493622,
+          "max": 1.480459213256836
+        },
+        "ranges_overlap": true
+      },
+      "cell_id": "cleaned_pdf__uniform__cs500_ov50__parent_document",
+      "pdf_variant": "cleaned",
+      "ingestion_mode": "uniform",
+      "chunk_size": 500,
+      "chunk_overlap": 50,
+      "retriever_strategy": "parent_document",
+      "n_faq_documents": 87,
+      "n_policy_chunks": 292,
+      "n_policy_raw_pages": 73,
+      "mean_rows_per_uniform_chunk": 1.5172413793103448
+    },
+    {
+      "buckets": {
+        "faq": {
+          "n": 26,
+          "hit_rate_at_k": {
+            "1": 0.38461538461538464,
+            "3": 0.6153846153846154,
+            "5": 0.7692307692307693,
+            "10": 0.8076923076923077
+          },
+          "mrr": 0.528525641025641,
+          "source_routing_accuracy": 0.8076923076923077,
+          "by_lexical_overlap": {
+            "high_overlap": {
+              "n": 3,
+              "hit_rate_at_k": {
+                "1": 0.6666666666666666,
+                "3": 0.6666666666666666,
+                "5": 1.0,
+                "10": 1.0
+              },
+              "mrr": 0.7333333333333334
+            },
+            "low_overlap": {
+              "n": 23,
+              "hit_rate_at_k": {
+                "1": 0.34782608695652173,
+                "3": 0.6086956521739131,
+                "5": 0.7391304347826086,
+                "10": 0.782608695652174
+              },
+              "mrr": 0.5018115942028986
+            }
+          }
+        },
+        "policy_pdf": {
+          "n": 11,
+          "hit_rate_at_k": {
+            "1": 0.45454545454545453,
+            "3": 0.6363636363636364,
+            "5": 0.8181818181818182,
+            "10": 0.9090909090909091
+          },
+          "mrr": 0.5841991341991342,
+          "source_routing_accuracy": 1.0,
+          "excluding_retrievable_but_incomplete": {
+            "n": 8,
+            "hit_rate_at_k": {
+              "1": 0.625,
+              "3": 0.75,
+              "5": 0.875,
+              "10": 1.0
+            },
+            "mrr": 0.7303571428571428
+          },
+          "retrievable_but_incomplete_ids": [
+            "pol-01",
+            "pol-05",
+            "pol-10"
+          ]
+        },
+        "either": {
+          "n": 9,
+          "hit_rate_at_k": {
+            "1": 0.5555555555555556,
+            "3": 0.6666666666666666,
+            "5": 0.8888888888888888,
+            "10": 1.0
+          },
+          "mrr": 0.6777777777777778,
+          "excluding_retrievable_but_incomplete": {
+            "n": 8,
+            "hit_rate_at_k": {
+              "1": 0.5,
+              "3": 0.625,
+              "5": 0.875,
+              "10": 1.0
+            },
+            "mrr": 0.6375
+          },
+          "retrievable_but_incomplete_ids": [
+            "either-08"
+          ]
+        },
+        "neither": {
+          "n": 5,
+          "hit_rate": null,
+          "note": "undefined for neither -- see confidence_separation instead (METHODOLOGY.md #3)"
+        }
+      },
+      "confidence_separation": {
+        "neither": {
+          "n": 5,
+          "mean": 0.8597848296165467,
+          "median": 0.9383498430252075,
+          "min": 0.6216886043548584,
+          "max": 1.045343279838562
+        },
+        "should_hit": {
+          "n": 46,
+          "mean": 0.8278684881718262,
+          "median": 0.8366855084896088,
+          "min": 0.4123062193393707,
+          "max": 1.3380366563796997
+        },
+        "ranges_overlap": true
+      },
+      "cell_id": "cleaned_pdf__uniform__cs800_ov100__similarity",
+      "pdf_variant": "cleaned",
+      "ingestion_mode": "uniform",
+      "chunk_size": 800,
+      "chunk_overlap": 100,
+      "retriever_strategy": "similarity",
+      "n_faq_documents": 51,
+      "n_policy_chunks": 196,
+      "n_policy_raw_pages": 73,
+      "mean_rows_per_uniform_chunk": 2.5098039215686274
+    },
+    {
+      "buckets": {
+        "faq": {
+          "n": 26,
+          "hit_rate_at_k": {
+            "1": 0.38461538461538464,
+            "3": 0.6153846153846154,
+            "5": 0.7692307692307693,
+            "10": 0.8076923076923077
+          },
+          "mrr": 0.528525641025641,
+          "source_routing_accuracy": 0.8076923076923077,
+          "by_lexical_overlap": {
+            "high_overlap": {
+              "n": 3,
+              "hit_rate_at_k": {
+                "1": 0.6666666666666666,
+                "3": 0.6666666666666666,
+                "5": 1.0,
+                "10": 1.0
+              },
+              "mrr": 0.7333333333333334
+            },
+            "low_overlap": {
+              "n": 23,
+              "hit_rate_at_k": {
+                "1": 0.34782608695652173,
+                "3": 0.6086956521739131,
+                "5": 0.7391304347826086,
+                "10": 0.782608695652174
+              },
+              "mrr": 0.5018115942028986
+            }
+          }
+        },
+        "policy_pdf": {
+          "n": 11,
+          "hit_rate_at_k": {
+            "1": 0.45454545454545453,
+            "3": 0.6363636363636364,
+            "5": 0.8181818181818182,
+            "10": 0.9090909090909091
+          },
+          "mrr": 0.5841991341991342,
+          "source_routing_accuracy": 1.0,
+          "excluding_retrievable_but_incomplete": {
+            "n": 8,
+            "hit_rate_at_k": {
+              "1": 0.625,
+              "3": 0.75,
+              "5": 0.875,
+              "10": 1.0
+            },
+            "mrr": 0.7303571428571428
+          },
+          "retrievable_but_incomplete_ids": [
+            "pol-01",
+            "pol-05",
+            "pol-10"
+          ]
+        },
+        "either": {
+          "n": 9,
+          "hit_rate_at_k": {
+            "1": 0.5555555555555556,
+            "3": 0.6666666666666666,
+            "5": 0.8888888888888888,
+            "10": 1.0
+          },
+          "mrr": 0.6777777777777778,
+          "excluding_retrievable_but_incomplete": {
+            "n": 8,
+            "hit_rate_at_k": {
+              "1": 0.5,
+              "3": 0.625,
+              "5": 0.875,
+              "10": 1.0
+            },
+            "mrr": 0.6375
+          },
+          "retrievable_but_incomplete_ids": [
+            "either-08"
+          ]
+        },
+        "neither": {
+          "n": 5,
+          "hit_rate": null,
+          "note": "undefined for neither -- see confidence_separation instead (METHODOLOGY.md #3)"
+        }
+      },
+      "confidence_separation": {
+        "neither": {
+          "n": 5,
+          "mean": 0.8563673377037049,
+          "median": 0.9212623834609985,
+          "min": 0.6216886043548584,
+          "max": 1.045343279838562
+        },
+        "should_hit": {
+          "n": 46,
+          "mean": 0.8276972505061523,
+          "median": 0.8366855084896088,
+          "min": 0.4123062193393707,
+          "max": 1.3380366563796997
+        },
+        "ranges_overlap": true
+      },
+      "cell_id": "cleaned_pdf__uniform__cs800_ov100__parent_document",
+      "pdf_variant": "cleaned",
+      "ingestion_mode": "uniform",
+      "chunk_size": 800,
+      "chunk_overlap": 100,
+      "retriever_strategy": "parent_document",
+      "n_faq_documents": 51,
+      "n_policy_chunks": 196,
+      "n_policy_raw_pages": 73,
       "mean_rows_per_uniform_chunk": 2.5098039215686274
     }
   ],

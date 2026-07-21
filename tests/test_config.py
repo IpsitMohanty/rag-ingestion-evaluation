@@ -26,6 +26,13 @@ def test_policy_pdf_source_type_splits_with_configured_sizes():
     assert 0 <= pdf.splitter.chunk_overlap < pdf.splitter.chunk_size
 
 
+def test_default_config_uses_raw_pdf_not_cleaned():
+    """Adding the cleaned-PDF variant must not silently change existing
+    CLI/app behavior -- raw stays the default until the swept numbers
+    (results/ANALYSIS.md) say otherwise."""
+    assert DEFAULT_CONFIG.ingestion.source_types["policy_pdf"].clean is False
+
+
 def test_config_is_frozen():
     with pytest.raises(dataclasses.FrozenInstanceError):
         DEFAULT_CONFIG.retriever.k = 99

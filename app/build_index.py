@@ -22,6 +22,7 @@ retrieval. Run this before committing a rebuilt index:
 
 Usage: python app/build_index.py
 """
+import dataclasses
 import shutil
 import sys
 from pathlib import Path
@@ -31,12 +32,37 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from app_logic import PREBUILT_INDEX_DIR, build_vectorstore  # noqa: E402
 
 
+def _cleaned_pdf_ingestion_config():
+    """The app's prebuilt index uses the cleaned PDF variant (stripped
+    running headers, dropped title page/table of contents) -- a
+    presentation/demo-legibility choice, not a retrieval-quality claim:
+    results/ANALYSIS.md's "Cleaned vs raw PDF" section found no
+    detectable difference between raw and cleaned at the swept scale
+    (hit@5 identical at the representative cell; no config in the 6-way
+    robustness grid cleared the pre-committed 0.182 bar). Phase 1's
+    general default (`config.DEFAULT_CONFIG`, used by `python
+    src/cli.py ingest`) stays raw/unchanged -- only this app-specific
+    build opts into cleaning.
+    """
+    from config import DEFAULT_CONFIG
+
+    policy_pdf = dataclasses.replace(
+        DEFAULT_CONFIG.ingestion.source_types["policy_pdf"], clean=True
+    )
+    return dataclasses.replace(
+        DEFAULT_CONFIG.ingestion,
+        source_types={**DEFAULT_CONFIG.ingestion.source_types, "policy_pdf": policy_pdf},
+    )
+
+
 def main() -> None:
     if PREBUILT_INDEX_DIR.exists():
         shutil.rmtree(PREBUILT_INDEX_DIR)
 
-    build_vectorstore(persist_directory=PREBUILT_INDEX_DIR)
-    print(f"Prebuilt index written to {PREBUILT_INDEX_DIR}")
+    build_vectorstore(
+        persist_directory=PREBUILT_INDEX_DIR, ingestion_config=_cleaned_pdf_ingestion_config()
+    )
+    print(f"Prebuilt index (cleaned PDF variant) written to {PREBUILT_INDEX_DIR}")
     print(
         "\nREQUIRED NEXT STEP: RUN_NETWORK_TESTS=1 pytest tests/test_onnx_parity.py -v\n"
         "CI will NOT catch a mismatch here -- that test is network-gated and skipped in CI."

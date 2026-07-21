@@ -171,11 +171,13 @@ exhaustive grid... runs in minutes"):
   to stress-test the uniform arm's merging behavior on the FAQ blob (3)
 - retriever strategy (policy sub-index only): `similarity`,
   `parent_document` (2)
+- PDF variant (policy sub-index only, added per #8 below): `raw`,
+  `cleaned` (2)
 
-12 sweep cells total. `parent_document`'s parent splitter is fixed at
-3x the cell's chunk_size/overlap (not swept independently -- one more
-free dimension than the corpus and query-set size can support
-meaningfully).
+24 sweep cells total (was 12 before the PDF-variant axis). `parent_document`'s
+parent splitter is fixed at 3x the cell's chunk_size/overlap (not swept
+independently -- one more free dimension than the corpus and query-set
+size can support meaningfully).
 
 ## 7. Run count
 
@@ -188,3 +190,143 @@ stochastic algorithm or an LLM-generation arm). Determinism itself is
 asserted by a test (`tests/test_eval_determinism.py`) rather than
 demonstrated by repeated sweep runs, which would just waste time
 reproducing the same numbers.
+
+## 8. Cleaned-PDF ingestion variant: what "cleaned" means, and why not less
+
+Added after inspecting an actual retrieval result for the "neither"
+preset query (Poshan ke Paanch Sutra) at k=10: several of the returned
+chunks were page furniture, not policy content -- the title page, the
+table of contents, and a running header ("Saksham Anganwadi and Poshan
+2.0" plus a printed page number) prefixed to every content page. The two-
+source opposition (atomic FAQ vs. long PDF) is the experimental design
+and stays; this adds a second, orthogonal axis -- how the PDF side is
+*cleaned* before chunking -- alongside it, not instead of it. `raw` (the
+existing, phase-1 behavior) and `cleaned` are both real, kept,
+selectable via `config.SourceTypeSettings.clean` -- see
+`adapters/ingestion.py::clean_policy_pdf_documents` for the
+implementation this section explains.
+
+**Running header/footer**: detected, not hardcoded to this document's
+exact title text -- the most common non-blank first (or last) line
+across all 77 raw pages, if it recurs on >=60% of them. Below that
+threshold a line is treated as real, page-specific content (this
+matters concretely: the document's own "***" section-end marker closes
+5 of 77 pages -- 6%, nowhere near the threshold -- and is correctly left
+alone rather than stripped as a false "footer"). The header line found
+this way ("Saksham Anganwadi and Poshan 2.0") is stripped from each
+page's first line when present, along with an immediately-following (or
+blank-line-separated -- both forms occur in this PDF) page-number-only
+line. No running footer was detected in this document (nothing recurs
+above the threshold), so footer-stripping is a no-op here -- implemented
+for completeness/reuse, not because this PDF needed it.
+
+**Front matter**: two content-based signals, checked against every page,
+not a hardcoded page range --
+  - **Table of contents**: >=3 dot-leader patterns (`"…….12"`-style)
+    on the page. This document's 3 actual TOC pages score 21-23 matches
+    each; every other page scores 0-1 -- a wide margin, not a tuned
+    threshold sitting close to real content.
+  - **Title page**: page index 0 *and* under 300 characters once the
+    header's stripped. Deliberately narrow (position AND content, not
+    either alone) -- this document's real short content pages (closing
+    paragraphs, "***" section-enders, e.g. printed pages 6 and 73) run
+    150-250 characters but are never page index 0, so they're never at
+    risk of being flagged.
+
+Result on this corpus: pages 1-4 dropped (title page + 3 pages of table
+of contents), 73 of 77 pages survive with their running header removed.
+`metadata["page"]` is left unchanged on every surviving page -- this is
+required, not incidental: `eval/queries.yaml`'s policy_pdf ground truths
+are page-number references (e.g. `pol-07` -> page 18), and none of them
+fall in the dropped 1-4 range (checked directly), so every existing
+ground truth stays meaningful under both variants without any changes
+to the query set.
+
+**Explicitly not claimed**: this is a corpus-specific heuristic, checked
+against this one document's actual structure (every threshold above is
+justified with this document's real numbers, not chosen a priori). It is
+not offered as a general-purpose PDF front-matter/header stripper --
+`tests/test_ingestion_pdf.py::TestPdfCleaning` pins down the specific
+pages/behavior this corpus produces, not a claim that the same
+thresholds would work on a differently-structured document.
+
+**Decision on which variant ships in the deployed app**: deferred until
+the swept numbers (`results/ANALYSIS.md`) show whether cleaning
+measurably changes retrieval quality -- reported, not assumed, per the
+same standard as every other finding in this evaluation.
+
+### 8a. Decision rule, written before the raw-vs-cleaned numbers were looked at
+
+**Correction to the premise this was requested under**: this pipeline is
+*not* a case of "rerunning gives different numbers, so there's a rough
+noise floor to measure." Embedding inference and Chroma similarity
+search are deterministic given fixed model weights -- `tests/
+test_eval_determinism.py` asserts bit-identical output across repeated
+runs of the same cell (METHODOLOGY.md #7). There is no run-to-run
+variance here to build a threshold from; that description matches a
+stochastic training pipeline (e.g. epoch-to-epoch variation in a model-
+training repo), not this one. The honest equivalent available here is
+**cross-configuration spread**: how much policy_pdf hit-rate already
+moves between configurations that have nothing to do with cleaning
+(chunk_size, retriever strategy), which puts a floor under how small a
+raw-vs-cleaned difference can be before it's indistinguishable from
+"numbers just move around."
+
+Measured from the existing (pre-cleaning-axis) sweep, the 6
+chunk_size x retriever_strategy combinations on the *raw* PDF:
+
+| chunk_size | retriever | policy_pdf hit@1 | policy_pdf hit@5 | policy_pdf hit@10 | MRR |
+|---|---|---|---|---|---|
+| 200 | similarity | 0.455 | 0.727 | 0.818 | 0.579 |
+| 200 | parent_document | 0.455 | 0.727 | 0.727 | 0.564 |
+| 500 | similarity | 0.545 | 0.545 | 0.727 | 0.571 |
+| 500 | parent_document | 0.545 | 0.727 | 0.818 | 0.620 |
+| 800 | similarity | 0.636 | 0.727 | 0.909 | 0.691 |
+| 800 | parent_document | 0.636 | 0.727 | 0.909 | 0.691 |
+
+hit@5 spans 0.545-0.727 (a 0.182 spread) across configurations that
+never touch cleaning at all. With n=11 policy_pdf queries, one query
+flipping is worth exactly 1/11 = 0.0909 -- so this 0.182 spread is
+already 2 queries' worth of movement from chunk_size/retriever choice
+alone.
+
+**Decision rule (fixed now, applied without adjustment once the numbers
+land):**
+
+> **Primary test**, at the same representative cell every other finding
+> in this evaluation is reported against (`format_aware`, chunk_size=800,
+> `similarity`): cleaning counts as a real effect on the policy_pdf
+> bucket only if **hit@5 changes by more than 0.182** between the raw
+> and cleaned cells there -- the largest swing already observed between
+> configurations that aren't testing cleaning at all. Anything at or
+> below 0.182 is reported as "cannot be distinguished at this scale," not
+> rounded up to a winner, no matter which direction it points.
+>
+> **Robustness check**: the same raw-vs-cleaned comparison is also read
+> across all 6 chunk_size x retriever_strategy pairs. This is reported
+> descriptively, not gated on a second threshold -- if the primary test
+> passes but the effect is conditional on chunk_size the way Finding #2
+> (format-aware vs uniform chunking) was, that conditional shape gets
+> written down as what it is, not forced into a single number. If the
+> primary test fails (does not clear 0.182), the robustness check is
+> reported as confirming "no effect at any configuration tested," not
+> searched for a config where it might have cleared the bar instead.
+>
+> The same 0.182-equivalent bar (proportionally, since n differs)
+> applies to hit@1/hit@10/MRR and to policy_pdf source-routing accuracy
+> as secondary metrics, but hit@5 at the representative cell is the
+> deciding number.
+
+**Prediction, logged before the numbers are read:** cleaning will make
+**no detectable difference** at this threshold. Front matter and running
+headers amount to a handful of chunks (4 dropped pages, ~340 characters
+of header text removed per surviving page) against 213 policy chunks at
+chunk_size=800 (more at smaller sizes) -- unlikely to be within the
+top-k for most of the 11 real policy queries, whose ground truth lives
+in substantive content pages, not the pages/text being removed. If this
+prediction holds, that is itself the reportable result: the front-matter
+and header artifacts visible in the k=10 "neither" demo output were
+cosmetic to retrieval quality, not costly to it -- a different claim
+than "cleaning doesn't matter," and the writeup will say which one the
+data supports, not whichever framing sounds more decisive after the
+fact.

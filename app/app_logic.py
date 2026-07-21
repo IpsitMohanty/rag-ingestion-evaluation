@@ -62,9 +62,17 @@ PRESET_QUERIES = [
 ]
 
 
-def load_corpus_documents() -> list[Document]:
-    """Load and split the full corpus (both source types), exactly as
-    `python src/cli.py ingest data/faq data/policy` would.
+def load_corpus_documents(ingestion_config=None) -> list[Document]:
+    """Load and split the full corpus (both source types).
+
+    Defaults to `DEFAULT_CONFIG.ingestion` (raw PDF -- phase 1's general
+    default, unchanged, used by `python src/cli.py ingest`).
+    `app/build_index.py` passes a cleaned-PDF variant instead: the app's
+    prebuilt index uses `clean=True` for demo legibility (results/
+    ANALYSIS.md found no retrieval-quality difference between raw and
+    cleaned at the swept scale -- this is a presentation choice, not a
+    quality claim). Phase 1's own default stays raw; only the app's
+    build opts into cleaning.
 
     Dev-only path (app/build_index.py). Imports are deferred here, not
     at module load time: `pipeline.ingest`/`pipeline.split` pull in
@@ -76,15 +84,20 @@ def load_corpus_documents() -> list[Document]:
     from pipeline import ingest as ingest_stage
     from pipeline import split as split_stage
 
+    if ingestion_config is None:
+        ingestion_config = DEFAULT_CONFIG.ingestion
+
     grouped: dict[str, list[Document]] = {}
     for folder in (DATA_DIR / "faq", DATA_DIR / "policy"):
-        for source_type, docs in ingest_stage.ingest_folder(folder).items():
+        for source_type, docs in ingest_stage.ingest_folder(folder, ingestion_config).items():
             grouped.setdefault(source_type, []).extend(docs)
-    return split_stage.split_documents(grouped, DEFAULT_CONFIG.ingestion)
+    return split_stage.split_documents(grouped, ingestion_config)
 
 
 def build_vectorstore(
-    embeddings: Embeddings | None = None, persist_directory: Path | None = None
+    embeddings: Embeddings | None = None,
+    persist_directory: Path | None = None,
+    ingestion_config=None,
 ) -> VectorStore:
     """Build a fresh, combined FAQ+policy index using the real
     HuggingFace/torch embeddings backend.
@@ -108,7 +121,7 @@ def build_vectorstore(
     vs_config = replace(DEFAULT_CONFIG.vectorstore, persist_directory=persist_directory)
 
     store = vectorstore_adapter.get_vectorstore(vs_config, embeddings)
-    documents = load_corpus_documents()
+    documents = load_corpus_documents(ingestion_config)
     if documents:
         vectorstore_adapter.index_documents(store, documents)
     return store

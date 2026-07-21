@@ -6,6 +6,7 @@ from pathlib import Path
 from langchain_core.documents import Document
 
 from adapters import ingestion as ingestion_adapter
+from config import DEFAULT_CONFIG, IngestionConfig
 
 # Phase 1 covers exactly the two source types in the brief's corpus, mapped
 # by extension. A new format sharing an existing shape (e.g. a markdown FAQ
@@ -33,15 +34,24 @@ def discover_files(folder: Path) -> dict[str, list[Path]]:
     return grouped
 
 
-def ingest_folder(folder: Path) -> dict[str, list[Document]]:
+def ingest_folder(
+    folder: Path, config: IngestionConfig = DEFAULT_CONFIG.ingestion
+) -> dict[str, list[Document]]:
     """Load every recognized file under `folder`, grouped by source_type.
     No splitting happens here -- that's pipeline/split.py's job, since
     whether/how to split is a per-source-type config decision.
+
+    `config` only affects `policy_pdf` today (via its `clean` setting --
+    see adapters/ingestion.py's load_source); defaults to phase 1's
+    existing (raw, unsplit-FAQ) behavior so existing callers are
+    unaffected if they don't pass one.
     """
     grouped_documents: dict[str, list[Document]] = {}
     for source_type, paths in discover_files(folder).items():
+        settings = config.source_types.get(source_type)
+        clean = settings.clean if settings is not None else False
         for path in paths:
             grouped_documents.setdefault(source_type, []).extend(
-                ingestion_adapter.load_source(source_type, path)
+                ingestion_adapter.load_source(source_type, path, clean=clean)
             )
     return grouped_documents

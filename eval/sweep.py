@@ -17,6 +17,7 @@ from . import corpus, metrics, retrievers
 SWEEP_CHUNK_CONFIGS = [(200, 20), (500, 50), (800, 100)]
 SWEEP_INGESTION_MODES = ["format_aware", "uniform"]
 SWEEP_RETRIEVER_STRATEGIES = ["similarity", "parent_document"]
+SWEEP_PDF_VARIANTS = ["raw", "cleaned"]
 K_VALUES = [1, 3, 5, 10]
 MAX_K = max(K_VALUES)
 
@@ -97,47 +98,56 @@ def evaluate_cell(queries: list[dict], faq_store, policy_index) -> dict:
 
 
 def run_sweep(embeddings, work_dir: Path, queries: list[dict]) -> dict:
-    policy_raw_pages = corpus.build_policy_raw_pages()
     cells = []
 
-    for ingestion_mode in SWEEP_INGESTION_MODES:
-        for chunk_size, chunk_overlap in SWEEP_CHUNK_CONFIGS:
-            faq_docs = corpus.build_faq_documents(ingestion_mode, chunk_size, chunk_overlap)
-            policy_chunks = corpus.build_policy_chunks(chunk_size, chunk_overlap)
-            mean_rows = (
-                corpus.mean_rows_per_uniform_chunk(faq_docs) if ingestion_mode == "uniform" else 1.0
-            )
+    for pdf_variant in SWEEP_PDF_VARIANTS:
+        # Built once per variant, not per cell -- raw/cleaned page text
+        # doesn't depend on chunk_size, ingestion_mode, or retriever_strategy.
+        policy_raw_pages = corpus.build_policy_raw_pages(pdf_variant)
 
-            for retriever_strategy in SWEEP_RETRIEVER_STRATEGIES:
-                cell_id = f"{ingestion_mode}__cs{chunk_size}_ov{chunk_overlap}__{retriever_strategy}"
-                persist_dir = work_dir / cell_id
-
-                retriever_config = RetrieverConfig(
-                    strategy=retriever_strategy,
-                    k=MAX_K,
-                    child_chunk_size=chunk_size,
-                    child_chunk_overlap=chunk_overlap,
-                    parent_chunk_size=chunk_size * 3,
-                    parent_chunk_overlap=chunk_overlap * 3,
+        for ingestion_mode in SWEEP_INGESTION_MODES:
+            for chunk_size, chunk_overlap in SWEEP_CHUNK_CONFIGS:
+                faq_docs = corpus.build_faq_documents(ingestion_mode, chunk_size, chunk_overlap)
+                policy_chunks = corpus.build_policy_chunks(chunk_size, chunk_overlap, pdf_variant)
+                mean_rows = (
+                    corpus.mean_rows_per_uniform_chunk(faq_docs) if ingestion_mode == "uniform" else 1.0
                 )
 
-                faq_store = retrievers.build_faq_index(faq_docs, embeddings, persist_dir / "faq")
-                policy_index = retrievers.build_policy_index(
-                    retriever_strategy, policy_chunks, policy_raw_pages, embeddings,
-                    persist_dir / "policy", retriever_config,
-                )
+                for retriever_strategy in SWEEP_RETRIEVER_STRATEGIES:
+                    cell_id = (
+                        f"{pdf_variant}_pdf__{ingestion_mode}__"
+                        f"cs{chunk_size}_ov{chunk_overlap}__{retriever_strategy}"
+                    )
+                    persist_dir = work_dir / cell_id
 
-                cell_result = evaluate_cell(queries, faq_store, policy_index)
-                cell_result.update({
-                    "cell_id": cell_id,
-                    "ingestion_mode": ingestion_mode,
-                    "chunk_size": chunk_size,
-                    "chunk_overlap": chunk_overlap,
-                    "retriever_strategy": retriever_strategy,
-                    "n_faq_documents": len(faq_docs),
-                    "n_policy_chunks": len(policy_chunks),
-                    "mean_rows_per_uniform_chunk": mean_rows,
-                })
-                cells.append(cell_result)
+                    retriever_config = RetrieverConfig(
+                        strategy=retriever_strategy,
+                        k=MAX_K,
+                        child_chunk_size=chunk_size,
+                        child_chunk_overlap=chunk_overlap,
+                        parent_chunk_size=chunk_size * 3,
+                        parent_chunk_overlap=chunk_overlap * 3,
+                    )
+
+                    faq_store = retrievers.build_faq_index(faq_docs, embeddings, persist_dir / "faq")
+                    policy_index = retrievers.build_policy_index(
+                        retriever_strategy, policy_chunks, policy_raw_pages, embeddings,
+                        persist_dir / "policy", retriever_config,
+                    )
+
+                    cell_result = evaluate_cell(queries, faq_store, policy_index)
+                    cell_result.update({
+                        "cell_id": cell_id,
+                        "pdf_variant": pdf_variant,
+                        "ingestion_mode": ingestion_mode,
+                        "chunk_size": chunk_size,
+                        "chunk_overlap": chunk_overlap,
+                        "retriever_strategy": retriever_strategy,
+                        "n_faq_documents": len(faq_docs),
+                        "n_policy_chunks": len(policy_chunks),
+                        "n_policy_raw_pages": len(policy_raw_pages),
+                        "mean_rows_per_uniform_chunk": mean_rows,
+                    })
+                    cells.append(cell_result)
 
     return {"cells": cells}

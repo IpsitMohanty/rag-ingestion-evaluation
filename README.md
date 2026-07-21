@@ -1,4 +1,4 @@
-# Poshan RAG Evaluation
+# RAG Ingestion Evaluation
 
 A LangChain RAG pipeline (`langchain-core`, `langchain-text-splitters`,
 `langchain-huggingface`, `langchain-chroma` -- ingest -> split -> embed ->
@@ -110,7 +110,13 @@ splitting, its own `chunk_size`/`chunk_overlap`:
   metadata store rejects `None`).
 - **Policy PDF**: `split=True`, `RecursiveCharacterTextSplitter`
   (chunk_size=800, chunk_overlap=100). Loaded page-by-page first
-  (`page` number kept in metadata), then split.
+  (`page` number kept in metadata), then split. `clean: bool = False` is
+  a second, independent PDF-only option: strip running headers/footers
+  and drop front matter (title page, table of contents) before
+  splitting -- see [Phase 2](#phase-2-retrieval-evaluation) for whether
+  the swept numbers show this actually improves retrieval, and
+  `eval/METHODOLOGY.md` #8 for exactly what "cleaned" means and why.
+  `False` (raw) stays the default.
 
 Switching either source type's behavior -- turning splitting on for FAQs,
 changing the PDF's chunk size, adding a third source type -- is a
@@ -303,6 +309,21 @@ doesn't:
    a single flipped query depending on chunk_size, with no consistent
    winner.
 
+7. **Cleaning the PDF (stripping running headers, dropping the title
+   page and table of contents) makes no detectable difference to
+   retrieval.** Predicted and a decision threshold set in writing before
+   the numbers were run (`eval/METHODOLOGY.md` #8a: real effect = hit@5
+   changing by more than 0.182, the largest swing already seen between
+   configurations that aren't testing cleaning). Result: hit@5 at the
+   representative cell is identical (0.727, both variants), and no
+   configuration in a 6-way robustness grid clears the bar either. The
+   front-matter/header artifacts visible in the demo's own "neither"-
+   query output are cosmetic, not a retrieval-quality cost -- see
+   [Cleaned vs raw PDF](results/ANALYSIS.md#cleaned-vs-raw-pdf-does-stripping-headers-and-front-matter-help-retrieval)
+   for the full numbers, including one methodological finding (bucket
+   metrics aren't perfectly isolated to their own side of the corpus)
+   that surfaced along the way.
+
 ### Baseline arm: cost-and-recall, built and run
 
 The reference course notebook that was expected to justify chunking
@@ -419,7 +440,16 @@ The architecture this enabled, not just a backend swap:
   torch/sentence-transformers) builds the full Chroma index once,
   offline, and the result -- `app/prebuilt_index/`, ~3MB -- is committed
   to the repo. The deployed app **loads** this index; it never re-embeds
-  the corpus at startup.
+  the corpus at startup. Uses the **cleaned** PDF variant (stripped
+  running headers, dropped title page/table of contents) -- a
+  **presentation choice, not a retrieval-quality claim**: [Cleaned vs raw
+  PDF](results/ANALYSIS.md#cleaned-vs-raw-pdf-does-stripping-headers-and-front-matter-help-retrieval)
+  found no detectable retrieval difference between the two at the swept
+  scale, so the deployed app uses whichever one demos more legibly (no
+  table-of-contents dot-leaders or title-page fragments in view when a
+  visitor inspects retrieved chunks). Phase 1's own default
+  (`config.DEFAULT_CONFIG`, used by `python src/cli.py ingest`) stays
+  raw, unchanged.
 - **`app/export_onnx_model.py`** (also dev-only) exports
   `all-MiniLM-L6-v2` to ONNX (`app/onnx_model/`, ~87MB, also committed --
   same pattern as cnn-vit-land-classification's committed

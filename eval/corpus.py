@@ -78,15 +78,24 @@ def build_faq_documents(mode: str, chunk_size: int, chunk_overlap: int) -> list[
     raise ValueError(f"Unknown FAQ ingestion mode {mode!r}")
 
 
-def build_policy_raw_pages() -> list[Document]:
-    return ingestion.load_source("policy_pdf", POLICY_PDF_PATH)
+def build_policy_raw_pages(pdf_variant: str = "raw") -> list[Document]:
+    """pdf_variant: "raw" (all 77 pages, running header intact -- phase
+    1's existing default) or "cleaned" (header/footer stripped, title
+    page + table of contents dropped -- see
+    adapters/ingestion.py::clean_policy_pdf_documents and
+    eval/METHODOLOGY.md #8). Both are real, swept alternatives; neither
+    replaces the other.
+    """
+    if pdf_variant not in ("raw", "cleaned"):
+        raise ValueError(f"Unknown pdf_variant {pdf_variant!r}; expected 'raw' or 'cleaned'")
+    return ingestion.load_source("policy_pdf", POLICY_PDF_PATH, clean=(pdf_variant == "cleaned"))
 
 
-def build_policy_chunks(chunk_size: int, chunk_overlap: int) -> list[Document]:
+def build_policy_chunks(chunk_size: int, chunk_overlap: int, pdf_variant: str = "raw") -> list[Document]:
     from config import SourceTypeSettings, SplitterSettings
 
     settings = SourceTypeSettings(split=True, splitter=SplitterSettings(chunk_size, chunk_overlap))
-    return ingestion.split_documents(build_policy_raw_pages(), settings)
+    return ingestion.split_documents(build_policy_raw_pages(pdf_variant), settings)
 
 
 def mean_rows_per_uniform_chunk(uniform_faq_docs: list[Document]) -> float:

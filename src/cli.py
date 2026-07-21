@@ -23,7 +23,7 @@ from pipeline import split as split_stage
 def run_ingest(folders: list[str], config: Config = DEFAULT_CONFIG) -> None:
     grouped_documents: dict = {}
     for folder in folders:
-        for source_type, documents in ingest_stage.ingest_folder(Path(folder)).items():
+        for source_type, documents in ingest_stage.ingest_folder(Path(folder), config.ingestion).items():
             grouped_documents.setdefault(source_type, []).extend(documents)
 
     total_raw = sum(len(docs) for docs in grouped_documents.values())
@@ -55,7 +55,7 @@ def run_query(query: str, config: Config = DEFAULT_CONFIG) -> None:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Poshan RAG pipeline CLI")
+    parser = argparse.ArgumentParser(description="RAG Ingestion Evaluation pipeline CLI")
     subparsers = parser.add_subparsers(dest="command", required=True)
 
     ingest_parser = subparsers.add_parser("ingest", help="Ingest one or more folders")

@@ -1,20 +1,27 @@
 # Phase 2 evaluation: analysis
 
-Source data: `results/sweep_results.json`, 12 cells (2 ingestion modes x
-3 chunk configs x 2 retriever strategies), 51 queries per cell, n=1 per
-cell (see `eval/METHODOLOGY.md` #7 for why no repeats). Embedding model:
-`sentence-transformers/all-MiniLM-L6-v2`. Scoring rules follow
-`eval/METHODOLOGY.md` exactly; this document doesn't re-derive them.
+Source data: `results/sweep_results.json`, 24 cells (2 PDF variants x 2
+ingestion modes x 3 chunk configs x 2 retriever strategies), 51 queries
+per cell, n=1 per cell (see `eval/METHODOLOGY.md` #7 for why no
+repeats). Embedding model: `sentence-transformers/all-MiniLM-L6-v2`.
+Scoring rules follow `eval/METHODOLOGY.md` exactly; this document
+doesn't re-derive them.
+
+Findings #1-#5 below were established on the original 12-cell grid
+(raw PDF only) and re-checked against all 24 cells once the cleaned-PDF
+variant was added (see "Cleaned vs raw PDF" further down) -- each says
+explicitly which cell count it was verified against.
 
 Every number below is per-bucket. There is no pooled/overall metric
 anywhere in this document, per METHODOLOGY.md #1.
 
 ## Finding #1: the system cannot tell "found it" from "found nothing"
 
-Representative cell (`format_aware__cs800_ov100__similarity`); **the
-pattern below holds in all 12 cells of the sweep without exception** --
-this is the strongest, most load-bearing finding in this evaluation, not
-a footnote to the chunking result below.
+Representative cell (`raw_pdf__format_aware__cs800_ov100__similarity`); **the
+pattern below holds in all 24 cells of the sweep without exception,
+raw and cleaned PDF variants alike** -- this is the strongest, most
+load-bearing finding in this evaluation, not a footnote to the chunking
+result below.
 
 | | n | mean distance | median | min | max |
 |---|---|---|---|---|---|
@@ -36,10 +43,11 @@ reading only the top-1 distance cannot build a working "I don't know"
 gate out of it here -- and that's a common design assumption in shipped
 RAG systems (retrieve, check a similarity threshold, abstain below it).
 This corpus and this embedding model say that gate wouldn't work as
-built. It reproduces identically in direction across all 12 cells (only
+built. It reproduces identically in direction across all 24 cells (only
 the exact mean/median shift slightly), so it isn't an artifact of one
-unlucky chunk_size or ingestion mode -- see the **Limitations** section
-below for the scope this claim is and isn't making.
+unlucky chunk_size, ingestion mode, or PDF variant -- see the
+**Limitations** section below for the scope this claim is and isn't
+making.
 
 ## Finding #2: format-aware ingestion beats uniform chunking, conditionally
 
@@ -201,9 +209,11 @@ trade-off doesn't resolve in retrieval's favor by default.
 
 ## Policy bucket: hit-rate with and without retrievable_but_incomplete
 
-(Representative cell: `format_aware__cs800_ov100__similarity`, phase 1's
-shipped default. All 6 similarity-strategy cells show the same pattern in
-direction, if not magnitude -- see `sweep_results.json` for the rest.)
+(Representative cell: `raw_pdf__format_aware__cs800_ov100__similarity`,
+phase 1's shipped default -- raw PDF variant; see "Cleaned vs raw PDF"
+below for whether the cleaning axis changes this. All 6 raw-PDF
+similarity-strategy cells show the same pattern in direction, if not
+magnitude -- see `sweep_results.json` for the rest.)
 
 | | n | hit@1 | hit@10 | MRR |
 |---|---|---|---|---|
@@ -227,15 +237,15 @@ whether it finds the exact right passage within that corpus.
 ## Either bucket (cross-source queries)
 
 Hit-rate under OR-across-sources scoring (METHODOLOGY.md #3) ranges
-0.44-0.67 at k=1 and 0.78-1.00 at k=10 across the 12 cells, with no
-consistent pattern tied to ingestion mode or chunk size -- expected,
-since these 9 queries are answerable from either sub-index and the
-ingestion-mode manipulation only touches the FAQ side. n=9 is too small
-to support a finer-grained claim than "these queries are reliably
-findable by k=10 in every configuration tested." Excluded from
-source-routing accuracy throughout, per METHODOLOGY.md #3.
+0.33-0.67 at k=1 and 0.89-1.00 at k=10 across all 24 cells (raw and
+cleaned PDF included), with no consistent pattern tied to ingestion
+mode, chunk size, or PDF variant -- expected, since these 9 queries are
+answerable from either sub-index. n=9 is too small to support a
+finer-grained claim than "these queries are reliably findable by k=10
+in every configuration tested." Excluded from source-routing accuracy
+throughout, per METHODOLOGY.md #3.
 
-## Retriever strategy: similarity vs ParentDocumentRetriever (policy bucket only)
+## Retriever strategy: similarity vs ParentDocumentRetriever (policy bucket only, raw PDF)
 
 | cell (ingestion, chunk_size) | similarity hit@1 | parent_document hit@1 | similarity hit@10 | parent_document hit@10 |
 |---|---|---|---|---|
@@ -258,6 +268,88 @@ context around a small matched child chunk -- likely needs a longer or
 more heterogeneous document than this one to show a real effect) would
 be needed before concluding anything stronger.
 
+## Cleaned vs raw PDF: does stripping headers and front matter help retrieval?
+
+Prediction and decision rule were fixed in writing (`eval/METHODOLOGY.md`
+#8a) before these numbers were looked at: **cleaning counts as a real
+effect on the policy_pdf bucket only if hit@5 changes by more than 0.182
+at the representative cell** (`format_aware`, chunk_size=800,
+`similarity`) -- 0.182 being the largest hit@5 swing already observed
+between configurations that have nothing to do with cleaning (chunk_size,
+retriever strategy). The stated prediction was that cleaning would make
+**no detectable difference** at that bar, since front matter/headers are
+a small fraction of the corpus unlikely to sit inside top-5 for real
+policy queries.
+
+**Primary test, at the representative cell:**
+
+| | n | hit@1 | hit@5 | hit@10 | MRR | source-routing acc. |
+|---|---|---|---|---|---|---|
+| raw | 11 | 0.636 | 0.727 | 0.909 | 0.691 | 0.909 |
+| cleaned | 11 | 0.455 | **0.727** | 0.909 | 0.577 | 0.909 |
+| diff (cleaned − raw) | | −0.182 | **0.000** | 0.000 | −0.114 | 0.000 |
+
+**hit@5 diff is 0.000 -- does not clear the 0.182 bar. Result: cannot be
+distinguished at this scale. The prediction was correct.**
+
+hit@1 dropped by exactly one threshold-unit (0.182) at this cell, which
+is worth being transparent about rather than only reporting the metric
+that came out flat -- but it's a rank-1-vs-rank-2/3 reshuffle, not a
+recall loss (hit@5 and hit@10 both stayed at 0.727/0.909 identically).
+The plausible mechanism: cleaning shifts the exact character offsets
+`RecursiveCharacterTextSplitter` splits on (removed header text changes
+where each page's content starts), which can change which chunk lands
+in rank 1 without changing whether the right chunk is in the top 5 --
+offered as a plausible explanation, not a proven one.
+
+**Robustness check, all 6 chunk_size x retriever_strategy pairs:**
+
+| chunk | retriever | raw hit@1 | cln hit@1 | raw hit@5 | cln hit@5 | raw hit@10 | cln hit@10 |
+|---|---|---|---|---|---|---|---|
+| 200 | similarity | 0.455 | 0.273 | 0.727 | 0.909 | 0.818 | 0.909 |
+| 200 | parent_document | 0.455 | 0.182 | 0.727 | 0.727 | 0.727 | 0.909 |
+| 500 | similarity | 0.545 | 0.545 | 0.545 | 0.636 | 0.727 | 0.727 |
+| 500 | parent_document | 0.545 | 0.545 | 0.727 | 0.727 | 0.818 | 0.818 |
+| 800 | similarity | 0.636 | 0.455 | 0.727 | 0.727 | 0.909 | 0.909 |
+| 800 | parent_document | 0.636 | 0.455 | 0.727 | 0.727 | 0.909 | 0.909 |
+
+hit@5 never differs by more than 0.182 anywhere in the grid (largest:
++0.182 at chunk 200/similarity -- exactly at the bar, not past it, and in
+the *opposite* direction from the representative cell's hit@1 drop).
+chunk 500/parent_document shows **zero difference on any of hit@1/5/10**
+-- the single cleanest "no effect" data point in the grid. Per
+METHODOLOGY.md #8a's rule: since the primary test didn't clear the bar,
+this robustness check is read as confirming no effect at any
+configuration tested, not searched for a config where cleaning "wins"
+instead. Direction is inconsistent (hit@1 drops at 200/800, flat at 500;
+hit@5 rises at 200/similarity, flat everywhere else) -- consistent with
+noise around a null effect, not a masked trend.
+
+**A methodological finding surfaced by this comparison, broader than
+cleaning itself**: the FAQ bucket's *reported* hit-rate also shifted
+slightly between raw and cleaned cells at the same representative
+configuration (hit@3: 0.808 -> 0.769; hit@10: 0.846 -> 0.885), even
+though FAQ documents and embeddings are byte-identical between the two --
+cleaning never touches the FAQ side. Cause: `query_combined()` (`eval/
+retrievers.py`) merges FAQ and policy hits into one global top-10 by
+score before any bucket metric is computed, so a change in policy-side
+scores can displace which FAQ hits survive into that shared top-10
+window, at any k. The same displacement was independently confirmed
+between `format_aware`/`uniform` ingestion-mode cells (which only change
+FAQ-side scores) shifting the *policy* bucket's reported hit@5 the same
+way. **Bucket metrics in this harness are not perfectly isolated to
+changes on their own side of the corpus** -- a real limitation of the
+combined-top-k design, not a bug, and not specific to this comparison.
+It doesn't change the primary-test conclusion above (policy-target
+queries' ranking only moves when policy-side scores move, and FAQ-side
+scores are provably unchanged here), but it means small (<0.05) cross-
+bucket deltas elsewhere in this document should be read with the same
+caveat.
+
+Corpus size, for reference: cleaning drops 213 raw policy chunks to 196
+(chunk_size=800) -- 4 fewer pages (title + 3 TOC pages) and stripped
+header text on the remaining 73.
+
 ## Limitations
 
 - **n=1 per cell**: embedding inference and Chroma similarity search are
@@ -267,8 +359,17 @@ be needed before concluding anything stronger.
   method (METHODOLOGY.md #7).
 - **either (n=9) and neither (n=5) buckets are small.** Findings there
   (the confidence-separation overlap, the either-bucket hit@10 ceiling)
-  are consistent across all 12 cells, which is reassuring, but neither
+  are consistent across all 24 cells, which is reassuring, but neither
   bucket supports fine-grained claims the way the 26-query FAQ bucket does.
+- **Bucket metrics are not perfectly isolated to changes on their own
+  side of the corpus** (see "Cleaned vs raw PDF" above): `query_combined()`
+  merges FAQ and policy hits into one global top-10 before any bucket
+  metric is computed, so a change on one side can displace which hits
+  from the *other* side survive into that shared window. Confirmed in
+  both directions (PDF cleaning shifting reported FAQ-bucket numbers;
+  FAQ ingestion mode shifting reported policy-bucket numbers). Cross-
+  bucket deltas under ~0.05 anywhere in this document may reflect this
+  rather than a real effect on the bucket being discussed.
 - **No LLM-answer-quality arm was built or run**, per the phase 2 brief
   -- documented as an optional, API-key-gated extension in the README,
   not attempted here. The cost-and-recall baseline arm above *was*
@@ -293,7 +394,7 @@ be needed before concluding anything stronger.
 ## Headline (for the README)
 
 The system cannot reliably tell "found it" from "didn't" from its
-similarity score alone, in any of the 12 configurations tested -- no
+similarity score alone, in any of the 24 configurations tested -- no
 threshold on top-1 distance separates answerable queries from
 unanswerable ones, because their score distributions overlap in every
 cell. Format-aware ingestion beats uniform chunking on the FAQ bucket,
@@ -314,4 +415,10 @@ k=5/chunk_size=800 is ~40x cheaper per query but caps at that same 0.826
 ceiling on the hardest queries -- a genuine trade-off at this corpus's
 scale, not a case either arm wins outright. Retriever strategy
 (similarity vs ParentDocumentRetriever) shows no distinguishable effect
-on this policy corpus at this scale.
+on this policy corpus at this scale. Stripping the PDF's running
+headers and front matter (title page, table of contents) -- visible as
+page furniture in the demo's own "neither"-query output -- was predicted
+to make no detectable difference to retrieval before the numbers were
+run, and didn't: hit@5 at the representative cell is identical (0.727,
+both variants), and no configuration in the 6-way robustness grid clears
+the pre-committed 0.182 bar. The ugliness was cosmetic, not costly.

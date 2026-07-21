@@ -14,6 +14,8 @@ depends on a LangChain integration package for loading at all.
 """
 import csv
 import json
+import re
+from collections import Counter
 from pathlib import Path
 
 from langchain_core.documents import Document
@@ -78,11 +80,142 @@ _LOADERS = {
     "policy_pdf": load_policy_pdf,
 }
 
+# A page whose only dot-leader-style lines ("Section title .......... 12")
+# number at least this many is treated as a table of contents. Checked
+# against this corpus's actual TOC pages (21-23 matches each) and every
+# other page (0-1 matches, never close) -- a wide margin, not a tuned edge.
+_TOC_DOT_LEADER = re.compile(r"\.{4,}\s*\d+")
+_MIN_TOC_DOT_LEADERS = 3
 
-def load_source(source_type: str, path: Path) -> list[Document]:
+# A cover/title page has little running text once the header's stripped.
+# This corpus's real title page is ~140 chars after stripping; its
+# shortest real *content* pages (closing paragraphs, "***" section-end
+# markers) run 150-250 chars once you're past page 1 -- see
+# tests/test_ingestion_pdf.py for the specific pages this must not flag.
+_TITLE_PAGE_MAX_CHARS = 300
+
+# A header/footer line must recur on at least this fraction of pages to
+# be treated as running page furniture rather than coincidentally-
+# repeated content (e.g. this corpus's "***" section-end marker, which
+# closes some sections but appears on only ~6% of pages -- nowhere near
+# this threshold, so it correctly stays untouched as real content).
+_RUNNING_LINE_THRESHOLD = 0.6
+
+
+def _detect_running_line(pages_text: list[str], *, from_end: bool) -> str | None:
+    """The most common non-empty first (or, if from_end, last) line across
+    pages, if it recurs on a strong majority of them. None if nothing
+    recurs often enough to be page furniture rather than real content."""
+    lines = []
+    for text in pages_text:
+        candidates = reversed(text.splitlines()) if from_end else text.splitlines()
+        for line in candidates:
+            stripped = line.strip()
+            if stripped:
+                lines.append(stripped)
+                break
+    if not lines:
+        return None
+    line, count = Counter(lines).most_common(1)[0]
+    return line if count / len(pages_text) >= _RUNNING_LINE_THRESHOLD else None
+
+
+def _strip_running_header(text: str, header: str | None) -> str:
+    """Remove `header`'s line (if it's actually this page's first line), a
+    page-number-only line following it, and any leading blank lines --
+    including blank lines *between* the header and the page number: most
+    pages have them adjacent ("header\\npage_num"), but some have a blank
+    line in between ("header\\n \\npage_num"), so blanks are skipped
+    before checking for the page-number line, not just after.
+    """
+    if header is None:
+        return text
+    lines = text.splitlines()
+    if not lines or lines[0].strip() != header:
+        return text
+    lines = lines[1:]
+    while lines and not lines[0].strip():
+        lines = lines[1:]
+    if lines and lines[0].strip().isdigit():
+        lines = lines[1:]
+    while lines and not lines[0].strip():
+        lines = lines[1:]
+    return "\n".join(lines)
+
+
+def _strip_running_footer(text: str, footer: str | None) -> str:
+    if footer is None:
+        return text
+    lines = text.splitlines()
+    if not lines or lines[-1].strip() != footer:
+        return text
+    lines = lines[:-1]
+    while lines and not lines[-1].strip():
+        lines = lines[:-1]
+    return "\n".join(lines)
+
+
+def _is_table_of_contents_page(text: str) -> bool:
+    """Content-based, not position-based: a page dominated by dot-leader
+    lines is a TOC regardless of where in the document it falls."""
+    return len(_TOC_DOT_LEADER.findall(text)) >= _MIN_TOC_DOT_LEADERS
+
+
+def _is_likely_title_page(text: str, page_index: int) -> bool:
+    """Position AND content: only the document's very first page is
+    eligible, and only if what's left after stripping header/footer is
+    short. Deliberately narrow -- this is not a general cover-page
+    classifier, just enough to catch this corpus's actual title page
+    without flagging real short content pages elsewhere in the document.
+    """
+    return page_index == 0 and len(text.strip()) < _TITLE_PAGE_MAX_CHARS
+
+
+def clean_policy_pdf_documents(documents: list[Document]) -> list[Document]:
+    """Strip running headers/footers from every page and drop front
+    matter (title page, table of contents). Genuinely blank pages are
+    already dropped by load_policy_pdf; this removes pages that loaded
+    real but non-substantive text.
+
+    `metadata["page"]` is preserved unchanged from the source PDF's page
+    numbers on every surviving Document -- eval/queries.yaml's ground-
+    truth page references, and anything else keyed on page number, must
+    keep working identically whether this ran or not.
+
+    Heuristic, checked against this specific corpus (see
+    eval/METHODOLOGY.md #8), not a general-purpose PDF cleaner -- a
+    differently-structured document could defeat any of these signals.
+    """
+    texts = [d.page_content for d in documents]
+    header = _detect_running_line(texts, from_end=False)
+    footer = _detect_running_line(texts, from_end=True)
+
+    cleaned = []
+    for index, d in enumerate(documents):
+        text = _strip_running_header(d.page_content, header)
+        text = _strip_running_footer(text, footer)
+        if _is_table_of_contents_page(text):
+            continue
+        if _is_likely_title_page(text, index):
+            continue
+        if not text.strip():
+            continue
+        cleaned.append(Document(page_content=text, metadata=dict(d.metadata)))
+    return cleaned
+
+
+def load_source(source_type: str, path: Path, clean: bool = False) -> list[Document]:
+    """`clean` only affects `policy_pdf` (see clean_policy_pdf_documents);
+    ignored for other source types rather than erroring, so callers that
+    thread a single per-source-type setting through multiple source types
+    don't need to special-case which ones it applies to.
+    """
     if source_type not in _LOADERS:
         raise ValueError(f"Unknown source_type {source_type!r}; known: {sorted(_LOADERS)}")
-    return _LOADERS[source_type](path)
+    documents = _LOADERS[source_type](path)
+    if source_type == "policy_pdf" and clean:
+        documents = clean_policy_pdf_documents(documents)
+    return documents
 
 
 def split_documents(documents: list[Document], settings: SourceTypeSettings) -> list[Document]:

@@ -82,6 +82,15 @@ def pdf_chunks(pdf_raw_docs, default_config):
 
 
 @pytest.fixture(scope="session")
+def pdf_cleaned_docs(pdf_raw_docs):
+    """Cleaning operates on the already-loaded page list, not the PDF file
+    itself, so this reuses pdf_raw_docs rather than re-parsing."""
+    from adapters import ingestion
+
+    return ingestion.clean_policy_pdf_documents(pdf_raw_docs)
+
+
+@pytest.fixture(scope="session")
 def fake_embeddings():
     """A deterministic, hash-based Embeddings implementation -- no model
     download, no network, no torch. Used to test the vectorstore/retriever

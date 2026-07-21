@@ -1,5 +1,5 @@
-"""Streamlit UI: retrieval-only by default over the Poshan RAG corpus,
-with optional LLM generation gated behind a user-supplied API key.
+"""Streamlit UI: retrieval-only by default over this repo's two-source
+corpus, with optional LLM generation gated behind a user-supplied API key.
 
 Run: streamlit run app/streamlit_app.py
 
@@ -20,9 +20,9 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from app_logic import PRESET_QUERIES, generate_answer, load_app_vectorstore, run_query  # noqa: E402
 
-st.set_page_config(page_title="Poshan RAG Evaluation", page_icon="🔍")
+st.set_page_config(page_title="RAG Ingestion Evaluation", page_icon="🔍")
 
-st.title("Poshan RAG Evaluation")
+st.title("RAG Ingestion Evaluation")
 st.caption(
     "Retrieval over two public corpora: Poshan Tracker app FAQs and the "
     "Mission Saksham Anganwadi & Poshan 2.0 scheme guidelines. "
