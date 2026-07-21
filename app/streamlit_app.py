@@ -47,8 +47,10 @@ with st.sidebar:
     )
     st.caption(
         "⚠️ Not stored, not logged, not written to disk anywhere in this "
-        "app. Held in memory for this browser session only, sent directly "
-        "to OpenAI per request, and gone when you close or refresh the tab."
+        "app. Held in memory for this session only and used server-side to "
+        "call OpenAI, then discarded. Note this app runs on Streamlit "
+        "Community Cloud, so the key transits their infrastructure -- if "
+        "you'd rather it didn't, run the app locally instead."
     )
 
     st.divider()
