@@ -70,7 +70,7 @@ def load_corpus_documents() -> list[Document]:
     at module load time: `pipeline.ingest`/`pipeline.split` pull in
     `adapters.ingestion`, which imports `pypdf` and
     `langchain_text_splitters` at its own top level -- neither is in
-    requirements-app.txt, so importing app_logic.py itself (which the
+    app/requirements.txt, so importing app_logic.py itself (which the
     deployed app does) must not require them.
     """
     from pipeline import ingest as ingest_stage
@@ -114,7 +114,7 @@ def build_vectorstore(
     return store
 
 
-def load_app_vectorstore() -> VectorStore:
+def load_app_vectorstore(persist_directory: Path | None = None) -> VectorStore:
     """What the deployed app actually calls: load the prebuilt, committed
     index (app/prebuilt_index/, built offline by app/build_index.py using
     the real torch embeddings backend) with ONNX query embeddings.
@@ -124,10 +124,19 @@ def load_app_vectorstore() -> VectorStore:
     never to re-embed documents already stored in a loaded collection.
     See app/onnx_embeddings.py's docstring for why this is safe, and
     tests/test_onnx_parity.py for the verification that it actually is.
+
+    `persist_directory` defaults to the committed app/prebuilt_index/;
+    tests pass a scratch copy instead, since opening a Chroma directory
+    writes internal bookkeeping (HNSW segment/WAL state) even for
+    read-only queries, which would otherwise dirty the committed index
+    in git on every test run for no functional reason.
     """
     from onnx_embeddings import OnnxEmbeddings
 
-    vs_config = replace(DEFAULT_CONFIG.vectorstore, persist_directory=PREBUILT_INDEX_DIR)
+    if persist_directory is None:
+        persist_directory = PREBUILT_INDEX_DIR
+
+    vs_config = replace(DEFAULT_CONFIG.vectorstore, persist_directory=persist_directory)
     return vectorstore_adapter.get_vectorstore(vs_config, OnnxEmbeddings())
 
 

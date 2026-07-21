@@ -23,7 +23,7 @@ because they qualify every other number in this README:
   (k=3) / 0.826 (k=5) / 0.826 (k=10)** -- not the 0.46-0.50 a whole-bucket
   number would suggest. hit@5=0.826 is the figure to use in practice
   (real systems retrieve k=5, not k=1); it's also where the curve stops
-  improving -- see the [k=5-to-k=10 plateau](#the-k5-to-k10-plateau-a-representation-ceiling-not-a-retrieval-depth-problem).
+  improving -- see the [k=5-to-k=10 plateau](results/ANALYSIS.md#the-k5-to-k10-plateau-a-representation-ceiling-not-a-retrieval-depth-problem).
 
 Full methodology (settled in writing *before* any run) is in
 `eval/METHODOLOGY.md`; full findings are in `results/ANALYSIS.md`. Still
@@ -367,7 +367,7 @@ below for why the running app loads that index rather than rebuilding
 it). Retrieval-only by default, no API key or LLM call required.
 
 ```bash
-pip install -r requirements-app.txt
+pip install -r app/requirements.txt
 streamlit run app/streamlit_app.py
 ```
 
@@ -394,13 +394,13 @@ streamlit run app/streamlit_app.py
   (verified in `tests/test_app_logic.py` with a monkeypatched failure,
   not a real API round-trip, since this suite stays network-free).
 
-**Requirements files, deliberately separate**: `requirements-app.txt` is
+**Requirements files, deliberately separate**: `app/requirements.txt` is
 the lean set Streamlit Community Cloud actually installs -- it does not
 pull `pytest`, `nbformat`, `pyyaml`, or `langchain-classic` (none of which
 the deployed app needs). `requirements.txt`/`requirements-dev.txt` cover
 phases 1/2 and the full test suite; `langchain-openai` (the optional
 generation arm) is intentionally in neither of those, only in
-`requirements-app.txt`, since it's a feature of the *app* specifically.
+`app/requirements.txt`, since it's a feature of the *app* specifically.
 
 ### ONNX: dropping torch from the deployed app
 
@@ -445,26 +445,62 @@ divergence) -- confirmed before this path shipped, not after. If a
 future model swap ever breaks that parity, this test fails loudly rather
 than silently shipping a worse retriever.
 
-**A second, non-obvious finding while building this**: the first ONNX
-attempt used `transformers.AutoTokenizer` for tokenization (reasonable --
-it's the standard way to load a HuggingFace tokenizer) and still
-measured ~803MB, barely better than the torch path. Importing the
-`transformers` *package* itself costs ~340MB RSS -- its model/config
-registry overhead, unrelated to torch or model weights, present even
-when no torch model is ever loaded. Switching to the raw `tokenizers`
-library (Hugging Face's Rust tokenizer bindings -- what `transformers`'
-"fast" tokenizer wraps internally; both read the same `tokenizer.json`
-and produce identical token ids) dropped that to a few MB. Re-verified
-parity after the switch -- unchanged.
+**This parity test is skipped in CI -- a green CI run does not confirm
+it.** `tests/test_onnx_parity.py` needs the torch model available (it's
+gated behind `RUN_NETWORK_TESTS=1`, same as the repo's other real-model
+tests, since a fresh CI checkout has no model cache). That means: after
+*any* rebuild of `app/prebuilt_index/` (`app/build_index.py`) or
+re-export of `app/onnx_model/` (`app/export_onnx_model.py`), you must run
 
-**Requirements files, deliberately separate**: `requirements-app.txt` is
+```bash
+RUN_NETWORK_TESTS=1 pytest tests/test_onnx_parity.py -v
+```
+
+**manually** before committing the result. CI staying green after either
+of those regenerated artifacts change proves nothing about parity --
+it only means the rest of the suite still passes. Both scripts print this
+same instruction after they run, so it isn't only documented here.
+
+### The `transformers`-import trap
+
+**Non-obvious, and actionable for anyone shrinking a deployed embedding
+model's footprint**: most ONNX-conversion writeups stop at "swap torch
+for onnxruntime" and assume the job is done. It isn't, if tokenization
+still goes through `transformers.AutoTokenizer`.
+
+The first ONNX attempt here did exactly that -- reasonable, since
+`AutoTokenizer` is the standard way to load a HuggingFace tokenizer --
+and still measured ~803MB, barely better than the original torch path.
+The cause: importing the `transformers` *package* costs ~340MB RSS on
+its own, before any model loads and independent of torch entirely --
+it's the cost of the package's model/config class registry, paid at
+import time regardless of whether you ever touch a model class.
+
+The fix: the raw `tokenizers` library (Hugging Face's Rust tokenizer
+bindings -- what `transformers`' own "fast" tokenizer wraps internally).
+Both read the exact same `tokenizer.json` and produce identical token
+ids, so switching cost nothing in correctness (re-verified with the
+parity test above after the switch) and recovered essentially all of
+the ~340MB. Measured before/after:
+
+| tokenizer choice | RSS after import | vs. torch/sentence-transformers baseline |
+|---|---|---|
+| `transformers.AutoTokenizer` | ~803MB total | barely better |
+| `tokenizers.Tokenizer` (raw) | ~244MB total | ~560MB saved |
+
+If you're exporting a small embedding model to ONNX for a memory-
+constrained deployment, the tokenizer library you pick can matter as
+much as dropping torch did -- check what your tokenizer import alone
+costs before assuming the ONNX swap is the whole win.
+
+**Requirements files, deliberately separate**: `app/requirements.txt` is
 the lean set Streamlit Community Cloud actually installs -- no `torch`,
 `sentence-transformers`, `pypdf`, `langchain-text-splitters`,
 `transformers`, `pytest`, `nbformat`, `pyyaml`, or `langchain-classic`.
 `requirements.txt`/`requirements-dev.txt` cover phases 1/2, the full test
 suite, and the two dev-only scripts above (which need torch);
 `langchain-openai` (the optional generation arm) is intentionally in
-neither of those, only in `requirements-app.txt`, since it's a feature of
+neither of those, only in `app/requirements.txt`, since it's a feature of
 the *app* specifically.
 
 **Measured memory footprint, ONNX path** (this machine, real corpus,

@@ -9,10 +9,18 @@ onnxruntime costs roughly a tenth of that.
 
 This script needs torch + transformers (requirements-dev.txt /
 requirements.txt) -- it is NOT part of the deployed app and never runs
-there; requirements-app.txt deliberately excludes torch. Re-run this
-only if the embedding model ever changes, then re-run
-tests/test_onnx_parity.py before trusting the new export, then commit
-the regenerated app/onnx_model/ directory.
+there; app/requirements.txt deliberately excludes torch. Re-run this
+only if the embedding model ever changes.
+
+*** REQUIRED AFTER RE-EXPORTING: run the ONNX parity test manually. ***
+tests/test_onnx_parity.py is network-gated (RUN_NETWORK_TESTS=1) like
+the repo's other real-model tests, so it is SKIPPED in CI -- a green CI
+run after a re-export does NOT confirm the new ONNX model still matches
+what the prebuilt index (app/prebuilt_index/, see app/build_index.py)
+expects. A mismatch here ships silently: no crash, no error, just
+quietly worse retrieval. Run this before committing a re-exported model:
+
+    RUN_NETWORK_TESTS=1 pytest tests/test_onnx_parity.py -v
 
 Usage: python app/export_onnx_model.py
 """
@@ -54,7 +62,10 @@ def main() -> None:
     )
     tokenizer.save_pretrained(str(OUTPUT_DIR))
     print(f"Exported {MODEL_NAME} to {OUTPUT_DIR}")
-    print("Run tests/test_onnx_parity.py (RUN_NETWORK_TESTS=1 if the torch model isn't cached) before trusting this export.")
+    print(
+        "\nREQUIRED NEXT STEP: RUN_NETWORK_TESTS=1 pytest tests/test_onnx_parity.py -v\n"
+        "CI will NOT catch a mismatch here -- that test is network-gated and skipped in CI."
+    )
 
 
 if __name__ == "__main__":

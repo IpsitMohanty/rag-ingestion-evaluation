@@ -127,7 +127,7 @@ def test_generate_answer_degrades_cleanly_on_invalid_key(monkeypatch):
     Installs a fake `langchain_openai` module into sys.modules rather than
     monkeypatching the real package -- this test must not depend on
     langchain_openai being installed (it isn't in requirements-dev.txt,
-    only requirements-app.txt) or on a real network round-trip to OpenAI
+    only app/requirements.txt) or on a real network round-trip to OpenAI
     (this suite stays network-free, same reasoning as
     tests/conftest.py's requires_network gate).
     """
@@ -164,8 +164,19 @@ class TestRealDeployedPath:
     """
 
     @pytest.fixture(scope="class")
-    def real_vectorstore(self):
-        return load_app_vectorstore()
+    def real_vectorstore(self, tmp_path_factory):
+        # Query against a COPY, not the committed path directly: opening a
+        # Chroma directory writes internal bookkeeping (HNSW segment/WAL
+        # state) even for read-only queries, which would otherwise dirty
+        # app/prebuilt_index/ in git on every test run for no functional
+        # reason.
+        import shutil
+
+        from app_logic import PREBUILT_INDEX_DIR
+
+        copy_dir = tmp_path_factory.mktemp("prebuilt_index_copy") / "index"
+        shutil.copytree(PREBUILT_INDEX_DIR, copy_dir)
+        return load_app_vectorstore(persist_directory=copy_dir)
 
     def test_prebuilt_index_loads_and_returns_results(self, real_vectorstore):
         results = run_query(
