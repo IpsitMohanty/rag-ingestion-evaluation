@@ -9,7 +9,45 @@ cell (see `eval/METHODOLOGY.md` #7 for why no repeats). Embedding model:
 Every number below is per-bucket. There is no pooled/overall metric
 anywhere in this document, per METHODOLOGY.md #1.
 
-## Central hypothesis: format-aware ingestion vs uniform chunking (FAQ bucket)
+## Finding #1: the system cannot tell "found it" from "found nothing"
+
+Representative cell (`format_aware__cs800_ov100__similarity`); **the
+pattern below holds in all 12 cells of the sweep without exception** --
+this is the strongest, most load-bearing finding in this evaluation, not
+a footnote to the chunking result below.
+
+| | n | mean distance | median | min | max |
+|---|---|---|---|---|---|
+| neither (5 queries, no correct passage exists) | 5 | 0.829 | 0.815 | 0.622 | 0.990 |
+| should-hit (faq+policy_pdf+either, pooled, 46 queries) | 46 | 0.738 | 0.729 | 0.337 | 1.308 |
+
+(Chroma distance: lower = more similar/more confident.)
+
+The means point the right way -- `neither` queries score less confident
+on average than queries with a real answer. **But the ranges overlap in
+every single cell of the sweep.** Some should-hit queries score worse
+(max 1.308) than every `neither` query. Some `neither` queries score
+better (min 0.622) than the majority of should-hit queries.
+
+**Consequence: there is no similarity-score threshold that reliably
+separates "the system found the answer" from "the system found the
+least-bad thing available," in any configuration tested.** A caller
+reading only the top-1 distance cannot build a working "I don't know"
+gate out of it here -- and that's a common design assumption in shipped
+RAG systems (retrieve, check a similarity threshold, abstain below it).
+This corpus and this embedding model say that gate wouldn't work as
+built. It reproduces identically in direction across all 12 cells (only
+the exact mean/median shift slightly), so it isn't an artifact of one
+unlucky chunk_size or ingestion mode -- see the **Limitations** section
+below for the scope this claim is and isn't making.
+
+## Finding #2: format-aware ingestion beats uniform chunking, conditionally
+
+**Rule of thumb, not a universal winner: format-aware ingestion matters
+once chunk_size exceeds the corpus's smallest atomic unit (~178 chars,
+the FAQ's average answer length here); below that, the two are
+indistinguishable.** That conditional statement is what the data
+supports -- not "format-aware wins," full stop.
 
 | chunk_size | format_aware hit@1 | uniform hit@1 | format_aware MRR | uniform MRR | mean FAQ rows merged per uniform chunk |
 |---|---|---|---|---|---|
@@ -17,28 +55,149 @@ anywhere in this document, per METHODOLOGY.md #1.
 | 500 | 0.500 | 0.385 | 0.631 | 0.549 | 1.52 |
 | 800 | 0.500 | 0.385 | 0.642 | 0.525 | 2.51 |
 
-**The hypothesis is supported, and in exactly the two-part shape the
-brief itself predicted rather than a single clean win.** At chunk_size
-200 -- smaller than the FAQ's ~178-char average answer -- format-aware
-and uniform ingestion are statistically indistinguishable (hit@1
-identical, MRR within 0.025 of each other) because almost nothing
-actually gets merged at that size (mean_rows_per_uniform_chunk=1.00,
-i.e. uniform chunking "does nothing" here, matching the brief's first
-predicted failure mode). At chunk_size 500 and 800, uniform chunking
-measurably merges unrelated Q&A pairs into single chunks (1.52 and 2.51
-rows per chunk respectively) and FAQ retrieval degrades accordingly:
-hit@1 drops 12-22 points, MRR drops 8-12 points, both directions moving
-the same way at both larger sizes. This is the brief's second predicted
-failure mode ("merges unrelated Q&As... pollutes retrieval"), and it is
-directly measured here via `mean_rows_per_uniform_chunk`, not merely
-inferred from the hit-rate gap.
+At chunk_size 200 -- smaller than the FAQ's ~178-char average answer --
+format-aware and uniform ingestion are statistically indistinguishable
+(hit@1 identical, MRR within 0.025) because almost nothing actually gets
+merged at that size (`mean_rows_per_uniform_chunk` = 1.00: uniform
+chunking "does nothing" here, the brief's first predicted failure mode).
+At chunk_size 500 and 800, uniform chunking measurably merges unrelated
+Q&A pairs into single chunks (1.52 and 2.51 rows/chunk) and FAQ retrieval
+degrades accordingly: hit@1 drops 12-22 points, MRR drops 8-12 points.
+This is the brief's second predicted failure mode ("merges unrelated
+Q&As... pollutes retrieval"), directly measured via
+`mean_rows_per_uniform_chunk`, not merely inferred from the hit-rate gap.
 
-Neither number is a coincidence of one lucky/unlucky chunk_size: the
-direction (format-aware >= uniform) holds at every chunk_size tested,
+The direction (format-aware >= uniform) holds at every chunk_size tested,
 and the *size* of the gap tracks the *size* of the measured merging
-almost monotonically. That combination -- a consistent direction plus an
-independently-measured mechanism that predicts the gap's magnitude -- is
-what makes this a real finding rather than noise.
+almost monotonically -- a consistent direction plus an independently
+measured mechanism that predicts the gap's magnitude is what makes this a
+real finding. But it is conditional on chunk_size, and should be reported
+that way: **"format-aware ingestion helps once your chunk size exceeds
+your smallest atomic unit" is the transferable takeaway, not "always
+split FAQ-shaped content separately regardless of size."**
+
+## How much of that FAQ number is semantic vs. lexical match?
+
+(Same representative cell as above.)
+
+| | n | hit@1 | hit@3 | hit@5 | hit@10 | MRR |
+|---|---|---|---|---|---|---|
+| high_lexical_overlap (named-feature questions: RCH Profile, Home Visit, Poshan Tracker Dashboard) | 3 | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 |
+| low_lexical_overlap (everything else) | 23 | 0.435 | 0.783 | **0.826** | 0.826 | 0.596 |
+| whole FAQ bucket (all 26, quoted above) | 26 | 0.500 | 0.808 | 0.846 | 0.846 | 0.642 |
+
+**The honest semantic-only curve, quoted throughout this document and the
+README, is the full low-lexical-overlap row: 0.435 / 0.783 / 0.826 / 0.826
+at k=1/3/5/10 -- neither endpoint should be quoted alone.** hit@5=0.826 is
+the operationally relevant figure (real systems retrieve k=5, not k=1),
+and it's also where the curve stops improving -- hit@10 is identical to
+hit@5, not higher. See the next section for why.
+
+This matters for two reasons. First, it's the honest denominator: the
+whole-bucket curve (0.500/0.808/0.846/0.846) is inflated at every k by the
+3 high-overlap queries (perfect score throughout, effectively a
+string-match win, not a semantic one) -- **the low-overlap curve above is
+the more honest estimate of this system's *semantic* retrieval quality on
+paraphrased FAQ-style queries**, and it's the curve the baseline-arm
+comparison below uses. Second, it sets up that comparison: is a system
+that plateaus at 82.6% recall by k=5, and goes no further by k=10, actually
+beating the alternative of just not retrieving at all?
+
+The 3 high-overlap queries were kept rather than reworded further
+because they're genuine named-UI-feature questions (see METHODOLOGY.md
+#4) -- forcing them lower would trade clarity for a cosmetically lower
+score, not a more honest one.
+
+## The k=5-to-k=10 plateau: a representation ceiling, not a retrieval-depth problem
+
+hit@10 equals hit@5 *exactly* on the low-lexical-overlap FAQ subset: 0.826
+at both (19 of 23 queries hit at k=5; the same 19 at k=10). **4 of the 23
+queries (17%) never surface their target chunk at any k tested, up to
+10.** This holds in every cell of the sweep, not just the representative
+one -- it is not an artifact of this particular chunk_size/ingestion
+combination.
+
+**"Just retrieve more chunks" is the obvious response to a hit-rate gap,
+and this data shows it doesn't work here.** If the miss were a
+retrieval-depth problem -- the right chunk sitting just outside the top
+5 -- hit@10 would climb past hit@5 as more candidates get a chance to
+include it. It doesn't, anywhere in the sweep. That points to a ceiling
+in how `all-MiniLM-L6-v2` represents those specific paraphrase/answer
+pairs in vector space: the target chunk's embedding is apparently never
+among even the 10 closest to the query's embedding, for any of these 4
+queries, at any configuration tested. It is a representation-quality
+limit, not a search-depth limit.
+
+**This compounds Finding #1 rather than sitting beside it.** Finding #1
+says the system can't flag when it's found nothing good. This finding
+says that raising k -- the standard mitigation for "maybe it's just
+outside the top few" -- doesn't rescue these particular misses either.
+Together: for the queries this system gets wrong, it gets them wrong in
+a way that neither a confidence threshold nor a deeper retrieval budget
+catches or fixes.
+
+## Baseline arm: cost and recall, no LLM
+
+Built and run (not dropped) -- deterministic, no LLM, per the phase 2
+brief and `eval/METHODOLOGY.md` design intent. The optional LLM-judged
+answer-quality arm was **not** built, per the brief; that one really is
+a documented seam, not this one.
+
+**Whole-corpus size** (both sources, concatenated, as a context-stuffing
+prompt would need): 31,778 chars (FAQ) + 128,803 chars (policy PDF, all
+77 pages) = **160,581 chars ≈ 40,145 tokens** (approximate, using the
+standard ~4-characters-per-token heuristic for English text -- not a
+precise tokenizer count, but the right order of magnitude). That fits
+comfortably inside a modern 128K+-token context window, which is exactly
+why this baseline is a real competitor here and not a straw man: this
+corpus is small enough that "just stuff the whole thing in" is a
+genuinely available option, not a hypothetical.
+
+**Recall = 1.0 by construction for stuffing.** The whole corpus is in the
+prompt; nothing relevant can be missed. State this plainly rather than
+letting retrieval look like it's "competing" on recall -- it isn't;
+stuffing wins recall trivially, always, by definition.
+
+**Index build cost**: retrieval requires building an embeddings index
+before the first query; stuffing requires none. Measured on this
+machine, this embedding model, the representative cell's corpus (126 FAQ
+docs + 213 policy chunks, 339 total): **~17.2s** to embed and index
+(4.3s FAQ + 12.9s policy), plus a ~1.1s one-time model load. Stuffing's
+build cost is zero -- the whole corpus is just concatenated text,
+assembled at query time.
+
+**Per-query token cost**, chunk_size=800 (phase 1's shipped default),
+against the low-lexical-overlap FAQ recall curve from the section above
+(the honest, semantic-only number, not the lexically-inflated whole-bucket one):
+
+| | tokens/query (approx) | vs. whole-corpus stuffing | recall (low-overlap FAQ) |
+|---|---|---|---|
+| whole-corpus stuffing | ~40,145 | 1x (baseline) | 1.0, by construction |
+| retrieval, k=1 | ~200 | 200x cheaper | 0.435 |
+| retrieval, k=3 | ~600 | 67x cheaper | 0.783 |
+| retrieval, k=5 | ~1,000 | **40x cheaper** | **0.826 -- the practical figure** |
+| retrieval, k=10 | ~2,000 | 20x cheaper | 0.826 -- identical to k=5, see the plateau finding above |
+
+**This is a real trade-off, not a foregone conclusion either way.**
+Retrieval at k=5 is 40x cheaper per query than stuffing the whole corpus,
+but tops out at 82.6% recall on paraphrased FAQ questions and never
+reaches 100% even at k=10 in this dataset. Whether that trade is worth
+it depends entirely on what a wrong or missing answer costs in the
+deployment context -- something outside the scope of this repo to
+decide. What this repo can say: at this corpus's size (~40K tokens),
+stuffing is not prohibitively expensive in absolute terms (well within
+one modern context window, and a single query's stuffing cost is still
+cheap in isolation), so the choice is a genuine cost/completeness
+trade-off, not something forced by scale. It would stop being a genuine
+choice well before this if the corpus were meaningfully larger, or if per
+context window costs were the binding constraint rather than latency;
+that boundary is not measured here.
+
+Also worth reading alongside Finding #1: since similarity scores can't
+reliably flag "the retriever didn't find anything good," a retrieval-only
+system has no cheap way to know when it should have stuffed the whole
+document instead. That's a second, independent argument for why this
+trade-off doesn't resolve in retrieval's favor by default.
 
 ## Policy bucket: hit-rate with and without retrievable_but_incomplete
 
@@ -99,53 +258,6 @@ context around a small matched child chunk -- likely needs a longer or
 more heterogeneous document than this one to show a real effect) would
 be needed before concluding anything stronger.
 
-## Confidence separation on "neither" queries (its own section, per METHODOLOGY.md #3)
-
-Representative cell (`format_aware__cs800_ov100__similarity`); the
-pattern below holds in **all 12 cells** without exception.
-
-| | n | mean distance | median | min | max |
-|---|---|---|---|---|---|
-| neither (5 queries) | 5 | 0.829 | 0.815 | 0.622 | 0.990 |
-| should-hit (faq+policy_pdf+either, pooled, 46 queries) | 46 | 0.738 | 0.729 | 0.337 | 1.308 |
-
-(Chroma distance: lower = more similar/confident.)
-
-**The means point the right way -- neither queries are on average less
-confident than should-hit queries -- but the ranges overlap in every
-single cell of the sweep.** Some should-hit queries score worse (max
-1.308) than every neither query, and some neither queries score better
-(min 0.622) than the majority of should-hit queries. That means: **there
-is no similarity-score threshold you could set that would reliably
-separate "the system found the answer" from "the system found the
-least-bad thing available."** A user (or an automated caller) reading
-only the top-1 similarity score cannot tell these two situations apart
-in this system, in any configuration tested. This is a genuine
-limitation of similarity search as a mechanism here, not an artifact of
-one unlucky chunk_size or ingestion mode -- it reproduces across all 12
-cells identically in direction (overlap present) even though the exact
-mean/median values shift slightly cell to cell.
-
-## Lexical overlap stratification (FAQ bucket)
-
-(Same representative cell as above.)
-
-| | n | hit@1 | hit@10 | MRR |
-|---|---|---|---|---|
-| high_lexical_overlap (named-feature questions: RCH Profile, Home Visit, Poshan Tracker Dashboard) | 3 | 1.000 | 1.000 | 1.000 |
-| low_lexical_overlap (everything else) | 23 | 0.435 | 0.826 | 0.596 |
-
-This pattern holds across every cell in the sweep, not just this one.
-**A meaningful share of "good" FAQ retrieval performance is attributable
-to lexical/named-entity match, not semantic understanding of the
-paraphrase.** The 3 high-overlap queries were kept rather than reworded
-further because they're genuine named-UI-feature questions (see
-METHODOLOGY.md #4) -- but their perfect scores mean the whole-bucket
-hit@1 of ~0.46-0.50 quoted above is inflated by roughly 3/26 of the
-sample scoring by essentially string match. The low-overlap subset's
-0.435 hit@1 is the more honest estimate of this system's *semantic*
-retrieval quality on FAQ-style queries.
-
 ## Limitations
 
 - **n=1 per cell**: embedding inference and Chroma similarity search are
@@ -159,26 +271,47 @@ retrieval quality on FAQ-style queries.
   bucket supports fine-grained claims the way the 26-query FAQ bucket does.
 - **No LLM-answer-quality arm was built or run**, per the phase 2 brief
   -- documented as an optional, API-key-gated extension in the README,
-  not attempted here.
+  not attempted here. The cost-and-recall baseline arm above *was*
+  built and run; don't conflate the two.
+- **Token counts are approximate** (chars/4 heuristic), not a real
+  tokenizer count. Good enough for the order-of-magnitude cost
+  comparison above; not precise enough to bill against.
+- **Index build cost (~17.2s) was measured once, on one machine, on one
+  configuration** -- illustrative of the qualitative asymmetry (retrieval
+  has a build step, stuffing doesn't), not a rigorous benchmark.
 - **PDF text extraction quality (pypdf) is a fixed upstream factor**,
   not evaluated on its own. If page 31's population-norms text or
   similar were extracted more completely, `retrievable_but_incomplete`
   flags like pol-01 might not apply -- this analysis treats the
   extracted text as given, not as something under test.
-- **The "confidence separation" finding is about this embedding model
-  and this corpus size specifically** -- it should not be read as a
-  general claim that similarity search can never support a confidence
-  threshold, only that it doesn't reliably do so here.
+- **The confidence-separation finding (Finding #1) is about this
+  embedding model and this corpus size specifically** -- it should not
+  be read as a general claim that similarity search can never support a
+  confidence threshold, only that it doesn't reliably do so here, in
+  every configuration this sweep tried.
 
 ## Headline (for the README)
 
-Format-aware ingestion beats uniform chunking on the FAQ bucket, and the
-size of the win tracks a directly-measured mechanism (rows merged per
-chunk), not just a hit-rate gap that could have other explanations.
-Retriever strategy (similarity vs ParentDocumentRetriever) shows no
-distinguishable effect on this policy corpus at this scale. The system
-cannot reliably tell "found it" from "didn't" from its similarity score
-alone in any configuration tested. And a meaningful chunk of FAQ
-retrieval's apparent quality comes from lexical rather than semantic
-match -- the honest semantic-only number is closer to 0.43 hit@1 than
-the headline 0.46-0.50.
+The system cannot reliably tell "found it" from "didn't" from its
+similarity score alone, in any of the 12 configurations tested -- no
+threshold on top-1 distance separates answerable queries from
+unanswerable ones, because their score distributions overlap in every
+cell. Format-aware ingestion beats uniform chunking on the FAQ bucket,
+but conditionally: the effect only appears once chunk_size exceeds the
+FAQ's ~178-char atomic-answer length, and the size of the win tracks a
+directly-measured mechanism (rows merged per chunk), not just a
+hit-rate gap that could have other explanations. A meaningful chunk of
+that FAQ number is lexical rather than semantic match -- the honest
+semantic-only curve is 0.435/0.783/0.826/0.826 at k=1/3/5/10, plateauing
+at k=5 rather than the 0.500/.../0.846 the whole-bucket numbers suggest;
+that plateau (hit@10 identical to hit@5) is itself a finding -- it means
+17% of paraphrased queries never surface their target chunk at any
+retrieval depth tested, a representation-quality ceiling that "retrieve
+more chunks" cannot fix, compounding the confidence-separation problem
+above. Weighed against whole-corpus context stuffing (recall=1.0 by
+construction, ~40K tokens, no index build), retrieval at
+k=5/chunk_size=800 is ~40x cheaper per query but caps at that same 0.826
+ceiling on the hardest queries -- a genuine trade-off at this corpus's
+scale, not a case either arm wins outright. Retriever strategy
+(similarity vs ParentDocumentRetriever) shows no distinguishable effect
+on this policy corpus at this scale.

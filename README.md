@@ -1,19 +1,33 @@
 # Poshan RAG Evaluation
 
-A RAG pipeline (ingest -> split -> embed -> index -> retrieve) built around
-two structurally opposite public corpora, plus a retrieval evaluation
-testing the pipeline's central design bet: format-aware, per-source-type
-ingestion beats forcing everything through uniform chunking.
+A LangChain RAG pipeline (`langchain-core`, `langchain-text-splitters`,
+`langchain-huggingface`, `langchain-chroma` -- ingest -> split -> embed ->
+index -> retrieve) built around two structurally opposite public corpora,
+plus a retrieval evaluation testing the pipeline's central design bet:
+format-aware, per-source-type ingestion beats forcing everything through
+uniform chunking. See [Stack](#stack) for exact packages/versions, and
+[Ingestion](#ingestion-per-source-type-not-global) for the one deliberate
+place this repo does *not* use LangChain (document loading -- by design,
+not by omission).
 
 **Phase 1** built the pipeline (ingest through retrieve, end to end,
-runnable via CLI). **Phase 2** built and ran the evaluation --
-`eval/METHODOLOGY.md` settles the scoring rules in writing, and
-`results/ANALYSIS.md` has the findings, including where the hypothesis
-held and where the evidence doesn't support a strong claim. Still not
-built: an LLM generation step, a UI, and the whole-document-into-prompt
-baseline arm (see [Baseline arm: cost-and-recall, not
-LLM-judged](#baseline-arm-cost-and-recall-not-llm-judged) below for why
-that one's a documented seam, not an oversight).
+runnable via CLI). **Phase 2** built and ran the evaluation, including a
+deterministic cost-and-recall baseline arm against naive whole-document
+context stuffing. Two things worth knowing before anything else here,
+because they qualify every other number in this README:
+
+- **The system cannot reliably tell "found the answer" from "found
+  nothing" using its similarity score alone**, in any of the 12
+  configurations tested -- see [Phase 2](#phase-2-retrieval-evaluation).
+- **The honest, semantic-only FAQ hit-rate curve is 0.435 (k=1) / 0.783
+  (k=3) / 0.826 (k=5) / 0.826 (k=10)** -- not the 0.46-0.50 a whole-bucket
+  number would suggest. hit@5=0.826 is the figure to use in practice
+  (real systems retrieve k=5, not k=1); it's also where the curve stops
+  improving -- see the [k=5-to-k=10 plateau](#the-k5-to-k10-plateau-a-representation-ceiling-not-a-retrieval-depth-problem).
+
+Full methodology (settled in writing *before* any run) is in
+`eval/METHODOLOGY.md`; full findings are in `results/ANALYSIS.md`. Still
+not built: an LLM generation step and a UI.
 
 ## Corpus
 
@@ -219,60 +233,129 @@ scoring rules for "either"/"neither", how retrievable-but-incomplete and
 lexical-overlap are handled, what "uniform chunking" means for a corpus
 of already-atomic FAQ rows) is in `eval/METHODOLOGY.md`; the 51-query
 labeled set is `eval/queries.yaml`; full results are
-`results/sweep_results.json` and `results/ANALYSIS.md`. Headline, with
-the caveat that headlines flatten nuance the linked analysis doesn't:
+`results/sweep_results.json` and `results/ANALYSIS.md`. Findings, in the
+order `results/ANALYSIS.md` presents them -- strongest/most surprising
+first, with the caveat that headlines flatten nuance the linked analysis
+doesn't:
 
-- **Format-aware ingestion beats uniform chunking on the FAQ bucket**,
-  and the win's size tracks a directly-measured mechanism (average
-  number of distinct FAQ rows merged into one chunk under uniform
-  chunking -- 1.00 at chunk_size 200, rising to 2.51 at chunk_size 800),
-  not just an unexplained hit-rate gap.
-- **Similarity vs `ParentDocumentRetriever` cannot be distinguished** on
-  this policy corpus at this scale (11 labeled policy queries) -- hit@1
-  is identical in every comparison.
-- **The system cannot reliably tell "found the answer" from "didn't"
-  from its similarity score alone**, in any of the 12 configurations
-  tested -- confirmed by comparing top-1 score distributions on
-  unanswerable ("neither") queries against answerable ones. Means point
-  the right way; ranges overlap every time.
-- **A real share of FAQ retrieval's apparent quality is lexical, not
-  semantic**: 3 named-UI-feature queries score a perfect hit@1;
-  same-cell hit@1 on the other 23 is 0.435, not the ~0.46-0.50 the
-  whole-bucket number suggests.
+1. **The system cannot reliably tell "found the answer" from "didn't"
+   from its similarity score alone**, in any of the 12 configurations
+   tested. Top-1 similarity-score distributions for unanswerable
+   ("neither") queries and answerable queries overlap in every single
+   cell of the sweep -- some answerable queries score worse than every
+   unanswerable one, and vice versa. **Consequence: you cannot build a
+   reliable "I don't know" gate on a similarity threshold with this
+   embedding model on this corpus** -- and that's a common assumption in
+   shipped RAG systems (retrieve, threshold, abstain below it). This is
+   the strongest finding in the evaluation, not a footnote to the
+   chunking result below.
 
-### Baseline arm: cost-and-recall, not LLM-judged
+2. **Format-aware ingestion beats uniform chunking on the FAQ bucket --
+   conditionally.** The rule of thumb the data supports: format-aware
+   ingestion matters once chunk_size exceeds the corpus's smallest atomic
+   unit (~178 chars, the FAQ's average answer length here); below that,
+   the two are statistically indistinguishable (identical hit@1 at
+   chunk_size 200). Above it, the win's size tracks a directly-measured
+   mechanism (average number of distinct FAQ rows merged into one chunk
+   under uniform chunking -- 1.00 at chunk_size 200, rising to 2.51 at
+   chunk_size 800), not just an unexplained hit-rate gap. "Format-aware
+   ingestion helps once your chunks would otherwise span multiple atomic
+   records" is the transferable takeaway -- not "always split FAQ-shaped
+   content separately regardless of size."
+
+3. **A real share of FAQ retrieval's apparent quality is lexical, not
+   semantic.** 3 named-UI-feature queries ("RCH Profile", "Home Visit",
+   "Poshan Tracker Dashboard" -- unavoidable proper nouns, not sloppy
+   rewording) score a perfect hit@1. The other 23, paraphrased to avoid
+   lexical overlap with the stored question text, score **0.435 (k=1) /
+   0.783 (k=3) / 0.826 (k=5) / 0.826 (k=10)** -- this full curve is the
+   honest, semantic-only number, not the 0.46-0.50 the whole FAQ bucket
+   suggests. hit@5=0.826 is the practical figure; see next finding for
+   why k=10 doesn't improve on it.
+
+4. **The k=5-to-k=10 plateau is a representation ceiling, not a
+   retrieval-depth problem.** hit@10 equals hit@5 *exactly* -- 0.826 at
+   both -- meaning 4 of the 23 low-overlap queries (17%) never surface
+   their target chunk at *any* k tested. "Just retrieve more chunks" is
+   the obvious fix for a hit-rate gap; this data shows it doesn't work
+   here. If it were a depth problem, hit@10 would keep climbing past
+   hit@5 as more candidates get a chance to include the right one -- it
+   doesn't, in any cell of the sweep. That points to a limit in how
+   `all-MiniLM-L6-v2` represents those specific paraphrase/answer pairs
+   in vector space, not a limit in how many candidates the retriever
+   considers. This **compounds finding #1**, it doesn't just sit next to
+   it: the system can't flag when it's found nothing good, and raising k
+   -- the standard mitigation for "maybe it's just outside the top few"
+   -- doesn't rescue these particular misses either.
+
+5. **Weighed against whole-corpus context stuffing** (see [baseline
+   arm](#baseline-arm-cost-and-recall-built-and-run) below), retrieval at
+   k=5/chunk_size=800 is ~40x cheaper per query but caps at the 0.826
+   ceiling above on the hardest (paraphrased, semantic-only) queries and
+   never reaches 1.0 even at k=10. That's a genuine trade-off at this
+   corpus's scale, not a case either arm wins outright -- and finding #1
+   means a retrieval-only system has no cheap way to detect when it
+   should have stuffed the whole document instead.
+
+6. **Similarity vs `ParentDocumentRetriever` cannot be distinguished** on
+   this policy corpus at this scale (11 labeled policy queries) -- hit@1
+   is identical in every comparison; hit@10 favors whichever strategy by
+   a single flipped query depending on chunk_size, with no consistent
+   winner.
+
+### Baseline arm: cost-and-recall, built and run
 
 The reference course notebook that was expected to justify chunking
 (`reference/course-notebooks/Full document retrieve limitation-v1.ipynb`)
 doesn't actually measure a failure: it stuffs an ~8,235-token document into
 a large-context-window model and the model answers correctly, because the
 document fits. It never demonstrates truncation or a wrong answer -- the
-"limitation" is asserted narratively, not measured.
+"limitation" is asserted narratively, not measured. That's why this
+corpus was designed to make whole-document stuffing a real competitor
+(small enough to fit a modern context window) rather than a straw man --
+and with the semantic-only FAQ curve topping out at hit@5=0.826 (finding
+#3 above, plateauing per finding #4), it earns that status: **this
+baseline arm was built and run, deterministically, no LLM**, not just
+designed and left as a seam.
 
-Given that, and given this corpus is genuinely small enough that
-whole-document context stuffing is a real competitor rather than a straw
-man, phase 2's baseline arm is designed as **deterministic, no LLM**:
+Whole corpus: 31,778 chars (FAQ) + 128,803 chars (policy PDF, 77 pages) =
+160,581 chars, **~40,145 tokens** (approximate, ~4 chars/token -- not a
+precise tokenizer count, but the right order of magnitude). That's
+comfortably inside a modern 128K+-token context window.
 
-- Context stuffing has **recall = 1.0 by construction** -- the whole
-  corpus is in the prompt, so nothing relevant can be missed. State this
-  plainly rather than manufacturing a retrieval "win" on recall.
-- The actual measured comparison is **tokens per query**: whole-corpus
-  token count vs. `k * chunk_size` (plus one-time index build cost for
-  the retrieval arm).
-- **Lost-in-the-middle degradation** (LLMs attending less reliably to
-  content buried in the middle of a long context) is cited as a known,
-  literature-supported limitation of context stuffing -- **not** asserted
-  as something this repo measured, since nothing here does.
+| | tokens/query (approx) | vs. whole-corpus stuffing | recall (low-overlap FAQ, the honest curve) |
+|---|---|---|---|
+| whole-corpus stuffing | ~40,145 | 1x (baseline) | **1.0, by construction** -- everything's in the prompt |
+| retrieval, k=1 | ~200 | 200x cheaper | 0.435 |
+| retrieval, k=3 | ~600 | 67x cheaper | 0.783 |
+| retrieval, k=5 | ~1,000 | 40x cheaper | 0.826 -- the practical figure |
+| retrieval, k=10 | ~2,000 | 20x cheaper | 0.826 -- identical to k=5, see finding #4 |
+
+Index build cost (retrieval only -- stuffing needs none): ~17.2s measured
+on this machine to embed and index the representative cell's 339
+documents/chunks, plus a ~1.1s one-time model load. Illustrative of the
+qualitative asymmetry, not a rigorous benchmark.
+
+**Recall = 1.0 by construction for stuffing** -- state that plainly
+rather than letting retrieval look like it's competing on recall; it
+isn't, by definition. **Lost-in-the-middle degradation** (LLMs attending
+less reliably to content buried in the middle of a long context) is a
+known, literature-supported limitation of context stuffing -- cited here,
+**not** measured, since generating and grading answers is outside this
+arm's scope (see below).
+
+Whether the cost/recall trade-off favors retrieval or stuffing depends on
+what a wrong or missing answer costs downstream -- outside this repo's
+scope to decide. What this repo can say: at ~40K tokens, this corpus
+isn't large enough to force the choice by scale alone; it would stop
+being a genuine trade-off well before a much larger corpus, but that
+boundary isn't measured here.
 
 An optional LLM-answer-quality arm (actually generating answers from both
-arms and judging them) is documented as a future extension, gated behind
-an API key via the `llm` adapter, and explicitly excluded from CI.
-
-### Whole-document-into-prompt: a baseline, not a feature
-
-`pipeline/` has no context-stuffing code path yet -- this is the seam
-phase 2 fills in, not a phase 1 deliverable. It's a comparison baseline
-against retrieval, not an alternative retrieval strategy.
+arms and judging them) remains a documented, **not built**, future
+extension, gated behind an API key via the `llm` adapter and explicitly
+excluded from CI -- don't confuse this with the cost-and-recall arm
+above, which was built.
 
 ## Reference material
 
