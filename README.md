@@ -245,7 +245,7 @@ first, with the caveat that headlines flatten nuance the linked analysis
 doesn't:
 
 1. **The system cannot reliably tell "found the answer" from "didn't"
-   from its similarity score alone**, in any of the 12 configurations
+   from its similarity score alone**, in any of the 24 configurations
    tested. Top-1 similarity-score distributions for unanswerable
    ("neither") queries and answerable queries overlap in every single
    cell of the sweep -- some answerable queries score worse than every
@@ -323,6 +323,29 @@ doesn't:
    for the full numbers, including one methodological finding (bucket
    metrics aren't perfectly isolated to their own side of the corpus)
    that surfaced along the way.
+
+### Limitations
+
+**Per-bucket metrics measure that bucket's queries within combined
+retrieval over the whole corpus, not that source in isolation -- so no
+metric change can be attributed cleanly to one source's ingestion
+config.** `query_combined()` (`eval/retrievers.py`) merges FAQ and policy
+hits into a single ranked top-k by score before any bucket metric is
+computed. That's the realistic operational setting -- a real system
+returns one blended top-k across both source types, not a separate list
+per source -- but it means a change on one side of the corpus can
+displace which hits from the *other* side survive into that shared
+window. This was caught directly: PDF cleaning (a policy-only change)
+measurably shifted the *reported FAQ-bucket* hit-rate at the same
+configuration, even though the FAQ documents and embeddings never
+changed; the same displacement runs the other way too (FAQ ingestion
+mode shifting the reported policy-bucket numbers). **This qualifies
+every headline per-bucket number in this document, not only the
+raw-vs-cleaned comparison** -- a cross-bucket delta under about 0.05
+anywhere here may reflect this shared-ranking effect rather than a real
+change in that bucket's own retrieval quality. Full detail:
+[Cleaned vs raw PDF](results/ANALYSIS.md#cleaned-vs-raw-pdf-does-stripping-headers-and-front-matter-help-retrieval)
+and `results/ANALYSIS.md`'s own Limitations section.
 
 ### Baseline arm: cost-and-recall, built and run
 
@@ -414,6 +437,15 @@ streamlit run app/streamlit_app.py
   invalid key degrades cleanly to retrieval-only; it never crashes the app
   (verified in `tests/test_app_logic.py` with a monkeypatched failure,
   not a real API round-trip, since this suite stays network-free).
+- **The policy PDF is indexed after cleaning** (running headers/title
+  page/table of contents stripped) rather than raw -- a legibility
+  choice for this demo, not a retrieval-quality one: cleaning scored
+  0.182 lower on policy hit@1 at the representative sweep cell (a rank
+  reshuffle, recall unchanged) with no consistent direction across the
+  robustness grid, and didn't clear the pre-committed bar for a real
+  effect either way. Full numbers and the tradeoff:
+  [ONNX: dropping torch from the deployed app](#onnx-dropping-torch-from-the-deployed-app)
+  below.
 
 **Requirements files, deliberately separate**: `app/requirements.txt` is
 the lean set Streamlit Community Cloud actually installs -- it does not
@@ -447,9 +479,15 @@ The architecture this enabled, not just a backend swap:
   found no detectable retrieval difference between the two at the swept
   scale, so the deployed app uses whichever one demos more legibly (no
   table-of-contents dot-leaders or title-page fragments in view when a
-  visitor inspects retrieved chunks). Phase 1's own default
-  (`config.DEFAULT_CONFIG`, used by `python src/cli.py ingest`) stays
-  raw, unchanged.
+  visitor inspects retrieved chunks). **This isn't free of tradeoffs even
+  though it didn't clear the "real effect" bar**: at the representative
+  cell, cleaned scored 0.182 lower than raw on policy hit@1 (0.455 vs
+  0.636) -- a rank-1-vs-rank-2/3 reshuffle, not a recall loss (hit@5 and
+  hit@10 both identical between variants), and with no consistent
+  direction across the 6-configuration robustness grid. Reported here
+  rather than left to sit only in `app/build_index.py`'s docstring.
+  Phase 1's own default (`config.DEFAULT_CONFIG`, used by `python
+  src/cli.py ingest`) stays raw, unchanged.
 - **`app/export_onnx_model.py`** (also dev-only) exports
   `all-MiniLM-L6-v2` to ONNX (`app/onnx_model/`, ~87MB, also committed --
   same pattern as cnn-vit-land-classification's committed
