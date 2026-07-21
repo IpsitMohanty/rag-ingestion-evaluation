@@ -81,7 +81,7 @@ def pdf_chunks(pdf_raw_docs, default_config):
     return ingestion.split_documents(pdf_raw_docs, settings)
 
 
-@pytest.fixture
+@pytest.fixture(scope="session")
 def fake_embeddings():
     """A deterministic, hash-based Embeddings implementation -- no model
     download, no network, no torch. Used to test the vectorstore/retriever

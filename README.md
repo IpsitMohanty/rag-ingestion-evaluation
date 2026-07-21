@@ -357,7 +357,74 @@ extension, gated behind an API key via the `llm` adapter and explicitly
 excluded from CI -- don't confuse this with the cost-and-recall arm
 above, which was built.
 
-## Reference material
+## Phase 3: Streamlit UI
+
+A thin viewer over the phase 1 pipeline (`app/`), not a second
+implementation of it -- `app/app_logic.py` calls the same
+`adapters`/`pipeline` code `src/cli.py` does. Retrieval-only by default,
+no API key or LLM call required.
+
+```bash
+pip install -r requirements-app.txt
+streamlit run app/streamlit_app.py
+```
+
+- **k is adjustable, 1-10, default 5** -- deliberately, not just for
+  configurability. Raising k on the built-in "neither" preset (Poshan ke
+  Paanch Sutra) is a two-click way to personally reproduce phase 2's
+  k=5-to-k=10 plateau finding: results stop improving well before k=10,
+  because the miss is a limit of the embedding's representation, not of
+  how many chunks got considered.
+- **Every result shows its source** (FAQ vs policy PDF), the relevant
+  metadata (`tab`/`subcategory` for FAQ, `page` for the PDF), and the raw
+  Chroma distance -- plus an in-UI note explaining why that score can't
+  be read as a confidence gate (Finding #1), linking to
+  `results/ANALYSIS.md`. Displaying the raw numbers is deliberate: the
+  finding is that they can't separate answerable from unanswerable
+  queries, and a visitor should be able to see that for themselves rather
+  than take the README's word for it.
+- **Optional LLM generation** is off by default; a sidebar field accepts
+  a user-supplied OpenAI API key for one session's requests only. The key
+  is never stored, logged, or written to disk anywhere in this app --
+  passed directly to the client per call and out of scope the moment the
+  function returns (`app/app_logic.py::generate_answer`). An absent or
+  invalid key degrades cleanly to retrieval-only; it never crashes the app
+  (verified in `tests/test_app_logic.py` with a monkeypatched failure,
+  not a real API round-trip, since this suite stays network-free).
+
+**Requirements files, deliberately separate**: `requirements-app.txt` is
+the lean set Streamlit Community Cloud actually installs -- it does not
+pull `pytest`, `nbformat`, `pyyaml`, or `langchain-classic` (none of which
+the deployed app needs). `requirements.txt`/`requirements-dev.txt` cover
+phases 1/2 and the full test suite; `langchain-openai` (the optional
+generation arm) is intentionally in neither of those, only in
+`requirements-app.txt`, since it's a feature of the *app* specifically.
+
+**Measured memory footprint** (this machine, real HuggingFace embeddings,
+full corpus, HF_HUB_OFFLINE=1 after the model's cached):
+
+| after | RSS |
+|---|---|
+| Python + Streamlit import | ~47MB |
+| + torch/sentence-transformers/chromadb import | ~439MB |
+| + building the full index (model weights + embedding + Chroma) | **~803MB** |
+| + running a query | ~803MB (no further growth) |
+
+**This leaves only ~220MB of headroom under Streamlit Community Cloud's
+1GB ceiling -- flagging as a real risk, not a comfortable margin.** Torch
+is the dominant cost (~390MB just to import, before any model weights
+load) and is an unavoidable consequence of phase 1's design choice (local
+HuggingFace embeddings, no API key/account required) -- there isn't a
+way to shed it without dropping that requirement. If the deployed
+instance runs closer to the ceiling than this local measurement (Streamlit
+Cloud's own runtime overhead, concurrent sessions, or container baseline
+usage aren't reflected here), the mitigation path is either the paid tier
+(more memory) or dropping to a smaller embedding model -- not attempted
+here since ~803MB was the number to report, not a problem to solve
+unasked. Recommend watching actual memory on the first live deploy before
+assuming this margin holds.
+
+
 
 `reference/course-notebooks/` -- the 6 (of 8) IBM "Generative AI
 Applications with RAG and LangChain" course notebooks on hand, read for
