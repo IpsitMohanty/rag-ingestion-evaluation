@@ -80,14 +80,27 @@ with st.expander("What do the similarity scores mean?"):
         "and there's no fixed scale where a particular number means "
         '"confident."\n\n'
         "**This evaluation's phase 2 finding: that score cannot be used as "
-        "a confidence gate.** Across all 12 tested ingestion/chunking/"
-        "retriever configurations, unanswerable queries' top-1 scores "
-        "overlap the same range as answerable queries' scores -- some "
-        "answerable queries score *worse* than every unanswerable one "
-        "tested, and vice versa. There is no threshold that reliably "
-        'separates "found it" from "found the least-bad thing available." '
-        "Try the ⚠️ preset above and compare its score to the others -- "
-        "it won't obviously stand out.\n\n"
+        "a confidence gate.** Across all 24 tested ingestion/chunking/"
+        "retriever/PDF-variant configurations, unanswerable queries' top-1 "
+        "distances overlap the same range as answerable queries':\n\n"
+        "| | mean | min | max |\n"
+        "|---|---|---|---|\n"
+        "| should-hit (46 queries, a real answer exists) | 0.738 | 0.337 | 1.308 |\n"
+        "| neither (5 queries, no correct passage exists) | 0.829 | 0.622 | 0.990 |\n\n"
+        "**The entire `neither` range sits inside the should-hit range** -- "
+        "not hard to separate, impossible to separate at any threshold, "
+        "across the full labeled query set.\n\n"
+        "Three live examples, for intuition:\n\n"
+        "| query | status | top-1 distance |\n"
+        "|---|---|---|\n"
+        '| "How many kinds of beneficiaries can be registered in the '
+        'Application?" | answerable | 0.4597 |\n'
+        '| "awc" | answerable | 0.9190 |\n'
+        '| "What are Poshan ke Paanch Sutra?" | **no answer exists** | 0.9881 |\n\n'
+        "0.9190 and 0.9881 are 0.07 apart -- a cutoff at 0.95 rejects the "
+        'valid "awc" query; a cutoff at 1.00 accepts the query with no '
+        "answer. Try the ⚠️ preset above and compare its score to the "
+        "others -- it won't obviously stand out.\n\n"
         "Full analysis, including the k=5-to-k=10 plateau this UI's k "
         "slider lets you reproduce: `results/ANALYSIS.md`."
     )

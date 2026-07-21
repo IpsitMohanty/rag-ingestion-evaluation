@@ -1,5 +1,7 @@
 # RAG Ingestion Evaluation
 
+[![tests](https://github.com/IpsitMohanty/rag-ingestion-evaluation/actions/workflows/tests.yml/badge.svg)](https://github.com/IpsitMohanty/rag-ingestion-evaluation/actions/workflows/tests.yml)
+
 A LangChain RAG pipeline (`langchain-core`, `langchain-text-splitters`,
 `langchain-huggingface`, `langchain-chroma` -- ingest -> split -> embed ->
 index -> retrieve) built around two structurally opposite public corpora,
@@ -246,15 +248,34 @@ doesn't:
 
 1. **The system cannot reliably tell "found the answer" from "didn't"
    from its similarity score alone**, in any of the 24 configurations
-   tested. Top-1 similarity-score distributions for unanswerable
-   ("neither") queries and answerable queries overlap in every single
-   cell of the sweep -- some answerable queries score worse than every
-   unanswerable one, and vice versa. **Consequence: you cannot build a
-   reliable "I don't know" gate on a similarity threshold with this
-   embedding model on this corpus** -- and that's a common assumption in
-   shipped RAG systems (retrieve, threshold, abstain below it). This is
-   the strongest finding in the evaluation, not a footnote to the
-   chunking result below.
+   tested.
+
+   **The distributions -- the stronger claim, not just examples**: top-1
+   distance for `neither` queries (5 queries, no correct passage exists)
+   ranges 0.622-0.990 (mean 0.829); top-1 distance for should-hit queries
+   (46 queries -- faq+policy_pdf+either, a real answer exists) ranges
+   0.337-1.308 (mean 0.738). **The entire `neither` range sits inside the
+   should-hit range.** That's not "hard to separate" -- no threshold
+   anywhere separates them, across the full labeled query set, not a
+   handful of unlucky picks.
+
+   **Three live examples, for intuition** (verified against the deployed,
+   cleaned-PDF index -- all three happen to top out on an FAQ hit, so
+   they're identical on the raw index too):
+
+   | query | status | top-1 distance |
+   |---|---|---|
+   | "How many kinds of beneficiaries can be registered in the Application?" | answerable | 0.4597 |
+   | "awc" | answerable | 0.9190 |
+   | "What are Poshan ke Paanch Sutra?" | **no answer exists** | 0.9881 |
+
+   0.9190 and 0.9881 are 0.07 apart. A cutoff at 0.95 rejects the valid
+   "awc" query; a cutoff at 1.00 accepts the query with no answer.
+   **Consequence: you cannot build a reliable "I don't know" gate on a
+   similarity threshold with this embedding model on this corpus** -- and
+   that's a common assumption in shipped RAG systems (retrieve,
+   threshold, abstain below it). This is the strongest finding in the
+   evaluation, not a footnote to the chunking result below.
 
 2. **Format-aware ingestion beats uniform chunking on the FAQ bucket --
    conditionally.** The rule of thumb the data supports: format-aware
