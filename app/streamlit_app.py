@@ -18,7 +18,7 @@ import streamlit as st
 # import must not depend on which one is in play.
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from app_logic import PRESET_QUERIES, build_vectorstore, generate_answer, run_query  # noqa: E402
+from app_logic import PRESET_QUERIES, generate_answer, load_app_vectorstore, run_query  # noqa: E402
 
 st.set_page_config(page_title="Poshan RAG Evaluation", page_icon="🔍")
 
@@ -30,9 +30,12 @@ st.caption(
 )
 
 
-@st.cache_resource(show_spinner="Building the index (one-time, ~20s)...")
+@st.cache_resource(show_spinner="Loading the index...")
 def get_vectorstore():
-    return build_vectorstore()
+    # Loads the prebuilt, committed index (app/prebuilt_index/) with ONNX
+    # query embeddings -- no torch, no re-embedding the corpus at
+    # startup. See app_logic.load_app_vectorstore's docstring.
+    return load_app_vectorstore()
 
 
 with st.sidebar:

@@ -3,3 +3,14 @@
 
 pytest==8.3.3
 nbformat==5.10.4
+
+# tests/test_onnx_parity.py: verifies the deployed app's ONNX query
+# embeddings (app/onnx_embeddings.py, onnxruntime + tokenizers) match
+# the torch/sentence-transformers embeddings the committed index was
+# built with (sentence-transformers above already pulls in transformers/
+# tokenizers transitively). onnxruntime isn't otherwise needed here, so
+# it's declared explicitly. The actual comparison is gated behind
+# requires_network (conftest.py), same as the repo's other real-model
+# tests, since it needs the torch model available/cached.
+onnxruntime==1.27.0
+tokenizers==0.22.2

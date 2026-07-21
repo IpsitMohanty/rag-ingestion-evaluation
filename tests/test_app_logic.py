@@ -28,6 +28,7 @@ from app_logic import (  # noqa: E402
     PRESET_QUERIES,
     describe_source,
     generate_answer,
+    load_app_vectorstore,
     run_query,
 )
 from adapters import vectorstore as vectorstore_adapter  # noqa: E402
@@ -149,3 +150,35 @@ def test_generate_answer_degrades_cleanly_on_invalid_key(monkeypatch):
     message = generate_answer("a question", results, api_key="sk-definitely-not-a-real-key")
     assert message is not None
     assert "sk-definitely-not-a-real-key" not in message
+
+
+class TestRealDeployedPath:
+    """Unlike the tests above (fake embeddings, synthetic documents), this
+    exercises the exact path the deployed app runs: the committed
+    app/prebuilt_index/ loaded with the real ONNX embeddings backend
+    (app/onnx_embeddings.py) -- no torch, no network, no fakes. If
+    app/build_index.py's output and app/onnx_embeddings.py ever drift
+    apart (e.g. the index gets rebuilt with a different model but the
+    ONNX export doesn't), this is what would catch it structurally --
+    tests/test_onnx_parity.py catches it numerically.
+    """
+
+    @pytest.fixture(scope="class")
+    def real_vectorstore(self):
+        return load_app_vectorstore()
+
+    def test_prebuilt_index_loads_and_returns_results(self, real_vectorstore):
+        results = run_query(
+            real_vectorstore,
+            "How many kinds of beneficiaries can be registered in the Application?",
+            k=5,
+        )
+        assert len(results) == 5
+        assert any(r["source"] == "faq" for r in results)
+
+    def test_known_neither_query_still_returns_something(self, real_vectorstore):
+        """Not a correctness assertion (there's no right answer) -- just
+        confirms the known-unanswerable preset doesn't crash the real
+        path, since that's the one the UI leads with."""
+        results = run_query(real_vectorstore, "What are Poshan ke Paanch Sutra?", k=5)
+        assert len(results) == 5

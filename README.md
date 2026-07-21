@@ -360,9 +360,11 @@ above, which was built.
 ## Phase 3: Streamlit UI
 
 A thin viewer over the phase 1 pipeline (`app/`), not a second
-implementation of it -- `app/app_logic.py` calls the same
-`adapters`/`pipeline` code `src/cli.py` does. Retrieval-only by default,
-no API key or LLM call required.
+implementation of it. The *index* was built by the same
+`adapters`/`pipeline` code `src/cli.py` uses (see
+[ONNX: dropping torch from the deployed app](#onnx-dropping-torch-from-the-deployed-app)
+below for why the running app loads that index rather than rebuilding
+it). Retrieval-only by default, no API key or LLM call required.
 
 ```bash
 pip install -r requirements-app.txt
@@ -400,31 +402,90 @@ phases 1/2 and the full test suite; `langchain-openai` (the optional
 generation arm) is intentionally in neither of those, only in
 `requirements-app.txt`, since it's a feature of the *app* specifically.
 
-**Measured memory footprint** (this machine, real HuggingFace embeddings,
-full corpus, HF_HUB_OFFLINE=1 after the model's cached):
+### ONNX: dropping torch from the deployed app
+
+**A first version of this app rebuilt the index from the raw corpus at
+startup using the real HuggingFace/torch embeddings backend (phase 1's
+default) -- measured at ~803MB RSS, only ~220MB under Streamlit Community
+Cloud's 1GB ceiling with the platform's own overhead unmeasured. Too
+tight to deploy.** Fixed the same way `ibm-ai-eng/cnn-vit-land-classification`
+drops torch from its deployed demo: export the model to ONNX and run
+inference with `onnxruntime` instead of torch/sentence-transformers, in
+the app path only.
+
+The architecture this enabled, not just a backend swap:
+
+- **`app/build_index.py`** (dev-only, needs `requirements.txt`'s
+  torch/sentence-transformers) builds the full Chroma index once,
+  offline, and the result -- `app/prebuilt_index/`, ~3MB -- is committed
+  to the repo. The deployed app **loads** this index; it never re-embeds
+  the corpus at startup.
+- **`app/export_onnx_model.py`** (also dev-only) exports
+  `all-MiniLM-L6-v2` to ONNX (`app/onnx_model/`, ~87MB, also committed --
+  same pattern as cnn-vit-land-classification's committed
+  `cnn_model.onnx`).
+- **`app/onnx_embeddings.py`** is the only thing the running app uses to
+  embed anything: it embeds the user's *query* at request time via
+  `onnxruntime` + the raw `tokenizers` library (not
+  `transformers.AutoTokenizer` -- see below). Chroma only calls the
+  embedding function to embed the query being searched for; it never
+  re-embeds documents already stored in a loaded collection. That
+  asymmetry is what makes dropping torch from the app safe: as long as
+  ONNX query embeddings land in the same vector space as the
+  torch-computed document embeddings already in `app/prebuilt_index/`,
+  retrieval is unaffected.
+
+**Parity was verified, not assumed** (`tests/test_onnx_parity.py`,
+network-gated like the repo's other real-model tests since it needs the
+torch model available/cached): cosine similarity between ONNX and torch
+query embeddings on a stride-5 sample across all four query-set buckets
+(11 of the 51 labeled queries) came back **≥0.999 for every query
+tested** (max deviation ~1e-7, floating-point-level, not a real
+divergence) -- confirmed before this path shipped, not after. If a
+future model swap ever breaks that parity, this test fails loudly rather
+than silently shipping a worse retriever.
+
+**A second, non-obvious finding while building this**: the first ONNX
+attempt used `transformers.AutoTokenizer` for tokenization (reasonable --
+it's the standard way to load a HuggingFace tokenizer) and still
+measured ~803MB, barely better than the torch path. Importing the
+`transformers` *package* itself costs ~340MB RSS -- its model/config
+registry overhead, unrelated to torch or model weights, present even
+when no torch model is ever loaded. Switching to the raw `tokenizers`
+library (Hugging Face's Rust tokenizer bindings -- what `transformers`'
+"fast" tokenizer wraps internally; both read the same `tokenizer.json`
+and produce identical token ids) dropped that to a few MB. Re-verified
+parity after the switch -- unchanged.
+
+**Requirements files, deliberately separate**: `requirements-app.txt` is
+the lean set Streamlit Community Cloud actually installs -- no `torch`,
+`sentence-transformers`, `pypdf`, `langchain-text-splitters`,
+`transformers`, `pytest`, `nbformat`, `pyyaml`, or `langchain-classic`.
+`requirements.txt`/`requirements-dev.txt` cover phases 1/2, the full test
+suite, and the two dev-only scripts above (which need torch);
+`langchain-openai` (the optional generation arm) is intentionally in
+neither of those, only in `requirements-app.txt`, since it's a feature of
+the *app* specifically.
+
+**Measured memory footprint, ONNX path** (this machine, real corpus,
+real prebuilt index):
 
 | after | RSS |
 |---|---|
 | Python + Streamlit import | ~47MB |
-| + torch/sentence-transformers/chromadb import | ~439MB |
-| + building the full index (model weights + embedding + Chroma) | **~803MB** |
-| + running a query | ~803MB (no further growth) |
+| + `onnxruntime`/`tokenizers`/`chromadb` import (no torch, no transformers) | ~77MB |
+| + loading the prebuilt index + ONNX model | ~228MB |
+| + running a query | **~244MB** |
 
-**This leaves only ~220MB of headroom under Streamlit Community Cloud's
-1GB ceiling -- flagging as a real risk, not a comfortable margin.** Torch
-is the dominant cost (~390MB just to import, before any model weights
-load) and is an unavoidable consequence of phase 1's design choice (local
-HuggingFace embeddings, no API key/account required) -- there isn't a
-way to shed it without dropping that requirement. If the deployed
-instance runs closer to the ceiling than this local measurement (Streamlit
-Cloud's own runtime overhead, concurrent sessions, or container baseline
-usage aren't reflected here), the mitigation path is either the paid tier
-(more memory) or dropping to a smaller embedding model -- not attempted
-here since ~803MB was the number to report, not a problem to solve
-unasked. Recommend watching actual memory on the first live deploy before
-assuming this margin holds.
+**~244MB against the 1GB ceiling -- roughly 780MB of headroom**, well
+past the ~450-470MB estimate that motivated the switch (the
+`transformers`-import finding above accounts for the difference: the
+original estimate assumed `AutoTokenizer` was the lean option). Streamlit
+Cloud's own overhead still isn't reflected in this local measurement, but
+the margin is no longer the tight, single-point-of-failure number ~803MB
+was.
 
-
+## Reference material
 
 `reference/course-notebooks/` -- the 6 (of 8) IBM "Generative AI
 Applications with RAG and LangChain" course notebooks on hand, read for

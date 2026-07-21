@@ -5,10 +5,17 @@ installed at all -- mirrors ibm-ai-eng/cnn-vit-land-classification's
 demo convention (predict()/CLASS_NAMES importable and testable without
 the UI framework in the loop).
 
-Indexes the same corpus, through the same phase 1 pipeline
-(adapters/pipeline in src/), that `python src/cli.py ingest` does --
-this app is a thin viewer over that pipeline, not a second
-implementation of it.
+Two vectorstore paths, deliberately different:
+  - `load_app_vectorstore()` -- what the deployed app actually calls.
+    Loads the prebuilt, committed index (app/prebuilt_index/) with
+    ONNX query embeddings (app/onnx_embeddings.py). No torch.
+  - `build_vectorstore()` / `load_corpus_documents()` -- the dev-only
+    path used by app/build_index.py to (re)create that prebuilt index,
+    via the real phase 1 pipeline and torch/HuggingFace embeddings.
+    Never called by the running app; importing THIS module must not
+    require pypdf/langchain-text-splitters/torch to be installed, so
+    the src/pipeline imports these two functions need are deferred
+    (see their bodies) rather than imported at module load time.
 """
 import sys
 import tempfile
@@ -18,17 +25,15 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parent.parent
 SRC_DIR = REPO_ROOT / "src"
 DATA_DIR = REPO_ROOT / "data"
+PREBUILT_INDEX_DIR = Path(__file__).resolve().parent / "prebuilt_index"
 
 # Matches the convention in tests/conftest.py: src/ modules use plain
 # top-level imports (`from config import ...`), so src/ itself must be
 # on sys.path, not the repo root.
 sys.path.insert(0, str(SRC_DIR))
 
-from adapters import embeddings as embeddings_adapter  # noqa: E402
 from adapters import vectorstore as vectorstore_adapter  # noqa: E402
 from config import DEFAULT_CONFIG  # noqa: E402
-from pipeline import ingest as ingest_stage  # noqa: E402
-from pipeline import split as split_stage  # noqa: E402
 from langchain_core.documents import Document  # noqa: E402
 from langchain_core.embeddings import Embeddings  # noqa: E402
 from langchain_core.vectorstores import VectorStore  # noqa: E402
@@ -60,7 +65,17 @@ PRESET_QUERIES = [
 def load_corpus_documents() -> list[Document]:
     """Load and split the full corpus (both source types), exactly as
     `python src/cli.py ingest data/faq data/policy` would.
+
+    Dev-only path (app/build_index.py). Imports are deferred here, not
+    at module load time: `pipeline.ingest`/`pipeline.split` pull in
+    `adapters.ingestion`, which imports `pypdf` and
+    `langchain_text_splitters` at its own top level -- neither is in
+    requirements-app.txt, so importing app_logic.py itself (which the
+    deployed app does) must not require them.
     """
+    from pipeline import ingest as ingest_stage
+    from pipeline import split as split_stage
+
     grouped: dict[str, list[Document]] = {}
     for folder in (DATA_DIR / "faq", DATA_DIR / "policy"):
         for source_type, docs in ingest_stage.ingest_folder(folder).items():
@@ -71,21 +86,20 @@ def load_corpus_documents() -> list[Document]:
 def build_vectorstore(
     embeddings: Embeddings | None = None, persist_directory: Path | None = None
 ) -> VectorStore:
-    """Build a fresh, combined FAQ+policy index.
+    """Build a fresh, combined FAQ+policy index using the real
+    HuggingFace/torch embeddings backend.
 
-    Defaults to the real HuggingFace embeddings backend. Deliberately does
-    NOT default to phase 1's shared `.chroma` persist directory: that path
-    is meant for `python src/cli.py ingest`, built and re-run independently
-    of this app, and a Chroma collection isn't upserted -- adding the
-    corpus to an already-populated collection duplicates every document
-    rather than replacing it. Streamlit's `@st.cache_resource` already
-    guarantees this function runs exactly once per running app instance,
-    so a fresh, disposable temp directory per instance is correct and
-    avoids ever indexing into a stale or previously-populated collection.
-    Tests pass their own tmp_path for the same reason (isolation), not to
-    work around this default.
+    Dev-only (app/build_index.py) and test-only path -- the running app
+    never calls this; see `load_app_vectorstore()` for that. Deliberately
+    does NOT default to phase 1's shared `.chroma` persist directory:
+    that path is meant for `python src/cli.py ingest`, built and re-run
+    independently of this app, and a Chroma collection isn't upserted --
+    adding the corpus to an already-populated collection duplicates every
+    document rather than replacing it.
     """
     if embeddings is None:
+        from adapters import embeddings as embeddings_adapter
+
         embeddings = embeddings_adapter.get_embeddings(DEFAULT_CONFIG.embedding)
 
     if persist_directory is None:
@@ -98,6 +112,23 @@ def build_vectorstore(
     if documents:
         vectorstore_adapter.index_documents(store, documents)
     return store
+
+
+def load_app_vectorstore() -> VectorStore:
+    """What the deployed app actually calls: load the prebuilt, committed
+    index (app/prebuilt_index/, built offline by app/build_index.py using
+    the real torch embeddings backend) with ONNX query embeddings.
+
+    No torch, no re-embedding of the corpus at startup -- Chroma only
+    calls the embedding function to embed the *query* being searched,
+    never to re-embed documents already stored in a loaded collection.
+    See app/onnx_embeddings.py's docstring for why this is safe, and
+    tests/test_onnx_parity.py for the verification that it actually is.
+    """
+    from onnx_embeddings import OnnxEmbeddings
+
+    vs_config = replace(DEFAULT_CONFIG.vectorstore, persist_directory=PREBUILT_INDEX_DIR)
+    return vectorstore_adapter.get_vectorstore(vs_config, OnnxEmbeddings())
 
 
 def describe_source(metadata: dict) -> str:
