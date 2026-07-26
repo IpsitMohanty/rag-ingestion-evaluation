@@ -100,6 +100,33 @@ class LLMConfig:
     # arm has a single place to configure a backend later.
     backend: Literal["huggingface", "watsonx", "openai"] | None = None
     model_name: str | None = None
+    # None means "don't pass it, use the API's own default" -- existing
+    # callers of this shared seam are unaffected unless they set these
+    # explicitly. AgenticConfig below is the one caller that does.
+    temperature: float | None = None
+    seed: int | None = None
+
+
+@dataclass(frozen=True)
+class AgenticConfig:
+    # Phase 4 seam: LLM-routed retrieval with an LLM abstention judge,
+    # built on LangGraph (src/adapters/agentic.py). Tests whether an LLM
+    # judge can do what phase 2's Finding #1 showed a similarity threshold
+    # cannot -- see eval/METHODOLOGY.md #9-18. Not called by any phase
+    # 1/2/3 code path; the eval harness (eval/agentic_sweep.py) is the
+    # only caller, run locally, never in CI.
+    #
+    # temperature=0.0, seed=42: eval/METHODOLOGY.md #15's commitment,
+    # made explicit and reviewable here rather than buried in the
+    # adapter. Deliberately the most deterministic setting the API
+    # offers, held FIXED across all 3 runs (not varied per run) -- the
+    # 3 runs exist specifically to test whether the API is actually
+    # stable under these settings (OpenAI's own docs note seed-based
+    # reproducibility is best-effort, not guaranteed), not to manufacture
+    # variance by changing the seed each time.
+    llm: LLMConfig = field(default_factory=lambda: LLMConfig(
+        backend="openai", model_name="gpt-4o-mini", temperature=0.0, seed=42,
+    ))
 
 
 @dataclass(frozen=True)
@@ -109,6 +136,7 @@ class Config:
     vectorstore: VectorStoreConfig = field(default_factory=VectorStoreConfig)
     retriever: RetrieverConfig = field(default_factory=RetrieverConfig)
     llm: LLMConfig = field(default_factory=LLMConfig)
+    agentic: AgenticConfig = field(default_factory=AgenticConfig)
 
 
 DEFAULT_CONFIG = Config()

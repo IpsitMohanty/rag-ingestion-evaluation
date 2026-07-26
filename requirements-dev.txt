@@ -14,3 +14,17 @@ nbformat==5.10.4
 # tests, since it needs the torch model available/cached.
 onnxruntime==1.27.0
 tokenizers==0.22.2
+
+# Phase 4 (src/adapters/agentic.py, eval/agentic_sweep.py): LLM-routed
+# retrieval with an LLM abstention judge, built on LangGraph. langgraph
+# is needed just to import adapters/agentic.py, even for the mocked-LLM
+# structural tests in tests/test_agentic.py that need no API key.
+# langchain-openai builds the real route/judge clients -- not a base
+# requirement (see requirements.txt's own comment on this), only needed
+# here because the full test suite imports adapters.agentic.
+# eval/run_agentic_eval.py (the actual paid-call harness) is not run in
+# CI, same as eval/run_sweep.py; the one test that makes a real API call
+# is gated behind requires_llm (conftest.py) and skipped without
+# RUN_LLM_TESTS=1 and OPENAI_API_KEY.
+langgraph==1.2.9
+langchain-openai==1.4.1

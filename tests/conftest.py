@@ -30,6 +30,18 @@ requires_network = pytest.mark.skipif(
     ),
 )
 
+RUN_LLM_TESTS = os.environ.get("RUN_LLM_TESTS") == "1"
+requires_llm = pytest.mark.skipif(
+    not RUN_LLM_TESTS or not os.environ.get("OPENAI_API_KEY"),
+    reason=(
+        "requires a real OpenAI API call (phase 4's route/judge structured "
+        "output against the real API, not a mock); set RUN_LLM_TESTS=1 and "
+        "OPENAI_API_KEY to enable (not set in CI on purpose -- this spends "
+        "real money, same reasoning as requires_network but for $ instead "
+        "of bandwidth)"
+    ),
+)
+
 
 @pytest.fixture(scope="session")
 def repo_root() -> Path:

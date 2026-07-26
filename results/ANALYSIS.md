@@ -422,3 +422,26 @@ to make no detectable difference to retrieval before the numbers were
 run, and didn't: hit@5 at the representative cell is identical (0.727,
 both variants), and no configuration in the 6-way robustness grid clears
 the pre-committed 0.182 bar. The ugliness was cosmetic, not costly.
+
+## Phase 4: LLM-routed retrieval with an LLM abstention judge, built on LangGraph
+
+Not run yet. This section holds only the pre-registered expected failure
+mode, written before any LLM call is made, so it cannot be adjusted
+after seeing results. Full findings replace this section once the
+scored run (eval/METHODOLOGY.md #9-18) completes.
+
+**Expected failure mode, named now, before results exist**: the judge
+prompt (`src/adapters/agentic.py`) is deliberately strict: it explicitly
+withholds credit from excerpts that are on-topic or merely reference
+that something exists without stating the specifics asked for. That
+strictness biases the judge toward abstaining whenever an excerpt is
+even slightly indirect or incomplete, not only when it's genuinely
+irrelevant. The likely consequence: recall on the 12 should-abstain
+queries is probably fine, since strictness helps there, but precision on
+the 39 should-not-abstain queries is the more likely place for the judge
+to miss the win condition (METHODOLOGY.md #16: higher recall AND
+precision not lower than arm B) -- a strict judge over-abstaining on
+borderline-but-genuinely-answerable excerpts in the 39 would show up
+exactly as a precision loss, not a recall loss. If the judge fails to
+beat the threshold, this is the failure mode to check for first, before
+concluding the content-based mechanism doesn't work at all.

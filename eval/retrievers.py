@@ -103,6 +103,26 @@ class _PolicyParentDocumentIndex:
         return results
 
 
+def _faq_scored_hits(faq_hits: list[tuple[Document, float]]) -> list[ScoredHit]:
+    return [
+        ScoredHit(
+            source_type="faq",
+            score=score,
+            document=doc,
+            faq_index=doc.metadata.get("faq_index"),
+            faq_indices=tuple(doc.metadata["faq_indices"]) if "faq_indices" in doc.metadata else None,
+        )
+        for doc, score in faq_hits
+    ]
+
+
+def _policy_scored_hits(policy_hits: list[tuple[Document, float]]) -> list[ScoredHit]:
+    return [
+        ScoredHit(source_type="policy_pdf", score=score, document=doc, page=doc.metadata.get("page"))
+        for doc, score in policy_hits
+    ]
+
+
 def query_combined(
     query: str,
     k: int,
@@ -112,24 +132,34 @@ def query_combined(
     faq_hits = faq_store.similarity_search_with_score(query, k=k) if _count(faq_store) else []
     policy_hits = policy_index.query_scored(query, k=k)
 
-    scored: list[ScoredHit] = []
-    for doc, score in faq_hits:
-        scored.append(ScoredHit(
-            source_type="faq",
-            score=score,
-            document=doc,
-            faq_index=doc.metadata.get("faq_index"),
-            faq_indices=tuple(doc.metadata["faq_indices"]) if "faq_indices" in doc.metadata else None,
-        ))
-    for doc, score in policy_hits:
-        scored.append(ScoredHit(
-            source_type="policy_pdf",
-            score=score,
-            document=doc,
-            page=doc.metadata.get("page"),
-        ))
-
+    scored = _faq_scored_hits(faq_hits) + _policy_scored_hits(policy_hits)
     scored.sort(key=lambda h: h.score)  # lower distance = more similar
+    return scored[:k]
+
+
+def query_routed(
+    query: str,
+    k: int,
+    faq_store,
+    policy_index,
+    route: str,
+) -> list[ScoredHit]:
+    """Phase 4's routing-gated retrieval (eval/METHODOLOGY.md #9-11): only
+    the sub-index(es) named by `route` ("faq" / "policy_pdf" / "both")
+    are queried at all, unlike query_combined above, which always queries
+    both. Reuses the exact same Chroma calls and ScoredHit construction as
+    query_combined -- routing changes WHICH sub-indexes get called, never
+    how a call is scored or merged.
+    """
+    scored: list[ScoredHit] = []
+    if route in ("faq", "both"):
+        faq_hits = faq_store.similarity_search_with_score(query, k=k) if _count(faq_store) else []
+        scored += _faq_scored_hits(faq_hits)
+    if route in ("policy_pdf", "both"):
+        policy_hits = policy_index.query_scored(query, k=k)
+        scored += _policy_scored_hits(policy_hits)
+
+    scored.sort(key=lambda h: h.score)
     return scored[:k]
 
 

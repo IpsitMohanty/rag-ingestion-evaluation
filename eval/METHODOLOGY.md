@@ -330,3 +330,319 @@ cosmetic to retrieval quality, not costly to it -- a different claim
 than "cleaning doesn't matter," and the writeup will say which one the
 data supports, not whichever framing sounds more decisive after the
 fact.
+
+# Phase 4: LLM-routed retrieval with an LLM abstention judge, evaluation methodology
+
+Settled in writing before any LLM call is made, per the same discipline as
+phase 2. Naming discipline, stated once here and binding for README,
+ANALYSIS.md, and commit messages: this is **"LLM-routed retrieval with an
+LLM abstention judge, built on LangGraph."** A linear four-node graph
+with two LLM calls and no loops, no tool selection beyond retrieval, and
+no self-correction is a routed pipeline, not an agent. Never call it an
+"agentic AI system."
+
+## 9. What this phase tests, and the four arms
+
+Finding #1 (phase 2) is that similarity distance cannot separate
+answerable from unanswerable queries: the `neither` score range sits
+entirely inside the `should-hit` range, so no threshold gates an "I
+don't know" response. This phase asks the direct follow-up: can an LLM
+judge do what the similarity score cannot?
+
+Four arms, compared on the same query set:
+
+- **A, baseline**: similarity retrieval only, no abstention mechanism at
+  all. Existing phase 2 numbers at the representative cell. Included so
+  every other arm has a like-for-like reference point, not because A is
+  expected to do anything: it always answers, never abstains, by
+  construction.
+- **B, threshold**: same retrieval as A, plus the best-possible distance
+  cutoff fit directly on this labeled set (see #14). Given its best
+  possible shot deliberately, so a loss here isn't a strawman.
+- **C1, judge only**: the LLM judge sees the same both-index merged
+  chunks A/B retrieve, with no routing gate. Isolates judge quality from
+  routing quality.
+- **C2, full path**: the LLM router gates which sub-index(es) are
+  queried, then the judge sees only what that routed retrieval returned.
+  The delta between C1 and C2 is the measured cost of routing.
+
+## 10. Retrieval configuration, fixed across all four arms
+
+Representative cell `cleaned_pdf__format_aware__cs800_ov100__similarity`,
+k=5. This is the same cell phase 2 treats as representative everywhere
+else in this document, and the same cleaned-PDF variant the deployed app
+actually runs, so phase 4's findings describe the system as shipped, not
+a different configuration invented for this evaluation. k=5 matches
+phase 2's established "practical figure" convention (real systems
+retrieve k=5, not k=1).
+
+**Scoping decision, stated plainly**: this is one cell, not swept across
+the 24-cell grid the way phase 2's core findings were. A full sweep at
+LLM-call cost would multiply the estimated spend by up to 24x for a
+targeted question that doesn't need it. Phase 4's findings are
+conditioned on this one configuration, the one actually deployed, and
+must be reported as such, never generalized to "this corpus" or "this
+embedding model" the unqualified way phase 2's swept findings could be.
+Carry this into every generalizability caveat in the writeup.
+
+## 11. Ground-truth abstention labeling is computed per arm, not fixed from the baseline
+
+A/B/C1 share one retrieval configuration (both-index merged, no routing
+gate), so they share one ground-truth label set. C2 does not: routing
+can change which chunks are retrieved for a given query, so a query
+whose target chunk missed A/B/C1's retrieved set may be present in C2's,
+or vice versa. Scoring C2 against an A/B/C1-derived label would judge it
+against chunks it never saw.
+
+**Rule, per query, per arm**: for `neither` queries, the label is always
+"should abstain," arm-invariant, since no correct chunk exists anywhere
+regardless of what any arm retrieves. For should-hit queries (`faq` /
+`policy_pdf` / `either`), the label is "should abstain" if and only if
+the target chunk is absent from *that arm's own retrieved set*, reusing
+`eval/metrics.hit_at_k` unchanged (its existing OR-logic already handles
+`either` queries' multiple valid ground-truth refs correctly, per
+METHODOLOGY.md #3).
+
+For A/B/C1 this is fixed and was computed directly from the
+representative cell (deterministic, no LLM call, reproducing exactly
+what phase 2's sweep already computed internally but never persisted):
+
+**7 misses among the 46 should-hit queries at k=5**: `pol-08`, `pol-09`,
+`pol-10`, `faq-01`, `faq-05`, `faq-14`, `faq-16`. Combined with the 5
+`neither` queries, A/B/C1 share a ground truth of **n=12 "should
+abstain," n=39 "should not abstain"** (51 total). This is a real
+improvement over scoring against the 5 `neither` queries alone, though
+n=12 is still small: single-query flips are worth 1/12 of the "should
+abstain" class, and the writeup must say so plainly wherever it matters.
+
+For C2, this label is **not** reused. It is recomputed independently,
+per query, per run, from whatever chunks that run's routing decision
+actually caused to be retrieved. This is deliberate, not a gap: it is
+how the routing effect becomes directly visible in the data rather than
+only a caveat. Mechanism worth stating in advance: `eval/retrievers.py`'s
+`query_combined()` merges FAQ and policy hits into one ranked top-k
+before either bucket is scored (already documented as a limitation in
+the README and `ANALYSIS.md`, since a correct chunk from one source can
+be displaced out of the shared top-k by a closer-scoring but irrelevant
+hit from the other source). Correct single-source routing removes that
+cross-source dilution entirely, so C2 could plausibly *recover* some of
+A/B/C1's 7 baseline misses on correctly-routed queries, not only
+introduce new ones on mis-routed queries. Both directions are real,
+predicted mechanisms, not just a downside to caveat.
+
+## 12. The four `retrievable_but_incomplete` queries under this labeling
+
+Checked directly against the representative cell, not assumed:
+
+| query | target chunk retrieved at k=5? | which class |
+|---|---|---|
+| pol-01 | yes | "should not abstain" (39) |
+| pol-05 | yes | "should not abstain" (39) |
+| either-08 | yes | "should not abstain" (39) |
+| pol-10 | **no** | "should abstain" (12), already counted among the 7 misses |
+
+Three of the four (`pol-01`, `pol-05`, `either-08`) sit in the "should
+not abstain" class purely because their target chunk was retrieved,
+even though that chunk doesn't fully answer the question, exactly the
+tension METHODOLOGY.md #2 already established for hit-rate. `pol-10` is
+different: it is already labeled "should abstain" for an unrelated
+reason (its target chunk was missed entirely at k=5), so its
+incompleteness flag doesn't create the same tension.
+
+**Applying the METHODOLOGY.md #2 precedent**: C1 and C2's confusion
+matrices (not A's or B's, which have no content judgment to be honest or
+dishonest about) are each reported twice: once over all 51 queries, once
+excluding `pol-01`, `pol-05`, and `either-08`. Neither number is "the"
+headline. If the judge abstains on any of these three, the writeup
+states plainly that this is arguably a more honest judgment than
+hit-rate's credit, not simply a scored failure, per your explicit
+instruction. This is a finding to state, not a footnote.
+
+## 13. Primary metric: confusion matrix, never collapsed to one number
+
+For each arm, against that arm's own ground truth (rule #11):
+
+- **TP**: correctly abstained (should abstain, did abstain)
+- **FP**: wrongly abstained (should answer, did abstain), over-caution
+- **FN**: missed abstention (should abstain, did not abstain), the
+  dangerous silent-failure case Finding #1 is actually about
+- **TN**: correctly did not abstain
+
+Report **precision = TP/(TP+FP)** and **recall = TP/(TP+FN)** on the
+abstain decision, plus the full matrix. Never collapse to plain
+accuracy: at roughly 12-should-abstain vs 39-should-not-abstain, a
+mechanism that never abstains already scores 39/51 = 76.5% accuracy
+while catching zero of the cases that matter, which is exactly arm A's
+degenerate case below.
+
+**Arm A's confusion matrix is Finding #1 restated, not a new result**:
+A never abstains, by construction, so it has zero true positives and
+zero false positives. Recall on the abstain decision is 0/12 = 0.0.
+Precision is undefined (0 predicted positives): report it as "undefined,
+no abstain predictions made," not as 0 or 1, either of which would
+misleadingly imply a real (if extreme) trade-off was made.
+
+## 14. Arm B: the threshold, given its best possible shot
+
+Candidate cutoffs: every distinct top-1 distance value observed across
+the 51 queries at the representative cell (arm A/B/C1's shared
+retrieval), rule: "abstain if top1_distance >= cutoff."
+
+**Optimization objective: maximize Youden's J statistic** (sensitivity +
+specificity − 1) over the abstain decision, searched over every
+candidate cutoff, not plain accuracy. Plain accuracy is the wrong
+objective here for the same reason it's the wrong primary metric in
+#13: never abstaining already clears 76.5% accuracy, so optimizing
+accuracy would bias the "best" cutoff toward ignoring the minority
+class entirely. Youden's J is a standard, defensible choice specifically
+because it weighs both classes, chosen for that property alone, not to
+flatter or handicap the threshold arm either way.
+
+This is an **in-sample optimum**, fit on the same 51 queries being
+evaluated: genuinely the best possible shot the brief asked for, not a
+strawman, and explicitly not expected to generalize to a new, unseen
+query. Report the winning cutoff itself and its full confusion matrix,
+not only the optimized statistic.
+
+## 15. Variance across runs, and when to say "cannot be distinguished"
+
+C1 and C2 each run 3 times, temperature 0, seed fixed where the API
+supports it.
+
+Unlike phase 2 (METHODOLOGY.md #7), there is no pre-existing dataset of
+LLM-judge run-to-run variance to derive a numeric bar from in advance.
+Retrieval and Chroma similarity search are deterministic, which is
+exactly why phase 2 could commit to a specific number (0.182) in writing
+before running; an LLM API call at temperature 0 is explicitly not
+guaranteed deterministic, per your own brief. Inventing a specific
+numeric bar now, with no data to derive it from, would be exactly the
+kind of ungrounded number this evaluation's discipline exists to avoid.
+
+**Decision rule instead, functional form committed here, before any
+result exists**: for each arm and each metric (precision, recall on the
+abstain decision), compute the **full range across the 3 runs**
+(max − min), not a standard deviation. n=3 is too small a sample to
+estimate a standard deviation reliably, and a range is the more
+conservative (wider) choice between the two, which is the right
+direction to err in when the whole point of this rule is not to credit
+an effect that might just be noise. Any comparison, C1 vs C2, either
+C-arm vs B, whose observed difference is smaller than the larger of the
+two arms' own 3-run ranges is reported as **"cannot be
+distinguished,"** not rounded into a winner. This is the same
+noise-floor-before-crediting-an-effect discipline as phase 2's 0.182
+bar, adapted to the fact that the noise floor itself can only be known
+after running, not before, and kept deliberately conservative given how
+few runs it's estimated from.
+
+**Stated outright, before any result exists, so it cannot be misread
+after the fact**: at temperature 0 with a fixed seed, on a metric with
+1/12 granularity (recall on the 12 should-abstain queries) or 1/39
+granularity (precision-relevant count on the 39), the 3-run range will
+almost certainly be **zero** unless the API actually flips a boundary
+case, which is expected to be rare. This bar is therefore expected to be
+**inert** in this run, not a meaningful filter, and "gap exceeds the
+variance bar" will in practice collapse to "gap is greater than zero."
+That collapse must not be read as "the gap cleared a real bar of
+substance." When the range is zero (or near it), robustness must be
+argued from **effect size against n=12** (how many of the 12 flipped,
+stated as a count and as 8.3-point-per-query fractions, per the honest
+expectation in #16) and corroborated qualitatively (does the mechanism
+in #16 actually explain which queries flipped), not from "it beat the
+variance bar" alone. The bar still does real work in the case that
+matters most: if the API turns out to be less stable than expected and
+produces a genuinely nonzero range, this rule is what keeps that
+instability from being credited as a real effect.
+
+## 15a. Run acceptance criteria: fail-opens on the 12 should-abstain queries
+
+A fail-open (src/adapters/agentic.py's route/judge call failure,
+defaulting to "both"/"answerable") anywhere is excluded from the scored
+confusion matrix and reported explicitly, never folded into "the judge
+chose to answer" (see the harness's `fail_open_ids` /
+`_run_summary`). That handles fail-opens as a data-quality mechanism.
+
+**This is a stricter, additional acceptance criterion for the run as a
+whole, not just a per-query exclusion rule**: a fail-open landing on any
+of the 12 should-abstain queries (the frozen `SHOULD_ABSTAIN_IDS`,
+METHODOLOGY.md #11) is a **re-run trigger for that run, not a
+footnote.** It drops the effective n below 12 on the exact hardest,
+smallest, most load-bearing slice of this evaluation, and it signals the
+judge pipeline is failing specifically on the cases that matter most,
+which is itself worth knowing rather than averaging away. The clean-run
+bar for accepting a run's numbers into the final comparison is **zero
+fail-opens on the 12 should-abstain IDs**; a fail-open anywhere else in
+the 39 is excluded and reported as usual (per the harness), but does not
+by itself invalidate the run.
+
+At n=12 "should abstain" cases, one query flipping its classification
+moves recall by 1/12, about 8.3 percentage points. Stated plainly now:
+small differences (1-2 queries) between arms may not be distinguishable
+from run-to-run noise, and the writeup must say so rather than round it
+into a narrative either way.
+
+## 16. Stated before running: what would make the judge "better than the threshold," and by how much
+
+**Prediction, logged before any LLM call is made**: arm B, even with its
+best possible in-sample cutoff, will still perform poorly on precision
+and/or recall of the abstain decision, plausibly worse relative to its
+task than phase 2's original 5-query framing suggested. Reasoning: 7 of
+the 12 true "should abstain" cases are queries where the retriever
+returned *something* with a plausible-looking distance score, just not
+the right chunk, a confidently-wrong retrieval. That is structurally the
+hardest case for any threshold, which can only react to a score's
+magnitude, never to whether the returned content is actually correct.
+
+**Corresponding, mechanism-based hypothesis for the judge**: C1 and C2
+see the retrieved chunks' text, never their distance score (by design,
+see the graph proposal), so they have a plausible mechanism to catch a
+confidently-wrong retrieval that a pure distance threshold structurally
+cannot. If the judge substantively beats arm B, that would be a
+mechanistically explained result, not a coincidence, precisely because
+the two approaches have access to different information.
+
+**"Better than the threshold," concretely defined now**: strictly higher
+recall AND not-lower precision on the abstain decision than arm B's
+optimized cutoff, with the gap exceeding the empirical run-to-run
+standard deviation from #15. A judge that trades recall for precision
+against the threshold (or vice versa) is a tradeoff to report, not a
+win, per "do not collapse to one number."
+
+**Honest expectation, set now, before any number exists**: at n=12, this
+study may well not be powered to declare a winner in either direction.
+"Cannot be concluded at n=12" is an acceptable, plausible outcome, to be
+reported as such and not pushed toward a more decisive-sounding
+narrative than the data supports.
+
+## 17. Secondary metric: routing accuracy
+
+Computed for C2 only (C1 has no router). Over `faq` and `policy_pdf`
+queries only, excluding `either` (no single correct route exists) and
+`neither` (no source is "correct" for an unanswerable query), per the
+same exclusion rule as METHODOLOGY.md #3. Route's own explicit decision
+is checked against `expected_source`.
+
+**Precise distinction from phase 2's `source_routing_correct`,** stated
+so the two numbers are never conflated in the writeup: phase 2 measured
+an emergent property, whether the top-1 retrieved hit happened to come
+from the right source once similarity ranking settled it, with no
+explicit decision anywhere in the pipeline. Phase 4 measures an explicit
+upfront decision, what the router said, before retrieval even runs.
+Related, not identical.
+
+**Reported separately from abstention quality, always**, per your
+instruction: any C2 abstention shortfall traceable to a routing miss
+(a query where C1's ground truth says "should not abstain" but C2's own
+ground truth for that same query says "should abstain" because routing
+changed what got retrieved) is named explicitly in the writeup as a
+routing failure, never folded silently into "the judge failed."
+
+## 18. Generalizability caveat, carried forward from #10
+
+Every number in this phase, the 7-miss set, the n=12 ground truth, arm
+B's optimized cutoff, is anchored to one sweep cell. A different
+chunk_size, ingestion_mode, retriever_strategy, or PDF variant would
+plausibly yield a different miss set, a different n, and a different
+optimal cutoff for B. Phase 2's Finding #1 held in all 24 cells without
+exception; phase 4's findings describe this one configuration, the one
+actually deployed, and the writeup must say so every time a finding is
+stated, not only here.

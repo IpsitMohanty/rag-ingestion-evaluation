@@ -35,6 +35,11 @@ def get_llm(config: LLMConfig) -> BaseLanguageModel:
     if config.backend == "openai":
         from langchain_openai import ChatOpenAI
 
-        return ChatOpenAI(model=config.model_name or "gpt-4o-mini")
+        kwargs = {}
+        if config.temperature is not None:
+            kwargs["temperature"] = config.temperature
+        if config.seed is not None:
+            kwargs["seed"] = config.seed
+        return ChatOpenAI(model=config.model_name or "gpt-4o-mini", **kwargs)
 
     raise ValueError(f"Unknown LLM backend {config.backend!r}")
