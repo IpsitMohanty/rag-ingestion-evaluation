@@ -17,8 +17,14 @@ runnable via CLI). **Phase 2** built and ran the evaluation, including a
 deterministic cost-and-recall baseline arm against naive whole-document
 context stuffing. **Phase 3** built and deployed a Streamlit UI over the
 same pipeline, with optional LLM generation gated behind a user-supplied
-API key. Two things worth knowing before anything else here, because
-they qualify every other number in this README:
+API key. **Phase 4** built and ran an LLM-routed retrieval pipeline with
+an LLM abstention judge, built on LangGraph, to test whether an LLM
+judge can do what Finding #1 says a similarity threshold cannot; it
+doesn't clear the formal win condition, but wins decisively on
+precision by a different mechanism than predicted -- see
+[Phase 4](#phase-4-llm-routed-retrieval-with-an-llm-abstention-judge-built-on-langgraph)
+below. Two things worth knowing before anything else here, because they
+qualify every other number in this README:
 
 - **The system cannot reliably tell "found the answer" from "found
   nothing" using its similarity score alone**, in any of the 24
@@ -614,6 +620,26 @@ original estimate assumed `AutoTokenizer` was the lean option). Streamlit
 Cloud's own overhead still isn't reflected in this local measurement, but
 the margin is no longer the tight, single-point-of-failure number ~803MB
 was.
+
+## Phase 4: LLM-routed retrieval with an LLM abstention judge, built on LangGraph
+
+Built and run: tests whether an LLM judge can do what Finding #1 showed a
+similarity threshold cannot. Four arms at one representative cell (the
+same `cleaned_pdf`/`format_aware`/k=5 configuration the deployed app
+runs): a score-only baseline, a distance threshold given its
+best-possible in-sample cutoff, an LLM judge with no routing, and the
+full LLM-routed path. **The formal win condition (strictly higher recall
+*and* not-lower precision than the threshold) was not met** -- the judge
+trades recall for precision rather than beating the threshold outright.
+That precision gain is real and substantial (survives the pre-committed
+run-to-run-variance bar), but it isn't the mechanism predicted going in:
+per-query inspection shows it comes from fewer false abstentions on
+answerable queries, not from catching the hard misses a threshold
+structurally can't see, which both the judge and the threshold miss
+alike. Full methodology: `eval/METHODOLOGY.md` #9-18; full findings,
+including the routing-vs-judge-failure breakdown and the pre-registered
+prediction this run corrects: [Phase 4](results/ANALYSIS.md#phase-4-llm-routed-retrieval-with-an-llm-abstention-judge-built-on-langgraph)
+in `results/ANALYSIS.md`.
 
 ## Reference material
 

@@ -425,23 +425,109 @@ the pre-committed 0.182 bar. The ugliness was cosmetic, not costly.
 
 ## Phase 4: LLM-routed retrieval with an LLM abstention judge, built on LangGraph
 
-Not run yet. This section holds only the pre-registered expected failure
-mode, written before any LLM call is made, so it cannot be adjusted
-after seeing results. Full findings replace this section once the
-scored run (eval/METHODOLOGY.md #9-18) completes.
+Run clean (`run_invalid: false`, 397 real calls, zero fail-opens, per
+`eval/METHODOLOGY.md` #15a). Four arms compared at the representative
+cell (`cleaned_pdf__format_aware__cs800_ov100__similarity`, k=5) against
+the frozen n=12/n=39 ground truth (#11), C1/C2 each run 3 times. Arm A
+(never abstains, by construction) reproduces Finding #1 exactly: recall
+0.0, precision undefined -- included as the reference point every other
+arm is measured against, not as a competitor.
 
-**Expected failure mode, named now, before results exist**: the judge
-prompt (`src/adapters/agentic.py`) is deliberately strict: it explicitly
-withholds credit from excerpts that are on-topic or merely reference
-that something exists without stating the specifics asked for. That
-strictness biases the judge toward abstaining whenever an excerpt is
-even slightly indirect or incomplete, not only when it's genuinely
-irrelevant. The likely consequence: recall on the 12 should-abstain
-queries is probably fine, since strictness helps there, but precision on
-the 39 should-not-abstain queries is the more likely place for the judge
-to miss the win condition (METHODOLOGY.md #16: higher recall AND
-precision not lower than arm B) -- a strict judge over-abstaining on
-borderline-but-genuinely-answerable excerpts in the 39 would show up
-exactly as a precision loss, not a recall loss. If the judge fails to
-beat the threshold, this is the failure mode to check for first, before
-concluding the content-based mechanism doesn't work at all.
+**Formal win condition: not met.** `#16` defines "better than the
+threshold" as strictly higher recall AND not-lower precision than arm
+B's optimized cutoff. The judge fails the recall clause outright: arm B
+recalls 0.667 (8/12) against C1's flat 0.583 (7/12, identical in all 3
+runs) and C2's 0.500-0.526 (10/19-10/20). Per #16's own framing -- "a
+judge that trades recall for precision against the threshold... is a
+tradeoff to report, not a win" -- that is exactly what happened, and it
+is reported as a loss on the formal condition, not softened into one.
+
+**The real result: a precision/recall tradeoff, not a wash.** Arm B buys
+its recall lead by over-abstaining broadly: precision 0.421 (8 of 19
+abstentions correct, 11 wrong) -- a single global cutoff can't
+distinguish a genuine miss from an answerable query with a middling
+score. Both LLM arms trade some of that recall for a large precision
+gain: C1 0.538-0.583 (0.636-0.700 excluding the 3 retrievable_but_incomplete
+hits); C2 0.667-0.714 on the full 39 (0.833-0.909 excluding those same
+3). The smallest observed gap -- C1's worst run (0.538) against arm B
+(0.421) -- is 0.117; C2's smallest gap (0.667 against 0.421) is 0.246.
+Both comfortably clear each arm's own 3-run precision range (C1: 0.045;
+C2: 0.048 -- `#15`'s committed bar), so this precision advantage survives
+"cannot be distinguished" and is reported as real. The run-to-run
+wobbles that don't survive that bar -- C2's recall (0.500-0.526, a
+single query flipping) and C1's small precision dip in one run
+(0.583->0.538, also one additional false positive) -- are exactly the
+1-in-12/1-in-39 noise `#15`/`#15a` anticipated, and are reported as such,
+not resolved into a story either arm is "really" better within that range.
+
+**Mechanistic corroboration: does not confirm as predicted, and the
+prediction itself was wrong about which clause would fail.** Before any
+result existed, this section predicted the opposite of what happened:
+that the judge's strictness would cost precision on the 39, not recall
+on the 12. The actual result inverts that -- recall is where the judge
+loses, precision is where it wins decisively -- and that reversal is
+reported plainly rather than quietly reconciled. `#16` separately
+predicted the precision advantage, once found, would come from the
+judge catching the 7 "confidently-wrong-retrieval" misses (`pol-08`,
+`pol-09`, `pol-10`, `faq-01`, `faq-05`, `faq-14`, `faq-16`) that a
+distance-only threshold structurally can't see. Per-query inspection
+(reconstructed from the run's cached LLM responses -- see the note
+below -- and validated to reproduce the persisted aggregate confusion
+matrices exactly before being used here) shows this is not what
+happened either. Arm B actually catches 5 of those 7 (`pol-10`,
+`faq-01`, `faq-05`, `faq-14`, `faq-16` all score at or above its 0.780
+cutoff); C1 catches 4/7 (misses `faq-05`, `pol-08`, `pol-09`); C2
+catches 3/7 (misses `faq-05`, `faq-14`, `pol-08`, `pol-09`). The
+threshold does not fail on this set the way the prediction assumed --
+most of the "confidently wrong" 7 don't actually carry a deceptively low
+score. Only two, `pol-08` (top-1 distance 0.648) and `pol-09` (0.719),
+sit meaningfully below the cutoff and are genuinely invisible to any
+distance-only rule -- and neither the judge nor the threshold catches
+either of them; both remain unsolved by every arm tested. The judge's
+real precision advantage is not "catching hard misses arm B can't" --
+it's fewer false abstentions on the 39: arm B wrongly abstains 11 times,
+C1 5-6, C2 4-5. That is a different, still content-vs-score mechanism
+(reading an excerpt lets the judge recognize a genuine, if
+middling-scored, answer instead of abstaining on it), but it is not the
+mechanism `#16` pre-registered, and that correction is stated here
+rather than counting a different win as if it were the predicted one.
+
+**The `#15`/`#16` variance-clause wording is inconsistent, noted for
+integrity, and moot here.** `#16`'s win-condition sentence requires the
+gap to exceed "the empirical run-to-run standard deviation from #15";
+`#15` itself was later amended to commit the full 3-run range
+(max-min), not a standard deviation, as the actual functional form. That
+inconsistency exists in the committed text as written and is flagged
+rather than silently reconciled. It does not change this run's
+conclusion either way: the recall clause fails outright -- arm B's
+recall lead is a full query or more above either LLM arm, with zero
+variance in C1's case -- so the win condition is already unmet before
+any range-vs-stdev question is reached.
+
+**Routing accuracy, kept separate from abstention quality (`#17`).**
+C2's routing accuracy is 0.703 (26/37 of `faq`/`policy_pdf` queries),
+stable across all 3 runs. Of C2's 9-10 missed abstentions per run, 3
+(occasionally 4) trace directly to a routing miss -- `faq-20`,
+`faq-22`, `faq-23` (and, in one run, `faq-10`), all misrouted to
+`policy_pdf` when `faq` was expected -- and are named here as routing
+failures, not folded into "the judge failed." The remaining 6 missed
+abstentions per run (`pol-09`, `either-05`, `either-09`, `neither-02`,
+`neither-04`, `faq-05`) occur where routing was correct or not
+applicable, and are judge failures proper.
+
+**n=12, stated plainly.** `#16` pre-authorized "cannot be concluded at
+n=12" as an acceptable outcome. This run does not report a declared
+winner: it reports a mechanistically-grounded precision/recall
+tradeoff, a formal loss on the pre-registered win condition, and an
+honest correction to the pre-registered mechanism once per-query data
+was available to check it against.
+
+*Per-query note*: the harness (`eval/agentic_sweep.py`,
+`eval/run_agentic_eval.py`) persists only aggregate confusion matrices
+to `results/agentic_eval_results.json`; it does not log per-query
+records. The per-query breakdown above was reconstructed by replaying
+the same 51-query x 3-run x 2-arm loop against the run's own populated
+LLM cache (`eval/.llm_cache.json`): every call was a cache hit (0 new
+API calls), and the reconstruction was validated to reproduce the
+persisted aggregate tp/fp/fn/tn exactly, for all 6 run/arm
+combinations, before being used for the analysis above.

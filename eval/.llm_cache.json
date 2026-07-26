@@ -1,0 +1,1590 @@
+{
+  "00e6d9b32619d7d98b8ae54b28a11af86b2a456ab3f211e9d04fd16a7ffacb89": {
+    "reasoning": "The definitions and explanations of stunting, wasting, and underweight in children are likely to be found in the long-form government policy document related to nutrition programs.",
+    "source": "policy_pdf"
+  },
+  "0206744a5eaeaf9910d2aff13ac2e4aa088b0b1f608ccf946091e3827bf9a5bb": {
+    "reasoning": "The question pertains to the specific entitlements under a government scheme, which would be detailed in the policy document.",
+    "source": "policy_pdf"
+  },
+  "029cb97632eb6ef386387105c1726465c55c1a07b31bcd0003cecaaf2da19588": {
+    "answerable": true,
+    "reasoning": "Excerpt 2 specifically mentions SAM children and outlines the nutritional requirements for them, while Excerpt 5 provides nutritional norms that differentiate between severely malnourished and moderately malnourished children."
+  },
+  "045ad60b203a5c9edf7f4429db48b13f84811ce0b822b3026a3caae7628a7cd1": {
+    "reasoning": "The question specifically pertains to the features of the Poshan Tracker mobile app, which is covered in the FAQ section.",
+    "source": "faq"
+  },
+  "0464731ebef34f22fead7f411066ebb6c99bf46fff344f7e920570e186a286a5": {
+    "answerable": true,
+    "reasoning": "Excerpt 2 states that the only pre-condition for beneficiaries to access benefits under the scheme is that they must be registered at the nearest Anganwadi Centre with Aadhaar identification, indicating that Aadhaar-based verification is necessary."
+  },
+  "047f7ad6ae4fb559cafb19a88ae47bcdab5e6ceddae2b768c8c1b62e7ef3ea60": {
+    "answerable": true,
+    "reasoning": "Excerpt 1 specifically states that the pregnancy month is auto calculated based on the Last Menstrual Period (LMP) Date, directly answering the question."
+  },
+  "068ae996b5124c1c7ddc775884583fc96dda50e8e5a9b292cf3085cf06995230": {
+    "reasoning": "The question specifically asks about a feature of the Poshan Tracker mobile app, which is covered in the FAQ section.",
+    "source": "faq"
+  },
+  "08a4eb3a41ccd5c0f7321f4a4af8d77bac84b0f918af2de6a795401d86496332": {
+    "answerable": true,
+    "reasoning": "The first excerpt explicitly lists the services provided under the Anganwadi Services Scheme, including supplementary nutrition, pre-school education, nutrition and health education, immunization, health check-up, and referral services."
+  },
+  "0963b22593385214c7e29b32b3ecdc40f306da3813e395a1fae3849558ae1b1d": {
+    "answerable": true,
+    "reasoning": "The second excerpt specifically explains that if a beneficiary's Aadhaar details already exist in another AWC, the message 'Aadhaar already exists' will show up, which directly addresses the user's question."
+  },
+  "0b84f1f930ef4325e38df222642e0c0061b1535af48010ba50d729fee1edf1e3": {
+    "answerable": false,
+    "reasoning": "None of the excerpts provide a clear definition or explanation of what a Village Health Sanitation and Nutrition Day (VHSND) is."
+  },
+  "0c94ce78dada6ebe987317215d7705676c772ee7bcc987993915fbbfd24c7e62": {
+    "answerable": true,
+    "reasoning": "Excerpt 3 explicitly defines MAM as Moderately Acute Malnourished, directly answering the question."
+  },
+  "0d60deab41c07d922637a4a815984eb47e75af5cd6430694db1dacf462cce24d": {
+    "reasoning": "The question specifically pertains to support for technical problems with the app, which is likely covered in the FAQ section.",
+    "source": "faq"
+  },
+  "0f33391ee5a517721d9db8ca42e8b08d883d4c6681823eab0d2c4126e8b8c1e1": {
+    "answerable": true,
+    "reasoning": "The second excerpt explicitly states that the Poshan Tracker application was rolled out as an important governance tool to strengthen and bring about transparency in nutrition delivery support systems, which implies its introduction was aimed at improving these systems."
+  },
+  "0ff028f7599500e1ff59cb4e166ea88ffd2bff96a05c276b04c35a3e2a57de08": {
+    "reasoning": "The question specifically pertains to support for technical problems with the app, which is likely covered in the FAQ section.",
+    "source": "faq"
+  },
+  "100a7d5d48794bc81032f164af879a0b3c217c6af148da5dcc99d51129e63e9b": {
+    "reasoning": "The question specifically pertains to a feature of the Poshan Tracker mobile app, which is covered in the FAQ section.",
+    "source": "faq"
+  },
+  "121b05a628b33913e147c60ddb589aa0fc4db7af5e307e36345f33b695f24b84": {
+    "answerable": true,
+    "reasoning": "Excerpt 1 specifically mentions that pregnant women receive two Tetanus Toxoid shots as part of their immunizations."
+  },
+  "1224c35a815371c0bf946094ddf555c26cc7d391aa957a8fe472fe90aee33c31": {
+    "answerable": true,
+    "reasoning": "The first excerpt specifically describes what the Home Visit module covers, including the activities and services provided during these visits."
+  },
+  "1224fe1b053e481e3db27ec5c181e98a666d273086b6685501dd28a1a5bc1aa1": {
+    "reasoning": "The question specifically pertains to the features of the Poshan Tracker app, which would be covered in the FAQ section.",
+    "source": "faq"
+  },
+  "12eee3696ff5c8f41ad716d09cc91cbd033fe60daccb5f85bb189c4fefe7e67e": {
+    "reasoning": "The question specifically asks about the services provided under the Anganwadi Services scheme, which would be detailed in the long-form government policy document.",
+    "source": "policy_pdf"
+  },
+  "1362c7a06c073335b41684f5a2eaeb88d1c267da61c7721ce2658fed0fb76163": {
+    "reasoning": "The question pertains to eligibility criteria and administrative procedures related to the distribution of take-home rations, which would be detailed in the policy document.",
+    "source": "policy_pdf"
+  },
+  "1378c82bed42b826d395d3cd79de735d7df296f501a35554c552978693715165": {
+    "answerable": true,
+    "reasoning": "Excerpt 4 specifically states that children from 0 months to 6 years and adolescent girls are the beneficiaries whose growth is measured under the Growth Monitoring feature."
+  },
+  "13a4cd459c8e9b9b940747faf20961210eadb04884c8fa01ecce3f095d47741a": {
+    "answerable": true,
+    "reasoning": "Excerpt 4 specifically states the vaccines provided to adolescent girls, which directly answers the question."
+  },
+  "13e8043d5c3748ef90897bca920007b601e5457658f583d780261336d618e30c": {
+    "answerable": false,
+    "reasoning": "None of the excerpts provide specific conditions that an Anganwadi worker must meet to qualify for a performance bonus."
+  },
+  "1467569f1227b13e0c1050ba5ff7e8af5c4c546bca8ccc12b8b86be2c7393a25": {
+    "reasoning": "The definitions and explanations of stunting, wasting, and underweight in children are likely to be found in the long-form government policy document, which addresses nutrition programs and guidelines.",
+    "source": "policy_pdf"
+  },
+  "15182d47817e0566ac1c811940b014736b72b35589ab25976f374a9b1f17616e": {
+    "answerable": true,
+    "reasoning": "The second excerpt specifically explains that if a beneficiary's Aadhaar details already exist in another Anganwadi Centre (AWC), the app will display the message that the Aadhaar already exists, which directly answers the question."
+  },
+  "154099fb9b32a67e192bfcd90873a1276496e9be1fca2d46601eaf8222d3be5b": {
+    "answerable": true,
+    "reasoning": "The first excerpt explicitly lists the services provided under the Anganwadi Services scheme, including supplementary nutrition, pre-school education, nutrition and health education, immunization, health check-up, and referral services."
+  },
+  "157bf22ed5a1b632c34741ab21663d7d79c90063d54a0723509153eb11989046": {
+    "reasoning": "The eligibility criteria for receiving a hot cooked meal at the Anganwadi Centre is likely detailed in the long-form government policy document.",
+    "source": "policy_pdf"
+  },
+  "15a8699fa195bb6b40a195acff0c52d51cfe37da3e626a4a5f53ca5733c3d950": {
+    "answerable": true,
+    "reasoning": "Excerpt 4 provides specific information about the introduction of the Poshan Tracker as a governance tool to strengthen nutrition delivery support systems."
+  },
+  "15ab3ffe0f91c9cf666d9a6ec06d8bd091754f7643bbb5fe23d442a80fd34cc9": {
+    "answerable": true,
+    "reasoning": "The first and second excerpts provide specific information about the monthly limit on the number of days take-home ration can be given, stating it can be a maximum of 30 days and 25 days respectively."
+  },
+  "15fde78f3558f71ce6a259badf6c1daab1f8edb9cdd8244b7bb113eb784b675d": {
+    "reasoning": "The introduction of the Poshan Tracker platform is likely explained in the context of the government policy document, which outlines the objectives and guidelines of the Poshan 2.0 scheme.",
+    "source": "policy_pdf"
+  },
+  "168d061b2309c30377b8a68fab5b81e1a0c3c7ee32caad762225fba8b07bc5fc": {
+    "reasoning": "The question pertains to eligibility criteria and administrative procedures related to the distribution of take-home rations, which would be detailed in the policy document.",
+    "source": "policy_pdf"
+  },
+  "16a5b3d824c2617db4bf6e06d9b28a5288a45938db6d68a61bcb4cbad878c1be": {
+    "answerable": true,
+    "reasoning": "The first excerpt provides specific contact information for support regarding technical problems with the Poshan Tracker Application and Dashboard."
+  },
+  "16b6b4a9beb5315df2a3839c2832b07aa087f73d9e5479c45854657f0a1efa94": {
+    "reasoning": "The question pertains to health insurance coverage, which is likely addressed in the long-form government policy document rather than the FAQ.",
+    "source": "policy_pdf"
+  },
+  "16f4af5a75d798017ca757ae7b76bd4701ca650c5dfb445c7b54a44ad1238c5a": {
+    "answerable": true,
+    "reasoning": "Excerpt 1 provides specific information about Jan Andolan under Poshan Abhiyaan, detailing the themes and activities it covers."
+  },
+  "179c96750bb116a3bd78fc1e03f67746a4514499da397bd05184022b39f36be3": {
+    "answerable": false,
+    "reasoning": "None of the excerpts provide specific information about 'Poshan ke Paanch Sutra'."
+  },
+  "183e3af7423a80ae7323a20ad1a3944e851a0c5c14e1021de6e5ecb0c7bba4e0": {
+    "reasoning": "The question pertains to the differences in services and components of the Anganwadi Services under Mission Poshan 2.0 compared to ICDS, which is detailed in the policy document.",
+    "source": "policy_pdf"
+  },
+  "1910c275105b7828ee871a3bf0e894971c6344a7b1bfb079f4907a995414c3a0": {
+    "reasoning": "The question pertains to specific staff roles related to the 'AWC User' login category, which is likely detailed in the long-form policy document.",
+    "source": "policy_pdf"
+  },
+  "1940c4d14f4b0e03ada23321cb07328b7fd98d68cf59d7cecf80ebb2d62124a5": {
+    "reasoning": "The question specifically asks about the differences and new components of Anganwadi Services under Mission Poshan 2.0 compared to ICDS, which would be detailed in the policy document.",
+    "source": "policy_pdf"
+  },
+  "19f873ac29904754ddd76afca76a74e8d3ac09d85e24130fed6d1358dfac26c0": {
+    "answerable": true,
+    "reasoning": "Excerpt 4 mentions the criteria for upgrading Mini-Anganwadis to full-fledged Anganwadis based on population norms and specifies that these norms apply in tribal and difficult areas, which implies broader applicability."
+  },
+  "1a52340910fe9bc0cfa8701ffe44fb27ec5c1d685fd5d35ca9fc0571da2b48ef": {
+    "answerable": false,
+    "reasoning": "None of the excerpts provide specific categories of people that an Anganwadi worker can enroll using the app."
+  },
+  "1a5e36300f78042e82a462c3b3de74e763c67a3e7092b3fc020315683bebcff3": {
+    "answerable": false,
+    "reasoning": "None of the excerpts provide specific information about 'Poshan ke Paanch Sutra'."
+  },
+  "1a8b929ab90f8c3dd993b8bb1d83f00d13b4edd843f21751d8e547ad340b8c1e": {
+    "reasoning": "The question pertains to the categories of people that can be enrolled by an Anganwadi worker, which is likely detailed in the long-form government policy document.",
+    "source": "policy_pdf"
+  },
+  "1ad43986157b1eecc844130c783d4769b2bfffb4a2b037405ba3578438e1c281": {
+    "answerable": false,
+    "reasoning": "None of the excerpts provide a definition or explanation of stunting, wasting, and underweight in children."
+  },
+  "1b05c964a1d70feaefb35240ad2e3448777bc6c7068f49f2927e87752eeaa5d0": {
+    "answerable": false,
+    "reasoning": "None of the excerpts provide a clear definition or explanation of what a Village Health Sanitation and Nutrition Day (VHSND) is."
+  },
+  "1b66bd47b48821901cbbab46f4a6094ebe02b6d5d6675503657aaaf787d14899": {
+    "reasoning": "The question specifically pertains to the features of the Poshan Tracker mobile app, which is covered in the FAQ section.",
+    "source": "faq"
+  },
+  "1b921e3ce835cf1c9583f1b9c527b876cd1dd36480a1532a99eb9a52de2d6fd2": {
+    "reasoning": "The question specifically pertains to the functionality of the Poshan Tracker mobile app, which is covered in the FAQ section.",
+    "source": "faq"
+  },
+  "1bc396e609af07b835efac816e3630c7a316658f5c88d06607ded4f257499f1f": {
+    "reasoning": "The question pertains to a specific program detail that is likely covered in the long-form government policy document.",
+    "source": "policy_pdf"
+  },
+  "1bcc7a961c4aebde7a5d3fcdaa420feae3882e778d8dab1971d1a2d574804837": {
+    "answerable": true,
+    "reasoning": "The first two excerpts explicitly state that Aadhaar verification is mandatory to avail the benefits, which includes receiving the cooked meal."
+  },
+  "1c974e741e6a669207dbcbbb2d387ad325103796894907a8c271ebb8be9a33ff": {
+    "answerable": false,
+    "reasoning": "None of the excerpts provide specific information about linking a Jan Dhan bank account in the Poshan Tracker app."
+  },
+  "1c9e82814228c5f8eeb8f7454774a7ff008a500b2652b199ee769d12807957a0": {
+    "answerable": true,
+    "reasoning": "Excerpt 2 specifically states that an AWW can add details of twins/triplet children while registering a lactating mother, which directly addresses the process for registering multiple-birth children."
+  },
+  "1d8708c2a4157dec7fd30aa8a531cce8b1e645f1cf67fbea4852fae20fb46395": {
+    "reasoning": "The question specifically pertains to the functionality of the Poshan Tracker app, which is covered in the FAQ section.",
+    "source": "faq"
+  },
+  "1dd52112c6b57cf32c71acb0c33fb615da2e5767d68d06d8f29f953c94c2744e": {
+    "answerable": false,
+    "reasoning": "None of the excerpts provide a specific reason for the addition of face-based verification to the ration distribution process."
+  },
+  "1e67a1b460ef71bd29cd98fb8b6f66d6ebcf4271ab2388a3104d42961f4acc79": {
+    "answerable": true,
+    "reasoning": "Excerpt 2 mentions that the guidelines are issued under the provisions of Sections 4(a), 5(1)(a), and 6, which indicates the legal basis for the Anganwadi and Poshan 2.0 scheme guidelines."
+  },
+  "1eb90ba97931b5bda93d3739f3e25c2978ffc2c6062e70d94c326860c9103c94": {
+    "reasoning": "The question involves understanding discrepancies in data which could relate to both the app's functionality (faq) and the underlying policy guidelines (policy_pdf) regarding beneficiary tracking.",
+    "source": "both"
+  },
+  "1f20c2fb74f4267af08bfc4c4926334608d21a2dd5ff67ab081c06f2967e0ee8": {
+    "answerable": true,
+    "reasoning": "Excerpt 1 specifically states that growth monitoring details can be viewed in the Care Profile section of the profile card, directly answering the question."
+  },
+  "1f386accbc4969a83c0cc46ea69d952f2f5d159e9470f3c43d5b35d6b1ec49fb": {
+    "answerable": true,
+    "reasoning": "Excerpt 3 explicitly defines MAM as Moderately Acute Malnourished, directly answering the question."
+  },
+  "1f9dd30d88aadd6d5802f71a7c60d7dbceacb9516758fc86139211a4c68bffef": {
+    "reasoning": "The question specifically pertains to the features of the Poshan Tracker mobile app, which is covered in the FAQ.",
+    "source": "faq"
+  },
+  "200279d3e1e0b795e84b83e89c4cd74c11f979a81907a6aac41eca793c15d877": {
+    "answerable": false,
+    "reasoning": "None of the excerpts specifically list the staff roles that fall under the 'AWC User' login category."
+  },
+  "20f59e4b5a87a15387c5b1a8da1de60967e30fb9a065b3018ad1fb0ef9d42fb0": {
+    "reasoning": "The question pertains to eligibility criteria for a performance bonus, which is likely detailed in the long-form government policy document.",
+    "source": "policy_pdf"
+  },
+  "21176a6424dcaef05fbf04ca1eaebbba5a76fbb86f4ef0229044d1ed2e667cb8": {
+    "answerable": false,
+    "reasoning": "None of the excerpts provide specific information about linking a Jan Dhan bank account in the Poshan Tracker app."
+  },
+  "2164d8fe372072b7db21bc837ce2789a76a5f628e9add241300ec6106ec10ef6": {
+    "answerable": true,
+    "reasoning": "Excerpt 1 specifically states that children aged 6 to 72 months are entitled to receive 500 calories per day under the scheme."
+  },
+  "21f6cb5bb937e6fa18f5098943c4f26e39bcd7bdbba21791b566ac1abe0e44a0": {
+    "reasoning": "The question pertains to the legal basis for the Anganwadi and Poshan 2.0 scheme guidelines, which would be detailed in the policy document.",
+    "source": "policy_pdf"
+  },
+  "21f6d482f62348f26558128e7690d307fb0090a6fe55b7db969b7cd4965da221": {
+    "reasoning": "The question pertains to the specifics of the Growth Monitoring feature, which is likely detailed in the long-form policy document regarding the scheme guidelines.",
+    "source": "policy_pdf"
+  },
+  "2266c5f79af3a152c4a6dda788063f4b03deaab3ae0c9b67e29b0a85eb1ab15d": {
+    "reasoning": "The question pertains to the categories of people that can be enrolled by an Anganwadi worker, which is likely detailed in the policy document regarding eligibility criteria and scheme structure.",
+    "source": "policy_pdf"
+  },
+  "245e7f2b87a1eb7c7a1f191d926e93a549ea790a53b8ef3320a8a53c68297b2e": {
+    "reasoning": "The question pertains to a specific feature of the Poshan Tracker app, which is likely covered in the FAQ section.",
+    "source": "faq"
+  },
+  "24d91ec5f113b3479fab0e36912b8853235c32c779ff7e8f5cdbf68dfef5b9f8": {
+    "answerable": true,
+    "reasoning": "Excerpt 2 mentions that the guidelines are issued under the provisions of specific sections, which implies a legal basis for the Anganwadi and Poshan 2.0 scheme guidelines."
+  },
+  "2584d31b35998d310f75edbce05975d8ad523619277a92a2077ab91bef854d06": {
+    "reasoning": "The question pertains to the registration process for multiple-birth children, which is likely detailed in the long-form government policy document.",
+    "source": "policy_pdf"
+  },
+  "25d6e046f61db3b19e13cced92ba6ad05b50b84e7a9f0cf055507e49d94d8de6": {
+    "answerable": true,
+    "reasoning": "Excerpt 2 specifically mentions SAM children and outlines the nutritional requirements for them, while Excerpt 5 provides definitions of nutritional norms for severely malnourished children, thus addressing both parts of the question."
+  },
+  "2669b9ec4e07435eafb8b22ffca2dbef99f62321fbc46283555f2d0ad8c7d4d9": {
+    "answerable": true,
+    "reasoning": "Excerpt 2 specifically states that adolescent girls in the age group of 14-18 years in Aspirational Districts of States including Assam and North-Eastern States are covered under the nutrition scheme."
+  },
+  "27b1ee35947f667b0ade6099fa9c7d34c813b6c7c00ced08006130d39f2e87f3": {
+    "answerable": true,
+    "reasoning": "Excerpt 3 explicitly defines MAM as Moderately Acute Malnourished, directly answering the question."
+  },
+  "28cc8cd5439b3fbc670cf615e64587997b7ec7ac686a0b7c74ad6311c80d1bb8": {
+    "answerable": true,
+    "reasoning": "Excerpt 3 clearly states that supplementary nutrition, including hot cooked meals, is provided to every pregnant woman and lactating mother up to 6 months after childbirth, and every child in the age group of 6 months to 6 years, which directly answers the eligibility question."
+  },
+  "2a7340e2e38241668f61c3d0ca301ecde34f1681dbc520204a4f02f6dc424d65": {
+    "answerable": true,
+    "reasoning": "Excerpt 1 provides specific instructions on what to do when login credentials are rejected, stating that the user needs to input the correct mobile/email or password."
+  },
+  "2b61bf29e8f4a75a77b392ae3702fa2593c7d68717285aa45c3d38ce71d0cad9": {
+    "reasoning": "The question specifically asks about the services provided under the Anganwadi Services scheme, which would be detailed in the long-form government policy document.",
+    "source": "policy_pdf"
+  },
+  "2b8265dc87c050e890ea6019c758eb02ab9c17f8ca374cfedc1dd1ec5cfdc632": {
+    "reasoning": "The question pertains to the determination of pregnancy stages, which is likely covered in the detailed guidelines of the policy document.",
+    "source": "policy_pdf"
+  },
+  "2c0ded0bee9d2c0b8d0032a5dd3c98495f61c9957f5f9c4ebe926bbf6b015fe6": {
+    "answerable": false,
+    "reasoning": "None of the excerpts provide specific information on how the system determines the month of pregnancy a woman is currently in."
+  },
+  "2c603396e85d34a6ddae36ac5e0b7229f9d009c571c5447c66cf9a94a349a05c": {
+    "reasoning": "The question pertains to the concept of Poshan Vatika, which is likely detailed in the long-form government policy document regarding nutrition programs.",
+    "source": "policy_pdf"
+  },
+  "2c95baf9fe2f01cdd9eec14d864e1efbdc80f2531feacdbb9e25dc4180d487f3": {
+    "answerable": true,
+    "reasoning": "The first excerpt specifically states that growth monitoring details can be viewed in the Care Profile section of the profile card."
+  },
+  "2ccdbb3d2a765a189455a359aaca0a0386ffee8984a5b617d068f2c4e1fa4393": {
+    "answerable": true,
+    "reasoning": "Excerpt 2 provides specific instructions on how to download and install the Poshan Tracker Application from the Google Play Store."
+  },
+  "2d37c7bcc777f31ffcea16484b300d0e1ba07e9e99654355d5c4e5ab6bdfb97d": {
+    "answerable": false,
+    "reasoning": "None of the excerpts provide specific information about 'Poshan ke Paanch Sutra'."
+  },
+  "2da0410d2f54bf931f5f510c3bdde13f2e2951486e5f737e89bb78427911e96c": {
+    "reasoning": "The question pertains to the rationale behind a specific process in ration distribution, which is likely detailed in the government policy document.",
+    "source": "policy_pdf"
+  },
+  "2e3baaa14766be1fefc99e377de3730efc045d1828345e5b322d3e3541955aa7": {
+    "answerable": true,
+    "reasoning": "Excerpt 3 specifically states that an Anganwadi worker should contact their concerned Supervisor/CDPO for help with application login issues."
+  },
+  "2f1f9ef238a2479adac384e6510d1fd89368b964d9cccd14898ca6bcd9a13895": {
+    "answerable": true,
+    "reasoning": "Excerpt 4 provides a clear definition of Saksham AWC, which is part of the Saksham Anganwadi initiative under the Poshan 2.0 scheme."
+  },
+  "2f7124364fe5a716de73ef0bc5b8d86dab0d16dcc85bc685383b5fb857e809aa": {
+    "answerable": true,
+    "reasoning": "The first two excerpts explicitly state that the application is available in 24 different languages, confirming that it supports languages other than English."
+  },
+  "2f850b3fb6cf8e5e3e57d22648ea2daf9a428a89eb380897858a2e5aab42780a": {
+    "reasoning": "The question specifically pertains to the features of the Poshan Tracker mobile app, which is covered in the FAQ.",
+    "source": "faq"
+  },
+  "31cc28a7e218b8fb01763e8e1132a5a2cd3aacf91d705f073cff543b51fe44cd": {
+    "reasoning": "The question pertains to population norms and criteria for setting up Anganwadi Centers (AWCs), which are detailed in the long-form government policy document.",
+    "source": "policy_pdf"
+  },
+  "31ee6651dca098121643a3dcbf0c9319a5b3317879fa50050e15e699dd8b8d3a": {
+    "answerable": true,
+    "reasoning": "The first excerpt provides specific contact information for support regarding technical problems with the Poshan Tracker Application and Dashboard."
+  },
+  "32682252497468dd0cc35eb3df222edda4b992b526311a0be5fd8f1b536bde73": {
+    "answerable": true,
+    "reasoning": "Excerpt 4 provides specific information about the introduction of the Poshan Tracker as a governance tool to strengthen nutrition delivery support systems."
+  },
+  "3286f43b7a668763e53126fd792a14744aa8175dec42bf4e500fd79a32512842": {
+    "answerable": true,
+    "reasoning": "Excerpt 1 specifically states the vaccines that are provided to adolescent girls, which directly answers the question."
+  },
+  "3295395b3ade2605eb3e14e1ddb16b89efb8f03fe7822f267234e55e11b5526f": {
+    "answerable": false,
+    "reasoning": "None of the excerpts provide specific information about linking a Jan Dhan bank account in the Poshan Tracker app."
+  },
+  "3304594d4034018c454250d19dfbb8d3bdbc1d0c9e0bfeb72b3ff894b615d156": {
+    "answerable": true,
+    "reasoning": "Excerpt 5 explicitly defines Saksham Anganwadi as part of an Integrated Nutrition Support Programme aimed at addressing malnutrition."
+  },
+  "33b7349fdb74533919ac4159976b719bb8805e89695504e5b14672e9854b6709": {
+    "reasoning": "The question specifically asks about the differences and new components of Anganwadi Services under Mission Poshan 2.0 compared to ICDS, which would be detailed in the policy document.",
+    "source": "policy_pdf"
+  },
+  "33c9a6041b4aeafeb197697973b709fed8c4cf479acb32d898d3c513049e4658": {
+    "answerable": false,
+    "reasoning": "None of the excerpts provide specific information about 'Poshan ke Paanch Sutra'."
+  },
+  "33e14d24cf73fb298a7a15659ec1ccf0705ab1cea278319857f27eff1ff56770": {
+    "reasoning": "The question pertains to the specifics of the Growth Monitoring feature, which is likely detailed in the long-form policy document regarding the scheme guidelines.",
+    "source": "policy_pdf"
+  },
+  "342e8ce390d903575dd779d6e6167d1ca3f14970e86472dc4707439809c97c7f": {
+    "answerable": true,
+    "reasoning": "The first excerpt provides specific contact information for support regarding technical problems with the Poshan Tracker Application and Dashboard."
+  },
+  "34bb3db219a72a578b6e93b149a1bffa1cf585afaf4facaef187ffba2ed92cba": {
+    "answerable": false,
+    "reasoning": "None of the excerpts provide specific information about who is eligible to be designated as someone's ration nominee."
+  },
+  "370653c567cae19c4373c7d1e2ecdbcf7b4056d66bf02f4a8ece90d8f1d0b572": {
+    "answerable": true,
+    "reasoning": "The excerpts specify that beneficiaries must be registered at the nearest Anganwadi Centre with Aadhaar identification to avail benefits under the scheme, indicating that Aadhaar verification is required."
+  },
+  "372c74100da35445397b629cf6b063cc65eba2613335eb238be4e56e2fd06ff0": {
+    "reasoning": "The question pertains to the specific entitlements under a government scheme, which would be detailed in the policy document.",
+    "source": "policy_pdf"
+  },
+  "3850ff89fb0d1babe4c0c206b13c0cf1464e491af57e33f6a846060030817d85": {
+    "reasoning": "The question pertains to the national nutrition mission related to the Anganwadi scheme, which is detailed in the long-form government policy document.",
+    "source": "policy_pdf"
+  },
+  "38b777f7faa056a562e227b77489b647090327714f3080bb094bf5c7fa3bc8e2": {
+    "answerable": true,
+    "reasoning": "Excerpt 1 and Excerpt 4 provide specific information about Jan Andolan under Poshan Abhiyaan, detailing its themes and activities."
+  },
+  "38fb769cb5e731c5b4bda221452583f19724a6d221bd84860a935bae76e032e9": {
+    "answerable": true,
+    "reasoning": "Excerpt 4 mentions criteria for upgrading Mini-AWCs to full-fledged AWCs based on population norms and specifies that these norms apply in tribal and difficult areas, which implies broader applicability."
+  },
+  "397078cbd8dd80ea6e38aacb8a74c56be24bdda8252c5ab81d2e268b3e2c2b93": {
+    "reasoning": "The eligibility criteria for being designated as a ration nominee is likely detailed in the long-form government policy document.",
+    "source": "policy_pdf"
+  },
+  "39c46a9444a97b2a7bf185f7153cbe36ef3a3e40718493beedf74c101a80c16d": {
+    "answerable": false,
+    "reasoning": "None of the excerpts provide specific information on how Anganwadi Services under Mission Poshan 2.0 differ from the erstwhile ICDS or what new components have been added."
+  },
+  "3a1b2fd4ff4f3233e8f6e48683a418364560751f6e83b89dada17abc866bd245": {
+    "answerable": true,
+    "reasoning": "The excerpts provide specific information about measuring the growth of children aged 6 months to 6 years under the Growth Monitoring feature."
+  },
+  "3c1a2f5b24725e8ff0ed5752c7205859003c0b20604dd187bef005193be86daa": {
+    "answerable": false,
+    "reasoning": "None of the excerpts specifically list the staff roles that fall under the 'AWC User' login category."
+  },
+  "3d9cd3cfcec112fac394799ecaefa660a5cc80a5dfc36827c65f5120cf32a626": {
+    "reasoning": "The question pertains to eligibility criteria for receiving benefits, which is likely detailed in the policy document.",
+    "source": "policy_pdf"
+  },
+  "3de06610bb2b2469f0ba91bdf4d00e7faed00246fd906237549935808a87b036": {
+    "answerable": true,
+    "reasoning": "Excerpt 3 clearly states that supplementary nutrition, including hot cooked meals, is provided to every pregnant woman and lactating mother up to 6 months after childbirth, and every child in the age group of 6 months to 6 years, which directly answers the eligibility question."
+  },
+  "3e4b74ad696ce1c929a66a889d63b2bc19751dfba6d906459847b182ebebc3af": {
+    "answerable": true,
+    "reasoning": "Excerpt 3 specifically describes the role of Poshan Abhiyaan as a pillar for outreach within the context of Saksham Anganwadi and Poshan 2.0, addressing the question directly."
+  },
+  "3eb60c76ff6a773aced85af876f833957278b610321d16ac86ac99534169bdf6": {
+    "reasoning": "The question pertains to the specific entitlements under a government scheme, which would be detailed in the policy document.",
+    "source": "policy_pdf"
+  },
+  "3f4620e12b23efec20866fa9aee80198f1cce75a654a60cfe465c7985686d4fd": {
+    "answerable": true,
+    "reasoning": "Excerpt 3 specifically states that an Anganwadi worker should contact their concerned Supervisor or CDPO for help with application login issues."
+  },
+  "404b4aa42f56d4cf1be1c0eb73e615459fa34af95d971d69f69b815a9e148995": {
+    "answerable": true,
+    "reasoning": "Excerpt 3 specifically states that an Anganwadi worker should contact their concerned Supervisor/CDPO for help with application login issues."
+  },
+  "40e078a8f9226ba0249c04b067422c36bf6d9df821208915b8baa63fd1c84878": {
+    "answerable": true,
+    "reasoning": "Excerpt 3 explicitly defines SAM as Severe Acute Malnutrition and MAM as Moderately Acute Malnourished, directly answering the question about who SAM children are and providing the definitions of severe and moderate malnutrition."
+  },
+  "4174ec17fa3dfafe0a2ce1f482aec5de40024afcd0291c48fa05f936f47d038e": {
+    "answerable": true,
+    "reasoning": "The first excerpt clearly states the minimum age (18-35 years) and educational qualification (12th Standard) required to become an Anganwadi Worker or Helper, as well as the retirement age (not beyond 65 years)."
+  },
+  "417d73d1f91ada2f77267a35b6eb571e3496f129073510c180949b5e8800377c": {
+    "answerable": true,
+    "reasoning": "Excerpt 2 specifically states that an option is available to add details of twins/triplet children while registering a lactating mother, which directly addresses the process for registering multiple-birth children."
+  },
+  "424ceec81f0380bd56fbe85567a70d853c1b92dfdf2e786fae9778e9de97f49b": {
+    "answerable": true,
+    "reasoning": "The first excerpt specifically states that growth monitoring details can be viewed in the Care Profile section of the profile card."
+  },
+  "42b8c41f3cb634247fd0218dcbeb0865373124b47ca70843f0b80236d6c94cfe": {
+    "answerable": true,
+    "reasoning": "Excerpt 5 explicitly defines Saksham Anganwadi as part of an Integrated Nutrition Support Programme aimed at addressing malnutrition."
+  },
+  "433e34e508fe351a40a55730be02a2f3a6436c01940ec8f40d7addb3fffc6ed8": {
+    "reasoning": "The question pertains to specific staff roles related to the AWC User login category, which is likely detailed in the long-form policy document.",
+    "source": "policy_pdf"
+  },
+  "4488023c0588948fdf8f59b5b3e1489c43a145a378482fae088dc86f985789ae": {
+    "answerable": true,
+    "reasoning": "Excerpt 1 specifically states that children aged 6 to 72 months are entitled to receive 500 calories per day under the scheme."
+  },
+  "44f65c60b0268f8e0a260ee2dd1bb6244e6aa30c6f572b1bed1e6d0e2410c55c": {
+    "answerable": true,
+    "reasoning": "Excerpt 3 specifically explains how the app captures a live photo of the beneficiary and matches it with the Aadhaar photo to confirm identity, directly answering the question."
+  },
+  "44fdc94d647bb7fa33627dd422601def1116b63d99a275571793cb8564dd072c": {
+    "reasoning": "The question specifically pertains to the features of the Poshan Tracker app, which is covered in the FAQ.",
+    "source": "faq"
+  },
+  "4676979fdac18cebbb859bd48bf3c2160c84b72c43732e5af76bc2179115f69c": {
+    "answerable": false,
+    "reasoning": "None of the excerpts provide specific information on who an Anganwadi worker should reach out to for help signing into the app."
+  },
+  "47361eefda898554fd0ec6dd8a2d14352fc7338cd01d7e03f4e4577674aac174": {
+    "answerable": true,
+    "reasoning": "The first excerpt specifically states that growth monitoring details can be viewed in the Care Profile section of the profile card, directly answering the question."
+  },
+  "479041f17c5aac10fced3c93c4d0a2c45142341d6531090effb9baa43690e6bf": {
+    "reasoning": "The question pertains to Jan Andolan under Poshan Abhiyaan, which is likely detailed in the long-form government policy document.",
+    "source": "policy_pdf"
+  },
+  "47c0dba91bd0fe6d6b023097273edd894b63307f311cd3eeb0e7a7477e8466b7": {
+    "answerable": false,
+    "reasoning": "None of the excerpts provide specific categories of people that an Anganwadi worker can enroll using the app."
+  },
+  "49272fe5a326b5328c65f80670142dc3e57ac9dca4ee127762058d39b8ae9b0e": {
+    "answerable": true,
+    "reasoning": "The first excerpt directly explains that the dashboard's beneficiary count may differ from the Master List because the dashboard shows data from previous months while the Master List reflects current data."
+  },
+  "4afb38b521363c686c61ff8825114f4d83f60a175f53cd658017d0293ceab7c6": {
+    "reasoning": "The question specifically pertains to the features of the Poshan Tracker mobile app, which is covered in the FAQ.",
+    "source": "faq"
+  },
+  "4b95ade3b89525db5b9f69cd49964d8433b89e75b17a6f3afc1145e5c3fcf5e8": {
+    "answerable": true,
+    "reasoning": "The first excerpt provides a clear definition of the RCH Profile feature, explaining its purpose and functionality."
+  },
+  "4d315d320cfe579e7913d5cadc240b28648c39870e1d50de3de781d07cb2aae4": {
+    "answerable": true,
+    "reasoning": "The first excerpt explicitly defines the different verification status labels (Unverified, Partially Verified, Verified) in a Beneficiary Profile, directly answering the question."
+  },
+  "4e462126919e547fe032a9b1b4860a3939f745ac04b5a7850c67f5348eb2ee9d": {
+    "answerable": false,
+    "reasoning": "None of the excerpts specifically identify the beneficiaries under the Anganwadi Services scheme."
+  },
+  "4f5283bf5cc2f8bcff5bc336ed19ac0f8a7bb06161a8c7986138fb2bf4d65f57": {
+    "answerable": true,
+    "reasoning": "The first excerpt specifically states what can be marked in Daily tracking, which directly answers the question about what information gets recorded."
+  },
+  "4f88d1ed1e35fdb3c6e2227c79c734f60b5caafb1d5a42e467ad05fede4faff2": {
+    "reasoning": "The question specifically pertains to the installation process of the Poshan Tracker mobile app, which is covered in the FAQ section.",
+    "source": "faq"
+  },
+  "4f9ddf4fd1e3f9f11b3ea28a29807ffde8ab02c32485201112d9b2bbb79a1dcf": {
+    "answerable": true,
+    "reasoning": "The excerpts specify that Take-Home Ration (THR) is distributed twice a month, which directly answers the question about the monthly limit on the number of days THR can be given."
+  },
+  "4fcb1b4c5a9053827e9a95dfe87e7b6a8847dcacc010a4004e57768e4e502cd8": {
+    "reasoning": "The question pertains to the specifics of the take-home ration policy, which would be detailed in the government policy document.",
+    "source": "policy_pdf"
+  },
+  "50552163367a01680c435549db2e4dcc7a79f2a15d6eeab4d84404a520e6625e": {
+    "answerable": false,
+    "reasoning": "None of the excerpts provide specific conditions that an Anganwadi worker must meet to qualify for a performance bonus."
+  },
+  "50a2ef7c315d50ce807db34f063b9378d2a28bedd1ebf61b0c0f66ab379602c7": {
+    "answerable": true,
+    "reasoning": "Excerpt 3 specifically describes the process of capturing a live photo of the beneficiary and matching it with the Aadhaar photo to verify identity, which directly answers the question."
+  },
+  "52a137dbdabd021377103cc519c2718a0090ad4e83406999d4a874bd570adf06": {
+    "answerable": true,
+    "reasoning": "The second excerpt specifically explains that if a beneficiary's Aadhaar details already exist in another AWC, the message 'Aadhaar already exists' will show up, which directly addresses the user's question."
+  },
+  "52d98ce880cbfd3d3bc4a0a110423a696c5b70f4c51779dee16e3937bbce6671": {
+    "reasoning": "The question specifically pertains to the usage of the Poshan Tracker mobile app, which is covered in the FAQ section.",
+    "source": "faq"
+  },
+  "53d7ee6b32bf90a8d1989a6a5e5e42290000ab840b32d072bf546492c6f1fa0a": {
+    "answerable": true,
+    "reasoning": "Excerpt 3 specifically describes the role of Poshan Abhiyaan as a pillar for outreach within the context of Saksham Anganwadi and Poshan 2.0, addressing the question directly."
+  },
+  "5532ef2826d25cf378da736951389336452d43e5e348af42f20eacdab774105c": {
+    "answerable": false,
+    "reasoning": "None of the excerpts provide specific information about linking a Jan Dhan bank account in the Poshan Tracker app."
+  },
+  "57b170b96bd564dd30aeb6c1048de878e49b465cc2ee045e94a77ccdf0f10305": {
+    "reasoning": "The eligibility criteria for receiving a hot cooked meal at the Anganwadi Centre is likely detailed in the long-form government policy document.",
+    "source": "policy_pdf"
+  },
+  "57ead1861d9d9aac9092d98c0e985068a9a86c1eabb3551ff40f023eb85ec6fd": {
+    "answerable": false,
+    "reasoning": "The excerpts do not provide specific information on how Anganwadi Services under Mission Poshan 2.0 differ from ICDS or what new components have been added."
+  },
+  "59abe42d7fdf47b988cbed10bf7386431fc6dcfd526f420776b8b0407fcd6d38": {
+    "answerable": true,
+    "reasoning": "Excerpt 4 specifically states the vaccines provided to adolescent girls, which directly answers the question about immunizations tracked for teenage girl beneficiaries."
+  },
+  "59c620e8e5992be368a48c4137023bb6994c3cc328fe8af1d0cd48f1414e648e": {
+    "reasoning": "The question specifically asks about beneficiaries under the Anganwadi Services scheme, which is detailed in the long-form government policy document.",
+    "source": "policy_pdf"
+  },
+  "5afe75135b7f4e2d0425d37d7feefea7ae1d289a05608d5de036af70f864fea8": {
+    "answerable": false,
+    "reasoning": "None of the excerpts provide specific information about whether Ayushman Bharat health insurance coverage is linked to a beneficiary's Poshan Tracker profile."
+  },
+  "5b8ae9538536be6a10b5f012019801c467eba3ffd2f9179021a8bf642bbc81f1": {
+    "answerable": true,
+    "reasoning": "The first two excerpts explicitly state that Aadhaar verification is mandatory to avail the benefits, which includes receiving the cooked meal."
+  },
+  "5c396fc5a958cf69cace03a94a993f09f1458064694020871dbbe432edb28a8c": {
+    "reasoning": "The question pertains to specific guidelines or principles related to the Poshan scheme, which would be found in the long-form government policy document.",
+    "source": "policy_pdf"
+  },
+  "5c5612c9991f87cfe34b250fc9cc929565c2ab96ca29478dba79df8faedc3584": {
+    "answerable": false,
+    "reasoning": "None of the excerpts provide specific information about linking a Jan Dhan bank account in the Poshan Tracker app."
+  },
+  "5d451b8408993e4ea62b5c8e1e4c73f4bb9a874371c64c590dca1fef4ccb38f6": {
+    "reasoning": "The question pertains to the concept of Poshan Vatika, which is likely detailed in the long-form government policy document regarding nutrition programs.",
+    "source": "policy_pdf"
+  },
+  "5d95e73159c7137134c769eaf338aab8540c894386a006f328a8086784f5fe7f": {
+    "answerable": true,
+    "reasoning": "The first excerpt provides specific information about what the Home Visit module covers, including the activities performed during these visits."
+  },
+  "5e48d15352fced9d993631b9132c37686fc833f19ae02d774ba2b95e5fd5fd6f": {
+    "reasoning": "The question specifically pertains to a feature of the Poshan Tracker mobile app, which is covered in the FAQ section.",
+    "source": "faq"
+  },
+  "5f6a162725c03dd5218f20da36d5f1f75325dacefe2348b4eed8240796e30f66": {
+    "answerable": false,
+    "reasoning": "None of the excerpts provide a definition or explanation of stunting, wasting, and underweight in children."
+  },
+  "60734c3bd53e1621d3e1fde79dffce589fd9397dc5b44ef462044726b32d0565": {
+    "answerable": true,
+    "reasoning": "The first excerpt specifically describes what the Home Visit module covers, including the activities and services provided during these visits."
+  },
+  "607c9dd59ad7173d4bbf0a546fad486be1c7601a92ef4a935644ea796c6ac1c6": {
+    "answerable": true,
+    "reasoning": "Excerpt 3 specifically describes the role of Poshan Abhiyaan as a pillar for outreach within the context of Saksham Anganwadi and Poshan 2.0, addressing the question directly."
+  },
+  "6085f8a3fbaf8f6ef7c3315c4da1aa551aefffe103ca793fb9f13c26982e79c2": {
+    "reasoning": "The question involves understanding discrepancies in data which could relate to both the app's functionality (faq) and the underlying policy guidelines (policy_pdf) regarding beneficiary tracking.",
+    "source": "both"
+  },
+  "617a8152cbebcd2cc3ab2c1b94a4d1b415db4a412b0924d5501ef19523dede1b": {
+    "reasoning": "The question pertains to definitions and classifications related to malnutrition, which are likely detailed in the long-form government policy document.",
+    "source": "policy_pdf"
+  },
+  "61dfc594c9af819dac65faa8625eb856b0e3d6e5c04e215e13d0c59a663c88a7": {
+    "reasoning": "The question pertains to specific nutritional guidelines for children under the scheme, which would be detailed in the policy document.",
+    "source": "policy_pdf"
+  },
+  "635d8a923e5df6e22b118ab98015a274e72c8d07fce56a714c714953dfb5b949": {
+    "answerable": true,
+    "reasoning": "Excerpt 4 specifically states that children from 0 months to 6 years and adolescent girls are the beneficiaries whose growth is measured under the Growth Monitoring feature."
+  },
+  "63c3f3be683d7d40e5d6f5c646862560354669d01a105840f30ebf24bf3fef7a": {
+    "answerable": false,
+    "reasoning": "None of the excerpts provide specific information about whether Ayushman Bharat health insurance coverage is linked to a beneficiary's Poshan Tracker profile."
+  },
+  "63cd1d9620987e864b3764ece747862ab846ba011a09c158742d41c82be3b027": {
+    "reasoning": "The question pertains to the cash benefit under the PMMVY scheme, which is detailed in the government policy document.",
+    "source": "policy_pdf"
+  },
+  "63d8759f719891a10a76ae2faebef5121833aa190454fff45ca0d80f39b2e5b6": {
+    "reasoning": "The question pertains to the categories of people that can be enrolled by an Anganwadi worker, which is likely detailed in the long-form government policy document.",
+    "source": "policy_pdf"
+  },
+  "65a028b43297814e130553b1a947576248f34aad61601ea57cec84ec4bd90cbe": {
+    "reasoning": "The question specifically pertains to the functionality of the Poshan Tracker app, which is covered in the FAQ section.",
+    "source": "faq"
+  },
+  "65e07e33542f4659181225eafaeb7ea4d3b2759975a9d39586cb5ce5b8d1ab01": {
+    "answerable": true,
+    "reasoning": "Excerpt 5 explicitly mentions 'Poshan 2.0' as the national nutrition mission that the Anganwadi scheme is aligned under."
+  },
+  "666078eb1884e7c382c07a025f416d4a6fc2847d37f21c053f926542d13fdb3c": {
+    "answerable": true,
+    "reasoning": "Excerpt 1 specifically states the immunizations recorded for expectant mothers, which are Td1, Td2, and Td booster."
+  },
+  "667f9c95bf0ea88c34e94a2cacb74cd0552131f2113892cf605e1fc5ad0b3e6b": {
+    "reasoning": "The question pertains to eligibility criteria for receiving benefits, which is typically detailed in the policy document.",
+    "source": "policy_pdf"
+  },
+  "6692681268599625c634b087120066d1cdaaf4895978db9fbd1084088e983291": {
+    "answerable": true,
+    "reasoning": "The first two excerpts explicitly state that the application is available in 24 different languages, confirming that it supports languages other than English."
+  },
+  "674f99ee3de0ac6c05c6fb4614041c7acbefbd126da64317e576c6d4f7ca2e36": {
+    "reasoning": "The question pertains to health insurance coverage, which is likely addressed in the long-form government policy document rather than the FAQ.",
+    "source": "policy_pdf"
+  },
+  "674fc0e5e7b02b4b82d4501907d771bcd653320051746f9cfb459cadddfecb0b": {
+    "answerable": true,
+    "reasoning": "The second excerpt specifically explains that if a beneficiary's Aadhaar details already exist in another Anganwadi Centre (AWC), the app will display the message that the Aadhaar already exists, which directly answers the question."
+  },
+  "690def042e26b1b9041e8f66ab5eedb57b11c3f0257b9bd25c9786cd762a5e13": {
+    "answerable": true,
+    "reasoning": "The first excerpt explicitly defines MAM as Moderately Acute Malnourished, which directly answers the question about who MAM children are."
+  },
+  "695ff78fef67f2058db13af4602ce091daffefc5dee06445745409ea0a9741cb": {
+    "answerable": true,
+    "reasoning": "The second excerpt specifically explains that if a beneficiary's Aadhaar details already exist in another Anganwadi Centre (AWC), the app will display the message that the Aadhaar already exists, which directly answers the question."
+  },
+  "6ab7bc06a73b419c8212c4e8daa800eb39abf44d2cf96da8fe3208afa9bae711": {
+    "answerable": false,
+    "reasoning": "None of the excerpts specifically identify the beneficiaries under the Anganwadi Services scheme."
+  },
+  "6c0bc94e53e88cece9c0d8ec8a23557267e87441fd0f28f83c42afe3d37f5b94": {
+    "answerable": true,
+    "reasoning": "Excerpt 2 mentions that the guidelines are issued under the provisions of Sections 4(a), 5(1)(a), and 6, which indicates the legal basis for the Anganwadi and Poshan 2.0 scheme guidelines."
+  },
+  "6d2936536574955b3fc99115fbb38b7b56c52d4a285295fcd9fbc4acd9c14852": {
+    "reasoning": "The question pertains to the legal basis for the Anganwadi and Poshan 2.0 scheme guidelines, which would be detailed in the policy document.",
+    "source": "policy_pdf"
+  },
+  "6d35cdb8fecb4997f2049c693f5c8c579ab7e7a99064171f6050845340075ab6": {
+    "reasoning": "The question pertains to specific guidelines about the take-home ration, which would be detailed in the long-form government policy document.",
+    "source": "policy_pdf"
+  },
+  "6d8c8260cda7155fc478a044143e82825af8a45b53e4a3d8f919050181ded8b1": {
+    "answerable": true,
+    "reasoning": "The first two excerpts explicitly state that the application is available in 24 different languages, confirming that it supports languages other than English."
+  },
+  "6e3c83e552af5372c2f25a9b01b1e07c6e90dc44d0e815ec5c2df892835f2362": {
+    "reasoning": "The term 'MAM children' refers to Moderately Acute Malnourished children, which is likely detailed in the policy document regarding eligibility criteria and nutrition programs.",
+    "source": "policy_pdf"
+  },
+  "6e674ebd0e7238eb2dd8c24bf08e194d7343e6343369fa7a775bda80572e9cb4": {
+    "reasoning": "The question pertains to specific details about the coverage of the nutrition scheme, which is likely outlined in the long-form government policy document.",
+    "source": "policy_pdf"
+  },
+  "6f729114c8ebca94138cb72d992c075dd7f713663cbf812bbdc6bad7fcc3b7ee": {
+    "answerable": false,
+    "reasoning": "None of the excerpts provide a definition or explanation of stunting, wasting, and underweight in children."
+  },
+  "707ebd49ce0c6ddee01a117eff74493b8e774266eb2b87e67717cfbfe6e5bc37": {
+    "answerable": false,
+    "reasoning": "None of the excerpts specifically list the staff roles that fall under the 'AWC User' login category."
+  },
+  "71413fa71fd423b35057160913f3874dd3a078b4c833442fd9fe4a7309bbe70f": {
+    "answerable": true,
+    "reasoning": "Excerpt 4 states that pregnant women and lactating mothers receive Rs.9.50 per beneficiary per day, which provides specific information about the cash benefit under PMMVY."
+  },
+  "71637445d10139bfbe7d2a40f8320a5a785cb6f72f8bdb493a8d300c49b7776e": {
+    "answerable": true,
+    "reasoning": "Excerpt 1 provides specific instructions on what to do when login credentials are rejected, stating that the user needs to input the correct mobile/email or password."
+  },
+  "719cc5d27caa1b2d10b071c1aad74307feb5d8fd27fd7bb01c08f36ddeb53b33": {
+    "answerable": true,
+    "reasoning": "Excerpt 1 specifically mentions that pregnant women receive two Tetanus Toxoid shots as part of their immunizations."
+  },
+  "721817efd756e9997be0a472f0c4f24ac89e794d9c03bf579d381d1917aadec9": {
+    "answerable": true,
+    "reasoning": "Excerpt 4 specifically states that children from 0 months to 6 years and adolescent girls are the beneficiaries whose growth is measured under the Growth Monitoring feature."
+  },
+  "73972d1576f22589ed56cb0c1aaa5b46ce30baf5d4ec30eced41c6d1bd131d6f": {
+    "answerable": true,
+    "reasoning": "The first excerpt provides specific contact information for support regarding technical problems with the Poshan Tracker Application and Dashboard."
+  },
+  "7440315abd8c6843d442ff51640afc2ac7e44195c8b56c36f93375f41bfaa79b": {
+    "answerable": false,
+    "reasoning": "The excerpts do not provide specific information about the population norms or criteria for setting up AWCs, nor do they confirm if these norms are applicable across all States including North-Eastern States."
+  },
+  "746ad8fa55bb20da427765ac34bcdfb2faceb240bde026e3c86596ebd0e93b14": {
+    "answerable": true,
+    "reasoning": "The first excerpt provides specific information about what the Home Visit module covers, including the activities performed during these visits."
+  },
+  "74a85a02df52e3ad7c38931fdc54fc5bbeaf49df4022de5b7ae50de61394c472": {
+    "answerable": false,
+    "reasoning": "None of the excerpts provide specific information on how the system determines which month of pregnancy a woman is currently in."
+  },
+  "75c4b9e8749010f45e192d23844cea7bd10b5db5f2339cbd730ad3de3a9625be": {
+    "answerable": true,
+    "reasoning": "Excerpt 1 provides a comprehensive list of relationships that can be selected as a nominee, directly answering the question about eligibility."
+  },
+  "7662c672642bb15b875ba17b1b28ca60078e00ce7101738ce3388af78378cbe6": {
+    "reasoning": "The question specifically pertains to the features of the Poshan Tracker mobile app, which is covered in the FAQ.",
+    "source": "faq"
+  },
+  "78399b889b351f13eb21a16a964f5da7d601884063abc56f2e27da519ec62b8d": {
+    "answerable": true,
+    "reasoning": "One excerpt explicitly states that all beneficiaries will require Aadhaar number to avail benefits under the scheme, indicating that Aadhaar identity verification is necessary before receiving take-home ration."
+  },
+  "79fb3c07047f4d927b36381983ff51ca25a4ef1f24cb7f0df5ff157adb92f19e": {
+    "answerable": true,
+    "reasoning": "The second excerpt explicitly states that the Poshan Tracker application was rolled out as an important governance tool to strengthen and bring about transparency in nutrition delivery support systems, which answers the question about why the platform was introduced."
+  },
+  "7b557e7339cd9e2b3cc624634ecb50c0594a0400d63c808893dfbc79319585a4": {
+    "answerable": true,
+    "reasoning": "The excerpts specifically mention that the nutrition scheme for adolescent girls covers Aspirational Districts of States including Assam and North-Eastern States."
+  },
+  "7b7a6bd0ec57f3ce2d1535bf5926831920e71472acb045aee170ba066b3c27b1": {
+    "answerable": true,
+    "reasoning": "Excerpt 1 specifically states the immunizations recorded for expectant mothers, which are Td1, Td2, and Td booster."
+  },
+  "7cfd5f2e5e8d422e5f3525bbb17d5913eec5f23175618cd37a38644ae7129cf9": {
+    "answerable": false,
+    "reasoning": "None of the excerpts provide specific information about who is eligible to be designated as someone's ration nominee."
+  },
+  "7d5483463f4d21dc7faa2c5e1e3345f351527b0ff62cde447ca7188e28d4fb9e": {
+    "reasoning": "The question specifically asks about using the Poshan Tracker mobile app, which is covered in the FAQ section.",
+    "source": "faq"
+  },
+  "7e1fdf58f0ed1e9c36f19f06b18c5d2b7d69f41d58f999af74543ad8d1bd899d": {
+    "answerable": true,
+    "reasoning": "The first and second excerpts provide specific information about the monthly limit on the number of days take-home ration can be given, stating that it can be a maximum of 30 days or 25 days respectively."
+  },
+  "7eabc0e06eb0e12eb5d837eb07afe4e906ac0ec035ec5bacf50ae396d6b04af1": {
+    "answerable": false,
+    "reasoning": "None of the excerpts provide specific information about whether Ayushman Bharat health insurance coverage is linked to a beneficiary's Poshan Tracker profile."
+  },
+  "7f56496c26704c83340dda57741788e9a21f1ccb2502cf0093b3fc99926d4d11": {
+    "answerable": false,
+    "reasoning": "None of the excerpts provide a specific reason for the addition of face-based verification to the ration distribution process."
+  },
+  "7ffa8b03255911c18539f82c8c33aba2a75c0dc5a67e9a9603183cad1fdd511e": {
+    "answerable": true,
+    "reasoning": "Excerpt 4 provides specific information about the introduction of the Poshan Tracker as a governance tool to strengthen nutrition delivery support systems."
+  },
+  "80580e607932d72a700512da000236b34e89c975dedc8dd3b094e2510a7a4f5c": {
+    "answerable": true,
+    "reasoning": "The first excerpt provides specific information on how to access the Poshan Tracker Dashboard, including the link and the requirement for unique credentials."
+  },
+  "807de2ca4028c1f77c3e8c609e1d91055eabf5596b11f5cd4d246f26b9aa868b": {
+    "answerable": true,
+    "reasoning": "The first excerpt explicitly defines MAM as Moderately Acute Malnourished, which directly answers the question about who MAM children are."
+  },
+  "80a51ed205a611234c624fab7f40844c5e07eed4fb0f2750a79ccf32f73f1a9d": {
+    "reasoning": "The eligibility criteria for receiving a hot cooked meal at the Anganwadi Centre is likely detailed in the long-form government policy document.",
+    "source": "policy_pdf"
+  },
+  "812289aef6279618b30a7e78237c14b509fc368a8579ee7aa884bc5295d926af": {
+    "answerable": false,
+    "reasoning": "None of the excerpts provide specific information on who an Anganwadi worker should reach out to for help signing into the app."
+  },
+  "824ccf51f45f1f6c814127f71e8ae375b840dbf17acbace12501e56fea05ca2d": {
+    "reasoning": "The question pertains to the rationale behind a specific process in ration distribution, which is likely detailed in the government policy document.",
+    "source": "policy_pdf"
+  },
+  "82fba6cec5db1e0b11f455e40accaf9ce7b8a3832f168c83f7a9835787f602ae": {
+    "reasoning": "The eligibility criteria for being designated as a ration nominee is likely detailed in the long-form government policy document.",
+    "source": "policy_pdf"
+  },
+  "830878eb723fdba05a768927e0b25326ac8b8422c5fd3bd0efd1ac1fdf7498ed": {
+    "reasoning": "The question pertains to a specific program related to health and nutrition, which is likely detailed in the long-form government policy document.",
+    "source": "policy_pdf"
+  },
+  "84303048e48abf552b67d9d6710ea1252139d96a451e5979e0761632dfbe3db6": {
+    "answerable": true,
+    "reasoning": "Excerpt 1 provides a specific action to take when login credentials are rejected, stating that the user needs to input the correct mobile/email or password."
+  },
+  "8434be80fc14c2686894aa940c29a629c2ff944b99a994f27e9061856ad71184": {
+    "reasoning": "The term 'MAM children' refers to Moderately Acute Malnourished children, which is likely detailed in the government policy document regarding nutrition programs.",
+    "source": "policy_pdf"
+  },
+  "8473c8933b83ab0979c8f09381c7b4be164a1336e40c9113346d075d94961e01": {
+    "answerable": false,
+    "reasoning": "None of the excerpts provide specific information about 'Poshan ke Paanch Sutra'."
+  },
+  "84907d123ba67d1e5f3494bf8de4acec687b525d5d7178c0c6c2c1be944a46eb": {
+    "answerable": false,
+    "reasoning": "None of the excerpts provide specific categories of people that an Anganwadi worker can enroll using the app."
+  },
+  "8583e99403e3a05b5a7c9377dd5e149e52df10963419a3de6eaaf7f89c96e69c": {
+    "reasoning": "The question pertains to the concept of Poshan Vatika, which is likely detailed in the long-form government policy document regarding nutrition programs.",
+    "source": "policy_pdf"
+  },
+  "86392d59cfcc2763cee61a38caebed39bc8593b05b0d28dd05fd9669adae445a": {
+    "answerable": true,
+    "reasoning": "The first excerpt clearly states the minimum age (18-35 years) and educational qualification (12th Standard) required to become an Anganwadi Worker or Helper, as well as the retirement age (not beyond 65 years)."
+  },
+  "864abf56ff8fa2271f77db4b19216186036aca7fd5b4a21416da9199ce5e2417": {
+    "answerable": true,
+    "reasoning": "Excerpt 3 specifically states that supplementary nutrition, including hot cooked meals, is provided to every pregnant woman and lactating mother up to 6 months after childbirth, and every child in the age group of 6 months to 6 years, which directly answers the eligibility question."
+  },
+  "876edc2e13ec517b15692c8c2de60a3c2807a95f04b39d26955e70cd93de377b": {
+    "answerable": true,
+    "reasoning": "The first excerpt clearly states the minimum age (18-35 years) and educational qualification (12th Standard) required to become an Anganwadi Worker or Helper, as well as the retirement age (not beyond 65 years)."
+  },
+  "87b5506f6dc705bfc06c1f5f73b9516a135d0923c423c8699b5a11ab58be4bec": {
+    "reasoning": "The question specifically asks about the minimum age, educational qualification, and retirement age for Anganwadi Workers or Helpers, which are detailed in the long-form government policy document.",
+    "source": "policy_pdf"
+  },
+  "87b86b0fced815abf9fd00ab5fe3c30b1bcd635a5d5fbe16b536bca4cefe265f": {
+    "answerable": true,
+    "reasoning": "Excerpt 1 provides specific information about Jan Andolan under Poshan Abhiyaan, detailing the themes and activities it covers."
+  },
+  "87d3a83f98e49b60a1cb58c7c87c2b2cee3f2603327e32506378d64526bcf76a": {
+    "reasoning": "The question pertains to a specific program related to health and nutrition, which is likely detailed in the long-form government policy document.",
+    "source": "policy_pdf"
+  },
+  "8832954a33d97eb57715e1caaf9bb27199cbf8126de6349ec418ddf1c907ccb9": {
+    "reasoning": "The question pertains to the rationale behind a specific process in the ration distribution, which is likely detailed in the government policy document.",
+    "source": "policy_pdf"
+  },
+  "898f74ec54d2db558cc792e51faad5bd762b7344709ee926f4afe8ef9c2537f3": {
+    "answerable": false,
+    "reasoning": "None of the excerpts provide a definition or explanation of stunting, wasting, and underweight in children."
+  },
+  "8bda060da4b8d4cfc22cf4d13901d7c0283dee19011fa1f5d35b23e8dae98936": {
+    "reasoning": "The question specifically asks about using the Poshan Tracker mobile app, which is covered in the FAQ section.",
+    "source": "faq"
+  },
+  "8c29f37995e9483620a35504358ecbba37761c9a033566d74e47d1e0c6650ee5": {
+    "reasoning": "The question pertains to eligibility criteria for a performance bonus, which is likely detailed in the long-form government policy document.",
+    "source": "policy_pdf"
+  },
+  "8c2f2c525e00228a7861a41c8e638b1edf1b39ddd64df90cb5eefa0b31d6b159": {
+    "reasoning": "The question specifically pertains to the features of the Poshan Tracker mobile app, which is covered in the FAQ.",
+    "source": "faq"
+  },
+  "8edc95895d7b1dea37cb292440055de6299fc0bc45ca38f27fce45005efddf4b": {
+    "answerable": true,
+    "reasoning": "The first excerpt provides a clear definition of the RCH Profile feature, explaining its purpose and functionality."
+  },
+  "8f23374945a9f0aacdd600cfc92b24307f2c4f1db33865462a5f0b0f2294550a": {
+    "reasoning": "The question specifically asks about using the Poshan Tracker mobile app, which is covered in the FAQ section.",
+    "source": "faq"
+  },
+  "8f38962beb2b888f71f3f5254c52b669da66d89f2325ce3f3f6cf0c9ab71712c": {
+    "reasoning": "The question pertains to Jan Andolan under Poshan Abhiyaan, which is likely detailed in the long-form government policy document.",
+    "source": "policy_pdf"
+  },
+  "8fab568b0a8c7cb8f55d0bc4ce845eeae5efad5953655dfd573ac89a31ca2bfa": {
+    "answerable": true,
+    "reasoning": "The first excerpt specifically states what can be marked in Daily tracking, which directly answers the question about what information gets recorded."
+  },
+  "8fb5b46dfdb5761d4293bf56bf8efb7586d06eadd66b64329e36f5409e38b726": {
+    "reasoning": "The question pertains to the specifics of the Growth Monitoring feature, which is likely detailed in the long-form policy document regarding the scheme guidelines.",
+    "source": "policy_pdf"
+  },
+  "9038ec4c14647347dca93d90fc69bf1499201a4030dc09f01edfac36d1a3bed6": {
+    "answerable": false,
+    "reasoning": "None of the excerpts specifically list the staff roles that fall under the 'AWC User' login category."
+  },
+  "908f937f24bdbda6d14bf16b86a8cef60b53c65a356cc5d3cd2331fe539216e7": {
+    "answerable": true,
+    "reasoning": "The first excerpt explicitly defines the different verification status labels (Unverified, Partially Verified, Verified) in a Beneficiary Profile, directly answering the question."
+  },
+  "90fd8e6e1f5f664a4993ab67b8c59a5ab69c48f1963d105e33d60c08e0107210": {
+    "answerable": true,
+    "reasoning": "The first excerpt specifically states what can be marked in Daily tracking, which directly answers the question about what information gets recorded."
+  },
+  "92fef88227d2fe007210a20e7e0309552c445854cf1813fd59da687a57079cb4": {
+    "reasoning": "The question specifically pertains to the features of the Poshan Tracker mobile app, which is covered in the FAQ section.",
+    "source": "faq"
+  },
+  "93060b66f0afb9ea7db76d549f6d1eb3278635a6618f14ff8544bb02164ea253": {
+    "answerable": true,
+    "reasoning": "The first excerpt provides specific contact information for support regarding technical problems with the Poshan Tracker Application and Dashboard."
+  },
+  "935f1c7acdb8d61e40bd2a5149bb66580cdb2f2c2a28d316f5364677e3912c8f": {
+    "answerable": false,
+    "reasoning": "The excerpts do not provide specific information about the population norms or criteria for setting up AWCs, nor do they confirm if these norms are applicable across all States including North-Eastern States."
+  },
+  "94c400c050b784ed715d81311d02f078b8ca98a8cb5064c90f9ddee11411bd45": {
+    "answerable": true,
+    "reasoning": "Excerpt 1 provides a list of relationships that can be selected as a nominee, directly answering the question about who is eligible."
+  },
+  "94d77b9957c726900c2db4981c6ef581573b0edddde37c80e19f70c4c5dd8d81": {
+    "reasoning": "The question specifically pertains to a feature of the Poshan Tracker mobile app, which is covered in the FAQ section.",
+    "source": "faq"
+  },
+  "95266c5d3996397fe2fbee002151d5e0695ccefa8af2f5db64a8065384ecc7b9": {
+    "answerable": true,
+    "reasoning": "The first excerpt directly explains that the dashboard's beneficiary count may differ from the Master List because the dashboard shows data from previous months while the Master List reflects current data."
+  },
+  "95e7bc6c22ca3e6179fe6d4e02cf881ca25404c036c49e850036901464fba092": {
+    "reasoning": "The question involves a specific registration process that may be detailed in the policy document while also potentially being addressed in the FAQ section.",
+    "source": "both"
+  },
+  "968d4fb1ee0baeaef76ab4ecbcd60f18204585a62d86a56a94b94da834f95a67": {
+    "answerable": true,
+    "reasoning": "The first excerpt explicitly states that Aadhaar card verification is mandatory for take-home ration (THR), directly answering the question."
+  },
+  "969dd5e6593a4cfc0425d9d2d3f500af38fd8e7a9129b70bd1454ea1776ac0fa": {
+    "answerable": true,
+    "reasoning": "The second excerpt explicitly states that the Poshan Tracker application was rolled out as an important governance tool to strengthen and bring about transparency in nutrition delivery support systems, which addresses the question of why the platform was introduced."
+  },
+  "96d0db54d0ec794eda1497324ce0ee70592492e7a521fa8dc8355d5753d5cd5b": {
+    "answerable": true,
+    "reasoning": "Excerpt 5 explicitly defines Saksham Anganwadi as part of the Integrated Nutrition Support Programme aimed at addressing malnutrition."
+  },
+  "96d72dfc1e3ec5e7ef85516ccd32d65fc114fbae1fbdaf901086bcf05102bd93": {
+    "reasoning": "The question pertains to population norms and criteria for setting up Anganwadi Centers (AWCs), which is detailed in the long-form government policy document.",
+    "source": "policy_pdf"
+  },
+  "96ec9aa4bfea5b0df2bdaa66614bf943a463a2a7ede82e5e98bb4a201d2c357c": {
+    "answerable": true,
+    "reasoning": "Excerpt 3 explicitly states the benefits of introducing face-based verification, including ensuring that THR reaches the rightful beneficiary and preventing misuse."
+  },
+  "972ef153271d15e72c21b2fe08f4abc33ea3c9d240c2e22fe2cb85d294ae63bc": {
+    "reasoning": "The term 'MAM children' refers to Moderately Acute Malnourished children, which is likely detailed in the government policy document regarding nutrition programs.",
+    "source": "policy_pdf"
+  },
+  "980f76e4f4e2730665ee7e81a49fbef537d96feae0797bbb74df55ef178d0d6d": {
+    "reasoning": "The question specifically asks about a feature of the Poshan Tracker mobile app, which is covered in the FAQ section.",
+    "source": "faq"
+  },
+  "9a23deb0560e8ef2cd562e56940d3aeddcc1a365ce9edf7dba3e6ab212600ffd": {
+    "answerable": false,
+    "reasoning": "None of the excerpts provide specific information about who is eligible to be designated as someone's ration nominee."
+  },
+  "9a4845dfcfac9aa5f8282bad6640bd9cbd0e50fd415ec6905a5b410f15f1f34b": {
+    "answerable": false,
+    "reasoning": "The excerpts do not provide specific information about the population norms or criteria for setting up AWCs, nor do they confirm if these norms are applicable across all States including North-Eastern States."
+  },
+  "9aced6e1cca61365d6561daf47d8b799343d9e000c1e6029063c52949462e5fe": {
+    "answerable": false,
+    "reasoning": "None of the excerpts explicitly state the name of the national nutrition mission that the Anganwadi scheme is aligned under."
+  },
+  "9b79ee1e3af37ee811c93666404b136b909306c4b89fd64249ff682412fcf7d6": {
+    "reasoning": "The question pertains to eligibility criteria for a performance bonus, which is likely detailed in the long-form government policy document.",
+    "source": "policy_pdf"
+  },
+  "9ba05586c578a46ccba2e8953baebe7d8207ac671e2bab260cd273c1ad730430": {
+    "answerable": false,
+    "reasoning": "None of the excerpts provide specific categories of people that an Anganwadi worker can enroll using the app."
+  },
+  "9bad7a419e1d103dcf5a8a41ad46e08db37231c6dbce182c2bfe27e7ebe34f8d": {
+    "answerable": true,
+    "reasoning": "Excerpt 1 specifically states that the pregnancy month is auto calculated based on the Last Menstrual Period (LMP) Date, directly answering the question."
+  },
+  "9bf545d582a0241ff188a26fd7172a4b63953934283351e15435c8c3d4680c8a": {
+    "answerable": true,
+    "reasoning": "Excerpt 3 explicitly defines SAM as Severe Acute Malnutrition and MAM as Moderately Acute Malnourished, directly answering the question about who SAM children are and providing the definitions needed."
+  },
+  "9c0afe51f5818f0eeaba9e4b6f068d19a1a09558ffb6a8c642a502a6f4afb3b9": {
+    "reasoning": "The question pertains to a specific feature of the Poshan Tracker app, which is likely covered in the FAQ section.",
+    "source": "faq"
+  },
+  "9c31761e5e8e407307ea360300cc57124a6822b0de87c7ffe9d75c06e21a24ae": {
+    "answerable": true,
+    "reasoning": "Excerpt 2 provides specific instructions on how to download and install the Poshan Tracker Application from the Google Play Store."
+  },
+  "9cacd36447a5965448fbf63c703e923a6e4460c00b5e2eee9d7fd90961317347": {
+    "reasoning": "The question specifically pertains to the usage of the Poshan Tracker mobile app, which is covered in the FAQ section.",
+    "source": "faq"
+  },
+  "9cf65dc8de1ee135c8cea1d24c7c848f8e189ed9ad7b166369079822f7362005": {
+    "reasoning": "The question pertains to specific details about the coverage of the nutrition scheme, which is likely outlined in the long-form government policy document.",
+    "source": "policy_pdf"
+  },
+  "9f26c8eddc01b75177a1474d5a6b87c694218e9581e52439c3673ba0a0615dfa": {
+    "answerable": false,
+    "reasoning": "None of the excerpts specifically list the staff roles that fall under the 'AWC User' login category."
+  },
+  "9f6a245867fbf08a500a87038ebd3ddc98260e30570da91c61eeae3f09638338": {
+    "answerable": true,
+    "reasoning": "The excerpts provide specific information that the take-home ration (THR) can be distributed for a minimum of 300 days in a calendar year, which translates to an average of 25 days per month."
+  },
+  "9f8b656a14571c869a03bd10484f85277119f3aa859621787eedcfb99f26c4d4": {
+    "reasoning": "The question specifically asks about a feature of the Poshan Tracker mobile app, which is covered in the FAQ section.",
+    "source": "faq"
+  },
+  "9fff66529628b8ea2def6011394be71a880015985ebb3d4e99af11c5f223b12b": {
+    "answerable": true,
+    "reasoning": "Excerpt 2 specifically mentions SAM children and discusses the additional nutrition they require, while Excerpt 5 provides nutritional norms that differentiate between severely malnourished and moderately malnourished children."
+  },
+  "a0965a03bb02f38c71ae3782dabe0c4bcf15357bf90c41262ec81c174b99ad0a": {
+    "reasoning": "The question pertains to eligibility criteria and administrative procedures related to the distribution of take-home rations, which would be detailed in the policy document.",
+    "source": "policy_pdf"
+  },
+  "a09e1c435ec972537dfb390456cb63d6049604431c057e984025bbbe15cc5b5d": {
+    "answerable": true,
+    "reasoning": "Excerpt 2 specifically states the daily mid-day meal entitlement for school children under PM POSHAN, detailing the amounts for different categories of children."
+  },
+  "a10a3cfb1e983a6299eff0ac279a6e9bfa16090db6ff76a1c5bf9b14f6fc67c1": {
+    "answerable": true,
+    "reasoning": "Excerpt 3 explicitly states the benefits of introducing face-based verification, including ensuring that THR reaches the rightful beneficiary and preventing misuse."
+  },
+  "a26eb849cf566ec5293190752dfa15f7e6c5f6a86409fb46814958eb06aab563": {
+    "reasoning": "The question pertains to a specific feature of the Poshan Tracker app, which is likely covered in the FAQ section.",
+    "source": "faq"
+  },
+  "a4885ae1d091bf9fc60a38a344ba7bc36eea2df696e2c6ecccd7751991b822d5": {
+    "answerable": true,
+    "reasoning": "The first excerpt specifically describes what the Home Visit module covers, including the activities and services provided during these visits."
+  },
+  "a4e235e0cdd5042c551894888248e2c9d59e7889e84dec7c1f6a27d76d0dce1b": {
+    "answerable": true,
+    "reasoning": "The excerpts specify that Take-Home Ration (THR) is distributed twice a month, which directly answers the question about the monthly limit on the number of days THR can be given."
+  },
+  "aa52d34838ba96fcf78da7a01b333c9eaf87671e6e3b890ab96be4917213c050": {
+    "answerable": true,
+    "reasoning": "The second excerpt specifically explains that if a beneficiary's Aadhaar details already exist in another AWC, the message 'Aadhaar already exists' will show up, which directly addresses the user's question."
+  },
+  "ab5ac0dc397bc9a8932b40a1950c5f84d67164132b83d38b024288998b9ccdad": {
+    "answerable": false,
+    "reasoning": "None of the excerpts specifically identify the beneficiaries under the Anganwadi Services scheme."
+  },
+  "abdbd19e847f3b3b03a79cca25fa759a32a4888a9a1e42413b44090fd3792494": {
+    "answerable": true,
+    "reasoning": "Excerpt 2 states that the only pre-condition for beneficiaries to access benefits under the scheme is that they must be registered at the nearest Anganwadi Centre with Aadhaar identification, indicating that Aadhaar-based verification is necessary."
+  },
+  "ac4c07cc8b3b76de249842f04143af8a68982c1d3fff867533e206b32fc37c7e": {
+    "answerable": false,
+    "reasoning": "The excerpts do not provide specific information on how Anganwadi Services under Mission Poshan 2.0 differ from ICDS or what new components have been added."
+  },
+  "ac5661bf8eaaf96b53298ad22a8daca2ab3990f94655370bcd59988cee568cb7": {
+    "answerable": false,
+    "reasoning": "None of the excerpts provide a definition or explanation of stunting, wasting, and underweight in children."
+  },
+  "ad290d0ec5f0ad724649078dff6e056d0d3e745572ea436b0cb375150b4c95fc": {
+    "answerable": true,
+    "reasoning": "The first excerpt provides a clear definition of the RCH Profile, explaining that it refers to the monitoring of women throughout their reproductive cycle and the associated services."
+  },
+  "ad2dafd0030bb4e345be4f446e513fde78ea4e62e94d4aef4cdca5af1945c507": {
+    "answerable": false,
+    "reasoning": "None of the excerpts provide specific information about whether Ayushman Bharat health insurance coverage is linked to a beneficiary's Poshan Tracker profile."
+  },
+  "ad66a795d7f26267b39205c95cc5cd51fcbd99384d0448646581c9f15649a912": {
+    "reasoning": "The question specifically pertains to the functionality of the Poshan Tracker app, which is covered in the FAQ section.",
+    "source": "faq"
+  },
+  "ae556179eb16454276f7edac6835059716b2633dc4967bef892d58d592bb67d3": {
+    "answerable": true,
+    "reasoning": "The excerpts specify that beneficiaries must be registered at the nearest Anganwadi Centre with Aadhaar identification to access benefits, indicating that Aadhaar verification is required."
+  },
+  "ae6099024aa08ba093b801061c8be182a91033ec70f7e49f908c5e18c987f197": {
+    "answerable": true,
+    "reasoning": "The first excerpt provides a clear definition of the RCH Profile feature, explaining its purpose and functionality."
+  },
+  "aeea11b6110b10b68b87361e71e7c130691fa3189a7bbc1207cb27459f63028e": {
+    "answerable": true,
+    "reasoning": "The first excerpt provides specific information about what the Home Visit module covers, including the activities performed during these visits."
+  },
+  "afae8fa471c972ed858d4bcd004eca85aeb2cba9e90be669f57bd195e6401ce8": {
+    "reasoning": "The question pertains to definitions and classifications related to malnutrition, which are likely detailed in the long-form government policy document.",
+    "source": "policy_pdf"
+  },
+  "b112cc8000ad8a1b1c520238f86673565ce3f1415929a09c6bfe9b0f83bb0963": {
+    "answerable": true,
+    "reasoning": "Excerpt 1 specifically states the vaccines that are provided to adolescent girls, which directly answers the question."
+  },
+  "b18e1f83759aab8994cb07c37cb6914f644c8798b81ac02d52751cb9dc3cb829": {
+    "reasoning": "The question specifically pertains to the usage of the Poshan Tracker mobile app, which is covered in the FAQ section.",
+    "source": "faq"
+  },
+  "b2ad0dab35564f47565e11118c51b8349c6c9a09ad87e561079096c00b22bfdb": {
+    "reasoning": "The question specifically pertains to the functionality of the Poshan Tracker mobile app, which is covered in the FAQ section.",
+    "source": "faq"
+  },
+  "b3bca505a5374e02fdd00f1907d82f1851e9ad48343d6f35b7acd3869ec13fb1": {
+    "answerable": true,
+    "reasoning": "The first excerpt explicitly states that Aadhaar card verification is mandatory for take-home ration (THR), directly answering the question."
+  },
+  "b4c9f13101229ba86348296638e01e78defc5467e338db703ef06c673f74a425": {
+    "answerable": true,
+    "reasoning": "Excerpt 4 states that pregnant women and lactating mothers receive Rs.9.50 per beneficiary per day, which provides specific information about the cash benefit under PMMVY."
+  },
+  "b51b5787420c6be94729eacff943173fb8e60133d6e4d2ef61d34789576400f6": {
+    "answerable": true,
+    "reasoning": "The excerpts specifically mention that the nutrition scheme for adolescent girls covers Aspirational Districts of States including Assam and North-Eastern States."
+  },
+  "b5622031494c61e0b20a6052da684c852e8f282f043959f733deee02f4f63f0c": {
+    "answerable": false,
+    "reasoning": "None of the excerpts provide specific information about whether Ayushman Bharat health insurance coverage is linked to a beneficiary's Poshan Tracker profile."
+  },
+  "b5af458d3435e86fb5fefbc174af4d827cc905a47db9fe7e1cbeec8d918fa924": {
+    "answerable": false,
+    "reasoning": "None of the excerpts provide specific categories of people that an Anganwadi worker can enroll using the app."
+  },
+  "b5d5238a38caf686e1c0f36af9a50a545bb5e69cfec18e2ac4023aa0176b072a": {
+    "answerable": false,
+    "reasoning": "None of the excerpts explicitly state the name of the national nutrition mission that the Anganwadi scheme is aligned under."
+  },
+  "b6a96964cae664a21f2c2902b6ef209c46dbce94d780331349347e62c0acc87b": {
+    "answerable": true,
+    "reasoning": "The first excerpt explicitly defines MAM as Moderately Acute Malnourished, directly answering the question about who MAM children are."
+  },
+  "b84043c73a7789abe837f99cf8370b2fbda6ec19b53ed8e4bc84bda537e9732a": {
+    "reasoning": "The question pertains to specific guidelines or principles related to the Poshan scheme, which would be detailed in the policy document.",
+    "source": "policy_pdf"
+  },
+  "b8773d5641a6aab908c375b1c95dc5ca882cdb4a6be5eeba5b46ecc5de21a6c7": {
+    "answerable": true,
+    "reasoning": "Excerpt 1 specifically states the immunizations recorded for expectant mothers, which are Td1, Td2, and Td booster."
+  },
+  "b8bed1535c6e6fe579ef8b5c43fe9193473e2962438e474cd1555db95e3c21e2": {
+    "answerable": true,
+    "reasoning": "Excerpt 1 provides specific instructions on what to do when login credentials are rejected, stating that the user needs to input the correct mobile/email or password."
+  },
+  "b92c06fb82af03abc219f9ffadedccdaeb8aec32edf441fab272591dd30c6970": {
+    "answerable": true,
+    "reasoning": "Excerpt 2 specifically states the daily mid-day meal entitlement for school children under PM POSHAN, detailing the amounts for different categories of children."
+  },
+  "baa3fdbcf804e662f6c1ba8a842695dd852bc93513fd32d1e38c0cdb38133105": {
+    "answerable": true,
+    "reasoning": "Excerpt 4 specifically states the vaccines provided to adolescent girls, which directly answers the question about immunizations tracked for teenage girl beneficiaries."
+  },
+  "bae4aa106f7e8d982d655b7af00a4dd3b636f8bd326f0a2979ef0c04e9268b89": {
+    "reasoning": "The question pertains to the rationale behind the introduction of the Poshan Tracker platform, which is likely detailed in the long-form government policy document.",
+    "source": "policy_pdf"
+  },
+  "bafa175bc70a5903af1a29f8f5718a15f52e4301ca28660dabf7dc3e717ebaaa": {
+    "answerable": true,
+    "reasoning": "Excerpt 2 specifically states that an AWW can add details of twins/triplet children while registering a lactating mother, which directly addresses the process for registering multiple-birth children."
+  },
+  "bbc5db71723292c26592322584188affa449572af0e6fd4fa3d694805819e3f2": {
+    "reasoning": "The question pertains to eligibility criteria and staffing roles, which are detailed in the policy document.",
+    "source": "policy_pdf"
+  },
+  "bc7564534d929e8017dfbe346ad0089dedb8a27919a458133817a1d0ce12688f": {
+    "answerable": true,
+    "reasoning": "Excerpt 1 provides specific information about Jan Andolan under Poshan Abhiyaan, detailing the themes and activities it covers."
+  },
+  "bd829cf2ce4697ab4d8597a5bace948a12ed340c3c31b856425a24b826a8d589": {
+    "reasoning": "The question pertains to the national nutrition mission related to the Anganwadi scheme, which is detailed in the long-form government policy document.",
+    "source": "policy_pdf"
+  },
+  "bf8b71363824d4d50cdc7f3293018fac2c7731dfdd2769ace4525a1c895467b0": {
+    "answerable": true,
+    "reasoning": "Excerpt 1 specifically states that children aged 6 to 72 months are entitled to receive 500 calories per day under the scheme."
+  },
+  "c00df856f9bc187d9ab745aac7cab6ff8d7d2d14a7f03a3ef64279fd292bcdee": {
+    "answerable": true,
+    "reasoning": "One of the excerpts explicitly states that all beneficiaries will require Aadhaar number to avail benefits under the scheme, indicating that Aadhaar-based verification is necessary."
+  },
+  "c0310ab548c571a23986ba378e47fac130b242b9d343e4d8ec174a907d3f14b0": {
+    "answerable": false,
+    "reasoning": "None of the excerpts provide specific information on how Anganwadi Services under Mission Poshan 2.0 differ from the erstwhile ICDS or what new components have been added."
+  },
+  "c03d3762dea134536419c853f586aa946f26b8577ce40858b72d5df1d0a583a6": {
+    "answerable": false,
+    "reasoning": "None of the excerpts specifically list the staff roles that fall under the 'AWC User' login category."
+  },
+  "c041a37804545e6d0d2b9c70c55a5ac5a600a3ab20c4e58e11922e3bc2411d6d": {
+    "reasoning": "The question specifically pertains to the features of the Poshan Tracker mobile app, which is covered in the FAQ section.",
+    "source": "faq"
+  },
+  "c062893a418be8611446f742639cfd03cf59c5eb2f7e4b9422d56b3226189ebf": {
+    "reasoning": "The question involves a specific registration process that may be detailed in the policy document while also potentially being addressed in the FAQ section.",
+    "source": "both"
+  },
+  "c08708faa53720245bc548823e2fb6d454b1554a2939a7bf0ca6c1fc2f7deddd": {
+    "answerable": true,
+    "reasoning": "Excerpt 1 provides a specific action to take when login credentials are rejected, stating that the user needs to input the correct mobile/email or password."
+  },
+  "c12ce4af931ea78c17977589ffb57ad2538b62393acd4d185ce31845a312a885": {
+    "reasoning": "The question pertains to the role of Poshan Abhiyaan within the broader context of government schemes, which is detailed in the policy document.",
+    "source": "policy_pdf"
+  },
+  "c1c87e261a77c6fe26fd0ac161d74d14685755fcf7ce82251c2d1836e67c7d8d": {
+    "answerable": true,
+    "reasoning": "The first excerpt provides a clear definition of the RCH Profile, explaining that it refers to the monitoring of women throughout their reproductive cycle and the services associated with it."
+  },
+  "c1cebfb9d255c6791d781caea3849b987ac22d8056d3c3a3bebf53949249af33": {
+    "reasoning": "The question pertains to the role of Poshan Abhiyaan within the broader context of government schemes, which is detailed in the policy document.",
+    "source": "policy_pdf"
+  },
+  "c1d5cfb33db410c14702ca484e45dd2ccfd07733d9854542480f234abc18f3f6": {
+    "reasoning": "The question specifically pertains to the usage of the Poshan Tracker mobile app, which is covered in the FAQ section.",
+    "source": "faq"
+  },
+  "c20b88b32f686386e723010a11966b08c4ef00e977c267dd2d09baa55980ef86": {
+    "answerable": false,
+    "reasoning": "None of the excerpts provide specific information on how Anganwadi Services under Mission Poshan 2.0 differ from the erstwhile ICDS or what new components have been added."
+  },
+  "c3d57261a94373981e1ae1c32bec98e1154ebcb085506a2c545e914b5a837618": {
+    "reasoning": "The question pertains to the determination of pregnancy stages, which is likely covered in the detailed guidelines of the policy document.",
+    "source": "policy_pdf"
+  },
+  "c4d44efafc910e79a9d26fccec78ba20fe81a53aeac24716abd0cdad94acc920": {
+    "answerable": false,
+    "reasoning": "None of the excerpts provide specific information about whether Ayushman Bharat health insurance coverage is linked to a beneficiary's Poshan Tracker profile."
+  },
+  "c56bd2ba62e1b0e01f42cb90156d938cab8854f21629d451067258fffaeecd5b": {
+    "answerable": true,
+    "reasoning": "The first excerpt provides a clear definition of the RCH Profile, explaining that it refers to the monitoring of women throughout their reproductive cycle and the associated services."
+  },
+  "c631cc437e7c36bd13d1331058a500f4c2abba7fdc35b725a3802ac4311a5f5e": {
+    "answerable": true,
+    "reasoning": "Excerpt 4 states that pregnant women and lactating mothers receive Rs.9.50 per beneficiary per day, which provides specific information about the cash benefit under PMMVY."
+  },
+  "c65ca56b6837eafd4291c557b4c0b9b62f9815635a0bda9dbf415ecb96a8ec0f": {
+    "reasoning": "The question pertains to the rationale behind the introduction of the Poshan Tracker platform, which is likely detailed in the long-form government policy document.",
+    "source": "policy_pdf"
+  },
+  "c72d372ddbfe0a4be31ddef55bc35abf2708cfb8830df146ccfd6f61843fff40": {
+    "reasoning": "The question pertains to the determination of pregnancy stages, which is likely covered in the detailed guidelines of the policy document.",
+    "source": "policy_pdf"
+  },
+  "c80064f37c5f65c59fd1b4d9acad3ca9d26c07c4b4c5a9fc04c8d60ee8f6a09f": {
+    "answerable": true,
+    "reasoning": "Excerpt 1 specifically states that the pregnancy month is auto calculated based on the Last Menstrual Period (LMP) Date, directly answering the question."
+  },
+  "c826d92cefa02630af8d68dde5bb65bcf8ea954ef6f2ab4839be1751800d05f7": {
+    "reasoning": "The eligibility criteria for being designated as a ration nominee is likely detailed in the long-form government policy document.",
+    "source": "policy_pdf"
+  },
+  "c95c8f1efab6a0f49e8fc79037970447c754cd7da5f85a7ab022d9f8d4b0f62c": {
+    "reasoning": "The question pertains to health insurance coverage, which is likely addressed in the long-form policy document rather than the FAQ.",
+    "source": "policy_pdf"
+  },
+  "ca1df5f873898038205cb779762fd60639ac1c813463f86c680204f01e939dd0": {
+    "answerable": true,
+    "reasoning": "The first excerpt specifically states that growth monitoring details can be viewed in the Care Profile section of the profile card."
+  },
+  "caaacfc56fab37cb8415d0c51e88ad326c41b7d3a1a8efc24dcf4e2e8f24b4e2": {
+    "answerable": true,
+    "reasoning": "Excerpt 1 provides a specific action to take when login credentials are rejected, stating that the user needs to input the correct mobile/email or password."
+  },
+  "cb55d5709bcd115ae78bef18f53c114b4d5bede7583b1ef231bc474900df6eb1": {
+    "reasoning": "The question pertains to the definition of a Saksham Anganwadi, which is likely detailed in the long-form government policy document.",
+    "source": "policy_pdf"
+  },
+  "cb64a19636fe6a2bc841dd4c0bc45146db02b8a0b09a7f883478feaca0bf0ddd": {
+    "answerable": true,
+    "reasoning": "Excerpt 2 specifically describes the role of Poshan Abhiyaan as a pillar for outreach within the context of Saksham Anganwadi and Mission Poshan 2.0, addressing malnutrition and promoting health."
+  },
+  "cb6740a422a4423e6e5667c4e5ffe359d72aafe184020a4ed86d038376c98a1e": {
+    "reasoning": "The question involves understanding discrepancies in data which could relate to both the app's functionality (faq) and the underlying policy guidelines (policy_pdf) regarding data management.",
+    "source": "both"
+  },
+  "cc1dac48a7992f8f19f3c8b57dd04acafa6280d9dd01086013344738f5038d53": {
+    "answerable": true,
+    "reasoning": "Excerpt 1 specifically states the vaccines that are provided to adolescent girls, which directly answers the question."
+  },
+  "cc3636298d51692e1bcc2e1fea03705ad0985c7ac9a15ab753c8ad0a16a36988": {
+    "answerable": false,
+    "reasoning": "None of the excerpts provide a definition or explanation of stunting, wasting, and underweight in children."
+  },
+  "ccf63e6f5f4ffd532e6f7d3b8f6ba590dee3d2d07846841e0b49dedac101ac0c": {
+    "answerable": true,
+    "reasoning": "Excerpt 3 explicitly defines SAM (Severe Acute Malnutrition) and MAM (Moderately Acute Malnourished), providing the specific information needed to answer the question."
+  },
+  "cd650ace86a77c5114e0aa15db490ee57cc9d51131cd5e209c98f0818ee95cae": {
+    "answerable": true,
+    "reasoning": "The first excerpt provides specific information on how to access the Poshan Tracker Dashboard, including the link and the requirement for unique credentials."
+  },
+  "cd7c877942a96a420b27fef9838040efaf98a4f799fcf1a910375e28b53bb0ae": {
+    "answerable": true,
+    "reasoning": "Excerpt 2 specifically describes the role of Poshan Abhiyaan as a pillar for outreach within the context of Saksham Anganwadi and Poshan 2.0, addressing malnutrition and promoting health."
+  },
+  "ce9c9dc426064df2aee90cbdfe9aa8e043abaf82669565806083ebae03fcbd66": {
+    "reasoning": "The question specifically pertains to the usage of the Poshan Tracker mobile app, which is covered in the FAQ section.",
+    "source": "faq"
+  },
+  "d0308a5c70e15cbc99f88a4ad30b467a8907ab44943f584509b7993655cd4bb3": {
+    "answerable": false,
+    "reasoning": "None of the excerpts provide specific conditions that an Anganwadi worker must meet to qualify for a performance bonus."
+  },
+  "d09160d29207f5354a5614dfc21b94d4e908775ae184ce6d757635f691e0b4cd": {
+    "answerable": true,
+    "reasoning": "Excerpt 3 explicitly states the benefits of introducing face-based verification, including ensuring that THR reaches the rightful beneficiary and preventing misuse."
+  },
+  "d206406e3aa5ddbeb9e2c963d8f4c0ac6b15b2316fe5f36a0bab342529e190ce": {
+    "reasoning": "The question specifically pertains to the functionality of the Poshan Tracker app, which is covered in the FAQ section.",
+    "source": "faq"
+  },
+  "d2136ac2317c29aa4d0810c590f807d648ff65b610c20640e9f0a4caff65d979": {
+    "answerable": true,
+    "reasoning": "The first and second excerpts provide specific information about the monthly limit on the number of days take-home ration can be given, stating it can be a maximum of 30 days and 25 days respectively."
+  },
+  "d2824ba9644b7781768612857a0489eac886a65c746a8fbd1d4bda5e66dc1e67": {
+    "reasoning": "The question pertains to Jan Andolan under Poshan Abhiyaan, which is likely detailed in the long-form government policy document.",
+    "source": "policy_pdf"
+  },
+  "d34e3af64223b3f179d4e4ab3106266f3bcf9420ea1b431daf3de028a8ad0b34": {
+    "reasoning": "The question pertains to the definition of a Saksham Anganwadi, which is likely detailed in the long-form government policy document.",
+    "source": "policy_pdf"
+  },
+  "d3cdf033b3b6f69efc69a9a029ff3ff78d5b46629fbd9d42ec87125948221f23": {
+    "reasoning": "The question pertains to the role of Poshan Abhiyaan within the context of government schemes, which is detailed in the policy document.",
+    "source": "policy_pdf"
+  },
+  "d3f580388b6c96ed200660fd887375fd5d53080f2d448ea622d1ac6e82bd85d7": {
+    "reasoning": "The question pertains to a specific feature of the Poshan Tracker app, which is likely covered in the FAQ section.",
+    "source": "faq"
+  },
+  "d49df19d3951645332970c5e19059b2519f5c9ba023f98f8cac97afebb35cac4": {
+    "answerable": false,
+    "reasoning": "None of the excerpts provide specific information on how the system determines the month of pregnancy a woman is currently in."
+  },
+  "d617eaa8cc246af759697371709710ad5e0df32f22c1a4e895649d85052f3a1e": {
+    "answerable": true,
+    "reasoning": "The first excerpt provides specific contact information for support regarding technical problems with the Poshan Tracker Application and Dashboard."
+  },
+  "d82bb63da7ec10e55ad350d34e38e3cd1722b223f95dd00523c89fde3d02e7d1": {
+    "reasoning": "The question pertains to the national nutrition mission related to the Anganwadi scheme, which is detailed in the long-form government policy document.",
+    "source": "policy_pdf"
+  },
+  "d907938d728728be1bc7629eb57f85886e57ffad86c55c4055bee1de1fafe1ba": {
+    "answerable": true,
+    "reasoning": "Excerpt 1 and Excerpt 4 provide specific information about Jan Andolan under Poshan Abhiyaan, detailing its themes and activities."
+  },
+  "d9845582c895234d066beee5c24d29799e6f4306929c16e40a363797eac95aa8": {
+    "reasoning": "The definitions and explanations of stunting, wasting, and underweight in children are likely to be found in the long-form government policy document, which addresses nutrition programs and guidelines.",
+    "source": "policy_pdf"
+  },
+  "d9a8ed9755b146ff134e2f7ae1a8d3cdf9a32321598e99019df532ef5cbb3e69": {
+    "answerable": true,
+    "reasoning": "The excerpts provide specific information about the growth monitoring feature, indicating that it measures the growth of children aged 6 months to 6 years."
+  },
+  "d9c5e91a22f4841268685dce361eacbcccdbadfa42563cf908662ed6837eea16": {
+    "answerable": true,
+    "reasoning": "The first excerpt directly explains that the dashboard's beneficiary count may differ from the Master List because the dashboard shows data from previous months while the Master List reflects current data."
+  },
+  "db9edbf700639ebcef342e3e934f71a2ba3f5890c68b172354cdb340a8be1c20": {
+    "answerable": true,
+    "reasoning": "The first excerpt explicitly lists the services provided under the Anganwadi Services Scheme, including supplementary nutrition, pre-school education, nutrition and health education, immunization, health check-up, and referral services."
+  },
+  "dbeaa2686b47009c3d952cc5b7becbed32fd1d0fd570bc82f3f3d6c31d88d1f2": {
+    "reasoning": "The question specifically pertains to the installation process of the Poshan Tracker mobile app, which is covered in the FAQ section.",
+    "source": "faq"
+  },
+  "dc07b7273de0f8bd8e4afa0e42fe336da9bd459c2079e2ba4752ca6258418674": {
+    "answerable": true,
+    "reasoning": "Excerpt 4 mentions the criteria for upgrading Mini-Anganwadis to full-fledged Anganwadis based on population norms and specifies that these norms apply in tribal and difficult areas, which implies applicability across states."
+  },
+  "dc4267e17fc3bcf5c54295a890c828fa7dd21431e94db084716f3c16a79c29b7": {
+    "reasoning": "The question specifically pertains to the usage of the Poshan Tracker mobile app, which is covered in the FAQ section.",
+    "source": "faq"
+  },
+  "dd1772f12cbed9aafa909ae94372cde2c80b3e3de6eb1a9457c4dc50131bba76": {
+    "reasoning": "The question specifically pertains to the features of the Poshan Tracker app, which is covered in the FAQ section.",
+    "source": "faq"
+  },
+  "dd215ab007dad810fe11848dea79252f984a1e826ca480a56559b985bba1b970": {
+    "answerable": true,
+    "reasoning": "The first excerpt explicitly defines the different verification status labels (Unverified, Partially Verified, Verified) in a Beneficiary Profile, directly answering the question."
+  },
+  "dd703f16815dc64b8f909cd2216e0a8d3bbce01ac444fff9109a777e890ebf09": {
+    "answerable": true,
+    "reasoning": "Excerpt 1 provides a list of relationships that can be selected as a nominee, directly answering the question about who is eligible."
+  },
+  "de9b16f1077989c9ebbb84e4bf1f5df17dc8058d35bde727a9fd2cf6c0c5e5d7": {
+    "reasoning": "The question specifically asks about beneficiaries under the Anganwadi Services scheme, which is detailed in the long-form government policy document.",
+    "source": "policy_pdf"
+  },
+  "df0a899b2816d1a6cc1a5539e97c32043329705c25b2fe5a11e4f389b684871d": {
+    "answerable": true,
+    "reasoning": "The first excerpt provides a clear definition and purpose of Poshan Vatika, describing it as kitchen gardens and nutri-gardens aimed at promoting healthy eating practices and dietary diversity."
+  },
+  "e2fa20b28095cba95935210540170c4bf07112170888df8f7e34e1f3e04d7ac6": {
+    "answerable": false,
+    "reasoning": "None of the excerpts provide specific information about linking a Jan Dhan bank account in the Poshan Tracker app."
+  },
+  "e35c13fc237ba8b6ebd3cd8edcd0eb83a1c3ba9bf70be31cc311403a02002468": {
+    "reasoning": "The question pertains to the legal basis for the Anganwadi and Poshan 2.0 scheme guidelines, which would be detailed in the policy document.",
+    "source": "policy_pdf"
+  },
+  "e39bcd6796279108cc7f61461d33c1b1422e4786e1f9386c0c927ae0ad1b2b9e": {
+    "answerable": false,
+    "reasoning": "None of the excerpts provide a clear definition or explanation of what a Village Health Sanitation and Nutrition Day (VHSND) is."
+  },
+  "e3f8482b1652053b56f6a552c536470bdf0f0154fb4f1d4d17d1580dd4c8e015": {
+    "reasoning": "The question specifically pertains to the features of the Poshan Tracker mobile app, which is covered in the FAQ.",
+    "source": "faq"
+  },
+  "e40065c4ae32ab9d24c503d996d18cfb3598c5e8f8574f4f0ea590589c54c344": {
+    "reasoning": "The question pertains to definitions and classifications related to malnutrition, which are likely detailed in the long-form government policy document.",
+    "source": "policy_pdf"
+  },
+  "e478e6f4e8cefeb12a571801fa6737219906e08b81edf5ececac58108122b384": {
+    "reasoning": "The question pertains to the cash benefit under the PMMVY scheme, which is detailed in the government policy document.",
+    "source": "policy_pdf"
+  },
+  "e711ae6b36e2a3a5baa98d97bee28b97ad3fd65dcf4a6e82dd49a46b036a84ed": {
+    "reasoning": "The question pertains to a specific feature of the Poshan Tracker mobile app, which is likely covered in the FAQ section.",
+    "source": "faq"
+  },
+  "e89e0c7679e8242a1bae9608b0cfe79fad21285f0139c269aaaf08bcda077c01": {
+    "answerable": true,
+    "reasoning": "The first excerpt provides a clear definition and purpose of Poshan Vatika, describing it as kitchen gardens and nutri-gardens aimed at promoting healthy eating practices and dietary diversity."
+  },
+  "e8dc97bd0b41a3682a97671d2b9e54707524f1c278e48b2503ccc333a185aac6": {
+    "answerable": false,
+    "reasoning": "None of the excerpts provide specific categories of people that an Anganwadi worker can enroll using the app."
+  },
+  "e91e45e3b79652421fa92123697c4738e6bf0547e55b4892ff9633a8f3b33bc3": {
+    "reasoning": "The question pertains to specific nutritional guidelines for children under the scheme, which would be detailed in the policy document.",
+    "source": "policy_pdf"
+  },
+  "e953a314153dde78d53d8b93da824d918f6baac2a9ff13d366a7d39e630d6ede": {
+    "answerable": false,
+    "reasoning": "None of the excerpts provide specific information on how Anganwadi Services under Mission Poshan 2.0 differ from the erstwhile ICDS or what new components have been added."
+  },
+  "e9d85e5c1049dd463390f99d4965bc8cae7d7adcae80f6cc096dfb6c3570c85e": {
+    "answerable": true,
+    "reasoning": "The first excerpt provides specific information on how to access the Poshan Tracker Dashboard, including the link and the requirement for unique credentials."
+  },
+  "eb0b9978ce5fc9b27fb798b4ff61ba4e90544b8b2e26231bfcc71e2408c6c64c": {
+    "answerable": true,
+    "reasoning": "Excerpt 1 explicitly states that Aadhaar card verification is mandatory for take-home ration (THR), directly answering the question."
+  },
+  "eb3ef2f79b4dc3231a7890c81e65374d5ed82c6f25300978fb5b51bbd500b7c6": {
+    "answerable": true,
+    "reasoning": "Excerpt 3 provides specific details on how the app confirms a beneficiary's identity using face matching, including the process of capturing and verifying photos."
+  },
+  "ebbfbb94e24c7f0deadf531ec27ac61150955ff3b973ffd907646a8f7c022c5f": {
+    "answerable": false,
+    "reasoning": "None of the excerpts provide a specific reason for the addition of face-based verification to the ration distribution process."
+  },
+  "ec04b1839717db21d190362fa9a1f3e9a5cb0477d0f71405f0780fc949b877c7": {
+    "reasoning": "The question pertains to a specific functionality of the Poshan Tracker app, which is covered in the FAQ section.",
+    "source": "faq"
+  },
+  "ec238db0a60caf11dabe50c57db2d7d930d1c6ac1149716de383022705ef445e": {
+    "answerable": true,
+    "reasoning": "Excerpt 1 and Excerpt 4 provide specific information about Jan Andolan under Poshan Abhiyaan, detailing its themes and activities."
+  },
+  "ec2d969423f014f67f2328efb18eb09c61c9097d13983a97317ea354a2c7875c": {
+    "reasoning": "The question pertains to specific guidelines or principles related to the Poshan scheme, which would be found in the long-form government policy document.",
+    "source": "policy_pdf"
+  },
+  "ec3c4a43ea1cede685c3e9e42888483b7b047620370f2a72f95f996980e3b584": {
+    "answerable": true,
+    "reasoning": "The first excerpt provides a clear definition and purpose of Poshan Vatika, describing it as kitchen gardens and nutri-gardens aimed at promoting healthy eating practices and dietary diversity."
+  },
+  "ec434c3c9e7cbd93b1ecb9d62d4beac3b84a004ea6916905d5b26f2da47af8cd": {
+    "reasoning": "The question pertains to the cash benefit under the PMMVY scheme, which is detailed in the government policy document.",
+    "source": "policy_pdf"
+  },
+  "eca65e19be6712ebdc5eeb4252fd66980457726a39c4800346b986ad86be13fd": {
+    "reasoning": "The question pertains to eligibility criteria and staffing roles, which are detailed in the policy document.",
+    "source": "policy_pdf"
+  },
+  "edf7a04dee975b0b9957c68e4dd042d71c603d458ada13a56ca5ff01b8bbc2dc": {
+    "answerable": true,
+    "reasoning": "Excerpt 1 specifically mentions that pregnant women receive two Tetanus Toxoid shots as part of their immunizations."
+  },
+  "ee35248e1ca65961ae661825d17f06a76336de44422505eefa4e22e0a9389d89": {
+    "reasoning": "The question pertains to specific details about the coverage of the nutrition scheme, which is likely outlined in the long-form government policy document.",
+    "source": "policy_pdf"
+  },
+  "ee3b987816ba036e292ee31d976f0021d4257b037a5f69c4c34dee59b338d338": {
+    "reasoning": "The question specifically pertains to support for technical problems with the app, which is likely covered in the FAQ section.",
+    "source": "faq"
+  },
+  "eec89caac10c3bae9114de96e6a5d4d7663aaa7b756f1bf232e7ea83b01a2fe3": {
+    "reasoning": "The question pertains to a specific feature of the Poshan Tracker app, which is likely covered in the FAQ section.",
+    "source": "faq"
+  },
+  "eeee50b93994f306aa0fd0b9c47de057fba6b584fd02324b7747d9a8f9c97c2d": {
+    "answerable": false,
+    "reasoning": "None of the excerpts provide specific information on who an Anganwadi worker should reach out to for help signing into the app."
+  },
+  "ef560fec7584268939bfeaf8d89e79469646f1fd24db9bc25342bf88f601a9b0": {
+    "answerable": true,
+    "reasoning": "Excerpt 2 provides specific instructions on how to download and install the Poshan Tracker Application from the Google Play Store."
+  },
+  "ef97d99096a980e79a6bd60d1ba69d896e48191f78407f4eaad8bf976e620c8e": {
+    "reasoning": "The question pertains to the definition of a Saksham Anganwadi, which is likely detailed in the long-form government policy document.",
+    "source": "policy_pdf"
+  },
+  "f2cd5a931b48f07e0dc751f811bc03cbdb890b95151e0327be860c84c44305c5": {
+    "reasoning": "The question pertains to specific nutritional guidelines for children under the scheme, which would be detailed in the policy document.",
+    "source": "policy_pdf"
+  },
+  "f37cfdff268917eddf1f998d61a25b5fefde8c2dd70ed5a178a01079f5d9ff4c": {
+    "reasoning": "The question pertains to specific guidelines about the take-home ration, which would be detailed in the long-form government policy document.",
+    "source": "policy_pdf"
+  },
+  "f4180af0dd830fc48337d138e53a202362f56f9407a2325d2f2a45c0687bb280": {
+    "answerable": true,
+    "reasoning": "Excerpt 1 specifically mentions the process of registering the birth of a child, which includes sharing information with the village level functionary who notifies the Registrar of Births."
+  },
+  "f4190e9cd7e8e42225aac94024a11bb36828d75e8fc74c42fcdd10cf13eff07d": {
+    "reasoning": "The question pertains to specific staff roles related to the 'AWC User' login category, which is likely detailed in the long-form policy document.",
+    "source": "policy_pdf"
+  },
+  "f42677655f4328473c8bfd63aa77c0aba1b6f9256aa5477ceb4ae9997387d554": {
+    "reasoning": "The question pertains to eligibility criteria for receiving benefits, which is likely detailed in the policy document.",
+    "source": "policy_pdf"
+  },
+  "f4ef1e11a25aa0745c345e4dc114223e3a960189a127580eea09eb9de5e6152f": {
+    "answerable": true,
+    "reasoning": "The first two excerpts explicitly state that Aadhaar verification is mandatory to avail the cooked meal (HCM) and THR, directly answering the question."
+  },
+  "f60939921e7320a4dd0ceb1f2e794209f6a869eba2eb55e4ae537bbd6b8ac223": {
+    "reasoning": "The question specifically asks about the services provided under the Anganwadi Services scheme, which would be detailed in the long-form government policy document.",
+    "source": "policy_pdf"
+  },
+  "f803346e581bfea049b36d77b4394755a8b5e640018d2a10b3668ef54337b374": {
+    "answerable": true,
+    "reasoning": "The excerpts provide specific information about measuring the growth of children aged 6 months to 6 years under the Growth Monitoring feature."
+  },
+  "f86b367a6eef4f53a4c4dfe62c0f71a59c6cee1e065bdcab4f14d1a4dfc2b826": {
+    "reasoning": "The question specifically pertains to the installation process of the Poshan Tracker mobile app, which is covered in the FAQ section.",
+    "source": "faq"
+  },
+  "faa22915a1687473944dcd72ec84f9570b2b7e595e8703c8e51f2935cf1ed2f9": {
+    "answerable": true,
+    "reasoning": "Excerpt 2 specifically states the daily mid-day meal entitlement for school children under PM POSHAN, detailing the amounts for different categories of children."
+  },
+  "fb5ed1e38b449fad8a8b73c8ccc8a5b3c41a53b3d6edf58dca02cf0066ffa04e": {
+    "answerable": false,
+    "reasoning": "None of the excerpts provide specific information about 'Poshan ke Paanch Sutra'."
+  },
+  "fbaae9f029e8f2a4b44d77d6dd8bfc8c0c22790da54bae8bd4df298d9b2bf73a": {
+    "answerable": true,
+    "reasoning": "The first excerpt specifically states that growth monitoring details can be viewed in the Care Profile section of the profile card, directly answering the question."
+  },
+  "fdb28e0dbb91415b33a7fad81f1ba80eb3924e9080d372a14f55d7c35b92a5b1": {
+    "reasoning": "The question specifically asks about beneficiaries under the Anganwadi Services scheme, which is detailed in the long-form government policy document.",
+    "source": "policy_pdf"
+  },
+  "fddb95772ad010128af38803a7203686df9b5905a95c4815b9f71792fda9996c": {
+    "answerable": false,
+    "reasoning": "None of the excerpts provide a clear definition or explanation of what a Saksham Anganwadi is."
+  },
+  "fe17a327b8ceb8d2b9ab2bd12cf14426d7440cf882aa563496fde94b78739595": {
+    "reasoning": "The RCH Profile feature is likely a specific functionality of the Poshan Tracker app, which would be covered in the FAQ section.",
+    "source": "faq"
+  },
+  "ff0f4b0b63ae91f54c5c796ed6eb679e84a3ffa3fb66ceddbaf982f7dfc37e80": {
+    "reasoning": "The question pertains to population norms and criteria for setting up Anganwadi Centers (AWCs), which is detailed in the long-form government policy document.",
+    "source": "policy_pdf"
+  },
+  "ff7bb06218b0e67f14b2bf310ee670037f06d33f4421304fa301e31d5f2f7a3b": {
+    "answerable": false,
+    "reasoning": "None of the excerpts provide a clear definition or explanation of what a Saksham Anganwadi is."
+  },
+  "ffbbb9a7fb85e1a935657317afc4ace692d8418a9eb813f9e7ac421aae09fa0b": {
+    "answerable": true,
+    "reasoning": "Excerpt 2 specifically describes the role of Poshan Abhiyaan as a pillar for outreach within the context of Saksham Anganwadi and Mission Poshan 2.0, addressing malnutrition and promoting health."
+  }
+}
