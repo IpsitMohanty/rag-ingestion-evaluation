@@ -165,7 +165,7 @@ not used anywhere in `src/`. Instead:
 
 | Package | Pinned | Why |
 |---|---|---|
-| `langchain-core` | 1.4.9 | Document/Embeddings/VectorStore/Retriever base types |
+| `langchain-core` | 1.5.1 | Document/Embeddings/VectorStore/Retriever base types |
 | `langchain-text-splitters` | 1.1.2 | `RecursiveCharacterTextSplitter` |
 | `langchain-huggingface` | 1.2.2 | Local embeddings backend |
 | `langchain-chroma` | 1.1.0 | Chroma vector store integration |
@@ -221,15 +221,19 @@ pip install -r requirements-dev.txt
 pytest
 ```
 
-103 passed, 3 skipped (106 total), ~49s on this machine. All but three
-run fully offline: no network call, no model download. The three
-exceptions are gated behind `RUN_NETWORK_TESTS=1` and not run in CI.
-`test_huggingface_backend_produces_expected_dimension` constructs the
-real `HuggingFaceEmbeddings` backend, which is *eager*: it downloads/loads
-the sentence-transformers model at construction time, not on first use.
-The other two are in `tests/test_onnx_parity.py`, which verifies the
-deployed app's ONNX query embeddings match the torch-computed ones and
-needs the real torch model available/cached. Everywhere else,
+133 passed, 4 skipped (137 total), ~49s on this machine. All but four
+run fully offline: no network call, no model download, no API call. The
+four exceptions are gated behind explicit env flags and not run in CI.
+`test_huggingface_backend_produces_expected_dimension` (`RUN_NETWORK_TESTS=1`)
+constructs the real `HuggingFaceEmbeddings` backend, which is *eager*:
+it downloads/loads the sentence-transformers model at construction
+time, not on first use. Two more (`RUN_NETWORK_TESTS=1`) are in
+`tests/test_onnx_parity.py`, which verifies the deployed app's ONNX
+query embeddings match the torch-computed ones and needs the real torch
+model available/cached. The fourth (`RUN_LLM_TESTS=1` plus
+`OPENAI_API_KEY`) is phase 4's real-OpenAI structured-output test,
+verifying the route/judge schema against the actual API rather than a
+mock. Everywhere else,
 adapter/pipeline contract tests, including the phase 2 harness tests
 (`test_eval_*.py`), use `langchain_core.embeddings.DeterministicFakeEmbedding`,
 a hash-based Embeddings implementation, to prove the vectorstore/retriever
