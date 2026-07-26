@@ -2,7 +2,16 @@
 # in src/ -- it was archived by its maintainers on 19 June 2026 and receives
 # no further releases (see README). Everything below is a maintained
 # standalone package instead.
-langchain-core==1.4.9
+#
+# langchain-core pinned to 1.5.1, not 1.4.9: phase 4's langchain-openai==1.4.1
+# (requirements-dev.txt) requires langchain-core>=1.5.1, and a fresh install
+# can't satisfy 1.4.9 and 1.4.1 together (caught by a clean-venv CI failure,
+# not locally, since an ad-hoc local install had already drifted langchain-core
+# to 1.5.1 without the pin file being updated to match). 1.5.1 is also the
+# exact version the committed phase-4 results (results/agentic_eval_results.json)
+# were produced against, so this pin matches the environment that generated
+# them, not just a version chosen to make pip happy.
+langchain-core==1.5.1
 langchain-text-splitters==1.1.2
 langchain-huggingface==1.2.2
 langchain-chroma==1.1.0
