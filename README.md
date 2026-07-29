@@ -10,7 +10,12 @@ format-aware, per-source-type ingestion beats forcing everything through
 uniform chunking. See [Stack](#stack) for exact packages/versions, and
 [Ingestion](#ingestion-per-source-type-not-global) for the one deliberate
 place this repo does *not* use LangChain (document loading, by design,
-not by omission).
+not by omission). This is the evaluation side of the same domain
+[`pt-faq-rag`](https://github.com/IpsitMohanty/pt-faq-rag) deploys: that
+repo is a guarded, serving-shaped RAG assistant; this one is where the
+question "can this system's similarity score be trusted to know when it
+doesn't know" gets answered, with evidence, before you'd want to ship
+one.
 
 **Phase 1** built the pipeline (ingest through retrieve, end to end,
 runnable via CLI). **Phase 2** built and ran the evaluation, including a
