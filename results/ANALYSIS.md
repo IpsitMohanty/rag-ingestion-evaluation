@@ -531,3 +531,192 @@ LLM cache (`eval/.llm_cache.json`): every call was a cache hit (0 new
 API calls), and the reconstruction was validated to reproduce the
 persisted aggregate tp/fp/fn/tn exactly, for all 6 run/arm
 combinations, before being used for the analysis above.
+
+## Phase 5: corrective retrieval + grounded-generation loop, built on LangGraph
+
+Run clean: **545 real (non-cached) OpenAI calls, `run_invalid: false`,
+zero fail-opens** across all three runs (verified before any of the
+analysis below was written). `src/adapters/agentic.py` and its linear
+graph are unaffected -- confirmed by `git diff` (one docstring
+clarification, no logic change) and by `tests/test_agentic.py` passing
+unchanged (166 tests green overall, on both the original Windows
+environment and the WSL environment the real run was executed from,
+after a Norton TLS-interception issue on Windows made the direct run
+impossible -- see below). Full methodology, ground-truth caveats, and
+the faithfulness rubric: `eval/METHODOLOGY.md` #19-22.
+
+Unlike phase 4, `results/corrective_eval_results.json` **does** persist
+per-query records and node-path traces (`corrective_runs[].per_query`),
+so every number below is checked against that file directly, not
+reconstructed after the fact. One provenance note on that file itself:
+its own `real_llm_calls_made` reads 0 and `run_invalid: true`, because
+the committed JSON reflects a later, deliberate $0 cache-hit replay that
+added the per-query/trace/per-run-cost fields to an already-validated
+run -- the acceptance check correctly can't distinguish "legitimate full
+replay" from "silent failure" and conservatively flags any zero-call run,
+exactly as it's supposed to. The real, paid run that produced these
+exact aggregate numbers made 545 calls and independently passed
+`run_invalid: false` before that replay; the file's own
+`_provenance_note` field records this.
+
+### Predictions, checked against what was pre-registered in `#22`
+
+**Prediction 1 (rescue rate vs. neither-recall) -- held, precisely.**
+Of the 7 `RESCUE_TARGET_IDS` (genuinely answerable queries phase 2-4's
+single-shot retrieval missed), the corrective loop does not abstain on
+5: `pol-08`, `pol-09`, `faq-05`, `faq-14`, `faq-16` -- a 71.4% mechanical
+rescue rate against arm A/B/C1/C2's structural 0% on this exact set (see
+`#19a`). Meanwhile the 5 `neither` queries' recall -- 3/5 = 60% (`tp` on
+`neither-01/03/05`, `fn` on `neither-02/04`) -- is **identical**, to the
+percentage point, to phase 4's own C2 arm on the same 5 queries, checked
+directly: replaying phase 4's unmodified `agentic_sweep.run_arm_c` against
+its own already-populated cache (`0 new calls`) gives C2 neither-only
+recall of 3/5 = 60% in all 3 of its runs too. The prediction's shape --
+meaningful improvement on the rescue-target bucket, no comparable change
+to `neither`-query behavior -- is exactly what happened.
+
+Caveat that matters: the mechanical rescue rate overstates genuine
+content recovery. Inspecting the actual generated answers (below) shows
+one of the 5, `faq-16`, is not a real rescue -- see "the abstained flag
+undercounts real non-answers." **Genuine content-rescue rate: 4/7 =
+57.1%**, still clearly above 0%, still a real result, just smaller than
+the mechanical number suggests if read alone.
+
+**Prediction 2 (a fabricated claim slips past `grade_generation` as a
+false "grounded") -- not observed; a different, more interesting gap was
+found instead.** `faithfulness_rate` is 1.0 in all three runs. Every one
+of the 12 `SHOULD_ABSTAIN_IDS` answers was inspected directly (not just
+scored), plus a keyword scan across all 51 generated answers for
+hedge/non-answer phrasing -- zero fabricated or unsupported claims were
+found anywhere in this run. The prediction, as stated, is falsified here
+and that is reported plainly rather than reframed as a near-miss.
+
+What was found instead is arguably a more important gap: **the graph's
+`abstained` flag undercounts real non-answers.** Three of 51 queries
+(`neither-02`, `neither-04`, `faq-16`) produced a generated answer that
+honestly states the excerpts don't contain the information asked for
+(e.g. *"The excerpts do not provide specific information about the total
+cash benefit given under PMMVY for a pregnant woman's first child"*), and
+`grade_generation` correctly judges that claim faithful -- it is faithful,
+the excerpts genuinely don't say it. But `respond_node` sets
+`abstained: False` unconditionally whenever `grade_generation` says
+"grounded," with no path that treats "the answer itself says it doesn't
+know" as equivalent to abstention -- only budget exhaustion routes to
+`abstain_node`. So these three are graded/faithful/non-fabricated and
+still counted as false negatives in the confusion matrix. This is a real
+architectural gap (a natural follow-on would be a check on the generated
+answer's own content, or a "no answer" field in `GeneratedAnswer`, routed
+to `abstain_node` directly) -- named here rather than silently absorbed
+into the recall number, and it is why the genuine content-rescue rate
+above (4/7) is lower than the mechanical one (5/7): `faq-16` is this
+exact pattern, not a rescue.
+
+**Prediction 3 (budget is not free, even on already-answerable queries)
+-- held, and more materially than the prediction implied.**
+`corrective_fire_rate` is 0.333 (17 of 51 queries triggered at least one
+rewrite+re-retrieve). Of those 17: only **6 fired on their intended
+target** (a `SHOULD_ABSTAIN_IDS` query); **11 (65%) fired on queries that
+were already answerable by single-shot retrieval** and did not need
+correction. Of those 11 unnecessary firings, 7 (64%) then **exhausted the
+full budget and wrongly abstained** -- `pol-01`, `either-03`, `either-08`,
+`faq-06`, `faq-07`, `faq-09`, `faq-12` -- converting a query arm A would
+have answered correctly (arm A never abstains, by construction) into a
+false refusal. Only 4 of the 11 (`pol-05`, `pol-06`, `either-02`,
+`faq-22`) recovered and answered anyway, at the cost of extra calls for
+no net benefit. **These 7 wrongful abstentions are the entire false-
+positive count** (`fp: 7`) -- every single false positive in this run
+traces to an unnecessary correction that didn't recover, not to some
+other cause.
+
+### Agentic (corrective) vs. arm-A baseline, all 51 queries, 3 runs
+
+| | arm A (plain retrieval, never abstains) | Phase 5 corrective loop |
+|---|---|---|
+| Abstain recall (of 12) | 0.0 (0/12) | 0.417 (5/12) |
+| Abstain precision | undefined (0 abstain predictions) | 0.417 (5/12 abstentions correct) |
+| False positives (of 39 answerable) | 0 | 7 (18%) |
+| Faithfulness rate (of non-abstained answers) | n/a (no generation step) | 1.0 (all 3 runs) |
+| Rescue rate (of the 7 genuinely-answerable misses) | 0% (structural) | 71.4% mechanical / 57.1% genuine |
+| `neither`-only recall (of 5) | 0.0 (structural) | 0.60 (identical to phase 4 C2) |
+| Mean loops per query | 1 (no loop) | 1.569 |
+| Corrective fire rate | n/a | 33.3% (17/51) |
+| Run-to-run variance (3 runs) | none (deterministic, no LLM) | **none measured on the aggregate** -- see note below |
+| Real LLM calls | 0 | 545 total |
+| Estimated cost | $0 | ~$0.10 (rough, see below) |
+
+**Zero measured variance across 3 runs, on the aggregate -- flagged, not
+over-interpreted.** All three runs produced byte-identical `tp/fp/fn/tn`,
+rescue rate, faithfulness rate, and mean-loops. This was checked, not
+assumed: `run_index` was independently verified to reach all five
+wrapped LLMs (a dedicated integration test,
+`test_run_corrective_arm_advances_run_index_on_all_five_wrappers_not_just_some`,
+confirms a fresh real call per run, not a cached replay), and the raw
+per-query records confirm individual queries *do* differ between runs
+(`run0 != run1` at the per-query level) -- the aggregate identity is
+runs landing on the same totals through different per-query paths, not a
+caching bug and not literal per-query determinism. This contrasts with
+phase 4's own committed finding of small but real run-to-run wobbles
+under the same temperature=0/seed=42 settings; noted as an observation
+at n=3, not a claim that this graph is more deterministic than phase 4's.
+
+**Cross-phase continuity, checked directly, not assumed:** of phase 5's
+7 false negatives, 4 (`pol-09`, `neither-02`, `neither-04`, `faq-05`) are
+**the same queries phase 4's own C2 arm already missed** (verified by
+replaying phase 4's unmodified `run_arm_c` against its own cache, $0
+cost) -- these are inherited weaknesses in the shared `JudgeDecision`/
+`JUDGE_PROMPT` grading step (`grade_documents` reuses it verbatim), not
+new regressions phase 5 introduced. The other 3 (`pol-08`, `faq-14`,
+`faq-16`) are cases phase 4's C2 got *right* that phase 5 gets wrong. Two
+of those three (`pol-08`, `faq-14`) never triggered a rewrite at all
+(`loops: 1`) -- `grade_documents`, nominally the identical prompt/schema/
+settings as phase 4's judge, returned a different verdict on what should
+be the same call. `temperature=0`/`seed=42` is documented (here and by
+OpenAI) as best-effort, not guaranteed, determinism; this looks like an
+instance of that rather than something attributable to any change this
+phase made, but it isn't fully explained beyond that, and is stated
+plainly rather than papered over.
+
+### Cost
+
+545 real (non-cached) calls for the full 51-query x 3-run evaluation
+(`route`'s calls were free -- reused verbatim from phase 4's own cache,
+same node, same prompt, same deterministic settings, same 51 queries;
+the other four call sites, `grade_documents`/`rewrite_query`/`generate`/
+`grade_generation`, were all fresh). Rough, order-of-magnitude estimate
+using gpt-4o-mini list pricing and an assumed blended ~800 input/~120
+output tokens per call (`eval/run_corrective_eval.py::_estimate_cost_usd`,
+which states its own caveats): **~$0.10** -- not reconciled against actual
+OpenAI billing telemetry, since `CachedStructuredLLM` discards token-usage
+metadata when caching a parsed result. For comparison, phase 4's own real
+run made 459 calls for a measured ~$0.06; phase 5's higher per-call cost
+(longer prompts carrying retrieved excerpts, plus a real generation step)
+outweighs its lower-than-worst-case call count. The hard-stop budget
+(1,377 calls, 1.5x the pre-registered ~918 estimate) was never
+approached.
+
+### Honest negatives, stated together
+
+1. **18% of already-answerable queries (7/39) were wrongly refused**
+   after the corrective loop exhausted its retry budget -- a real,
+   measurable regression relative to arm A, which never refuses anything.
+2. **65% of all corrective firings (11/17) were unnecessary** (fired on
+   queries that didn't need correction), and **most of those (7/11)
+   then made the outcome worse**, not merely costlier.
+3. **The mechanical rescue rate (71.4%) overstates real capability**;
+   one of the five "rescues" (`faq-16`) is the same honest-non-answer
+   pattern as the `neither`-query failures, not genuine content recovery.
+4. **The `abstained` flag misses real non-answers** on 3 of 51 queries,
+   for architectural reasons named above, not a scoring choice made to
+   flatter the numbers.
+5. Of the 12 should-abstain misses, only 3 (`pol-08`, `faq-14`, `faq-16`)
+   are novel to phase 5; the other 4 are inherited from phase 4's own
+   judge, not new failures this phase introduced.
+
+**Net read:** the corrective loop trades arm A's 0%/0-cost abstention
+for a real, if partial, ability to catch genuinely unanswerable and
+genuinely-missed queries (41.7% recall where arm A structurally scores
+0%), at a real, measurable cost -- 18% of previously-fine queries wrongly
+refused, and roughly two-thirds of all corrective firings spent on
+queries that didn't need help. This is a tradeoff, consistent with this
+repo's phase-2 and phase-4 findings, not a clean win in either direction,
+and is reported as such.

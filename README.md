@@ -28,7 +28,18 @@ judge can do what Finding #1 says a similarity threshold cannot; it
 doesn't clear the formal win condition, but wins decisively on
 precision by a different mechanism than predicted -- see
 [Phase 4](#phase-4-llm-routed-retrieval-with-an-llm-abstention-judge-built-on-langgraph)
-below. Two things worth knowing before anything else here, because they
+below. **Phase 5** built and ran a second, genuinely-looping LangGraph --
+one with conditional branching and a bounded corrective retry, unlike
+phase 4's linear graph -- that rewrites the query and re-retrieves when
+its own grading says the context is insufficient, then checks the
+generated answer's faithfulness before answering. It rescues real gaps
+phase 4 structurally couldn't (0% -> 41.7% recall on the hardest 12
+queries), with zero fabricated answers detected, but wrongly refuses 18%
+of queries that were already fine -- see
+[Phase 5](#phase-5-a-corrective-self-reflective-rag-loop-built-on-langgraph)
+below.
+
+Two things worth knowing before anything else here, because they
 qualify every other number in this README:
 
 - **The system cannot reliably tell "found the answer" from "found
@@ -649,6 +660,131 @@ alike. Full methodology: `eval/METHODOLOGY.md` #9-18; full findings,
 including the routing-vs-judge-failure breakdown and the pre-registered
 prediction this run corrects: [Phase 4](results/ANALYSIS.md#phase-4-llm-routed-retrieval-with-an-llm-abstention-judge-built-on-langgraph)
 in `results/ANALYSIS.md`.
+
+## Phase 5: a corrective, self-reflective RAG loop, built on LangGraph
+
+**What this is, plainly:** a single-agent loop that grades its own
+retrieved context, rewrites the query and tries again when that context
+looks thin, generates an answer, and checks that answer's faithfulness
+before responding -- refusing outright rather than guessing if it still
+can't ground an answer after a few tries. **What it's worth:** it
+genuinely rescues cases plain retrieval structurally can't, with zero
+fabrication detected, but it also fires corrections it doesn't need and,
+when it does, more often makes things worse than better -- a real,
+partial gain with a real, measured cost, not a clean win.
+
+**Built and run: 545 real OpenAI calls, `run_invalid: false`, zero
+fail-opens.** Full methodology, the ground-truth subtlety below, the
+faithfulness rubric, the cost estimate, and the three predictions logged
+*before* any real call was made: `eval/METHODOLOGY.md` #19-22. Full
+results, including per-query detail and every honest negative: [Phase 5](results/ANALYSIS.md#phase-5-corrective-retrieval--grounded-generation-loop-built-on-langgraph)
+in `results/ANALYSIS.md`. Headline: **41.7% recall on the 12-query
+should-abstain set (arm A's structural 0%), at the cost of wrongly
+refusing 18% (7/39) of already-answerable queries** -- a real, partial
+capability gain, not a clean win, consistent with this repo's phase-2 and
+phase-4 findings.
+
+Phase 4's graph (`src/adapters/agentic.py`, previous section) is linear
+and its judge only grades retrieved excerpts -- it never generates an
+answer, so nothing in this harness has scored a *generated* answer's
+faithfulness before now. That graph is unchanged by this phase and remains
+a documented baseline and comparison point, not something this phase
+replaces.
+
+This phase adds a second, separate graph
+(`src/adapters/corrective_rag.py`) with genuine conditional branching and
+a bounded corrective loop -- which is why "single-agent" is an honest
+label for *this* graph specifically, and still not for the linear one:
+
+```
+START -> route -> retrieve -> grade_documents
+                                  |-- sufficient -----------------> generate -> grade_generation
+                                  |                                                  |-- grounded ---> respond -> END
+                                  |                                                  |-- not grounded -+
+                                  |-- insufficient -+                                                   |
+                                  |                 v                                                   v
+                                  |            rewrite_query <--------------------------------------------
+                                  |                 |
+                                  +-- (budget exhausted) --> abstain -> END
+```
+
+- **route / retrieve**: reused unchanged (`adapters.agentic.ROUTE_PROMPT`,
+  `eval.retrievers.query_routed`) -- routing happens once, up front; the
+  corrective loop rewrites the query and re-retrieves, but never re-routes.
+- **grade_documents**: reuses phase 4's exact answerability judge
+  (`JudgeDecision`/`JUDGE_PROMPT`), reinterpreted as a retrieval-sufficiency
+  grade (`sufficient`/`insufficient`) rather than a final abstention call.
+- **rewrite_query**: new. Reformulates the question (an LLM call,
+  `RewrittenQuery`), routes back to `retrieve`.
+- **generate**: new -- this repo's eval harness had no generation step
+  before this phase. Grounded prompt adapted from
+  `app/app_logic.py::generate_answer`, but through the `src/adapters/llm.py`
+  seam rather than an inline `ChatOpenAI` client.
+- **grade_generation**: new. A faithfulness judge (`FaithfulnessGrade`)
+  checking the generated answer against the retrieved excerpts -- not
+  whether the answer is correct in some absolute sense, only whether every
+  claim in it traces back to the excerpts. Grounded -> respond; not
+  grounded -> back to `rewrite_query`.
+- **Budget guard**: `loop_count` vs `max_iterations` (default 3 total
+  retrieve+generate passes, `CorrectiveAgenticConfig`) is checked in the
+  only two places a cycle can continue (`decide_to_generate`,
+  `decide_after_generation`) -- on exhaustion, `abstain`, never a
+  hallucinated answer.
+- **Fail-open, asymmetric on purpose**: `grade_documents` fails open to
+  "sufficient" (an infra failure isn't a content judgment; behave like
+  plain retrieval). `grade_generation` fails open to "not grounded" --
+  the opposite direction -- because an unverifiable answer must never be
+  presented as grounded just because its own checker broke.
+- **Observability**: every node appends a structured entry to
+  `state["trace"]` (node name, loop number, and its decision), so a
+  reader can audit *why* a given query looped or abstained, not just its
+  final answer -- see `results/corrective_eval_results.json` (once run)
+  and `tests/test_corrective_rag.py`'s trace-path assertions.
+
+**The ground-truth subtlety, and what it turned out to matter for**
+(`eval/METHODOLOGY.md` #19a): the frozen 12-id `SHOULD_ABSTAIN_IDS` was
+built from single-shot, never-rewritten retrieval. 5 of those (the
+`neither` queries) genuinely have no answer regardless of phrasing; the
+other 7 are queries the corpus *can* answer that the original phrasing's
+retrieval simply missed -- exactly what this loop's rewrite step exists to
+try to rescue. Reported as a **rescue rate**, separately from the 12-id
+confusion matrix: 71.4% mechanically (5/7 not abstained on), **57.1%
+genuinely** (4/7) once one mis-scored case is excluded -- see the next
+paragraph.
+
+**The most important thing this run found wasn't predicted going in: the
+`abstained` flag undercounts real non-answers.** Three of 51 queries
+produced a generated answer that honestly says the excerpts don't contain
+what was asked (e.g. *"The excerpts do not provide specific information
+about the total cash benefit given under PMMVY..."*), and `grade_generation`
+correctly judges that claim faithful -- it is. But `respond_node` sets
+`abstained: False` whenever generation is judged grounded, with no path
+for "the answer itself says it doesn't know" to count as an abstention --
+only budget exhaustion reaches `abstain_node`. So these three score as
+false negatives in the confusion matrix despite zero fabrication. This is
+why the genuine rescue rate above (4/7) is lower than the mechanical one
+(5/7): one of the five "rescues" is this exact pattern, not real content
+recovery. A natural follow-on (not built here) would be a "no answer"
+field on `GeneratedAnswer` routed directly to `abstain_node`.
+
+**Honest negatives, required and not softened:** 18% of already-answerable
+queries (7/39) were wrongly refused after the loop burned its full retry
+budget -- every single false positive in this run traces to that. Of all
+17 corrective firings, 65% (11) fired on queries that didn't need
+correction at all, and most of those (7/11) then made the outcome worse,
+not just costlier. And of the 7 should-abstain misses, 4 are inherited
+from phase 4's own judge (verified by replaying phase 4's unmodified code
+against its own cache, $0 cost) -- not new regressions -- while 3 are
+novel to this phase. Full breakdown, per-query IDs, and the cross-phase
+comparison: `results/ANALYSIS.md`.
+
+Real cost: 545 calls (`route` was free, reused verbatim from phase 4's
+own cache; the other four call sites were fresh), ~$0.10 estimated
+(rough, unreconciled against actual billing -- see
+`eval/run_corrective_eval.py::_estimate_cost_usd`). Reproduce:
+`OPENAI_API_KEY=... python -m eval.run_corrective_eval` (gated the same
+way as phase 4 -- not run in CI, real paid calls unless the disk cache
+already covers every call).
 
 ## Reference material
 

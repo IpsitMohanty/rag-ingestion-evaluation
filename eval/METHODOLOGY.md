@@ -646,3 +646,166 @@ optimal cutoff for B. Phase 2's Finding #1 held in all 24 cells without
 exception; phase 4's findings describe this one configuration, the one
 actually deployed, and the writeup must say so every time a finding is
 stated, not only here.
+
+# Phase 5 methodology: corrective retrieval + grounded-generation loop
+
+Settled in writing before eval/run_corrective_eval.py is run against the
+real API, per the same instruction phase 2 and phase 4 followed: no rule
+below is chosen after seeing results. Implemented in
+src/adapters/corrective_rag.py, eval/corrective_sweep.py,
+eval/run_corrective_eval.py.
+
+## 19. What this phase adds, and what it deliberately reuses unchanged
+
+Phase 4's graph (src/adapters/agentic.py) is linear -- route, retrieve,
+judge, respond -- and its judge grades only whether the *retrieved
+excerpts* answer the question. It has no generation step at all, so
+nothing in this repo's eval harness has ever scored a *generated* answer's
+faithfulness to its context before this phase. That judge and graph are
+left completely unmodified here; phase 5 is an additional, separate graph,
+not a replacement.
+
+Reused unchanged: the representative cell and its build
+(eval.agentic_sweep.build_representative_cell), the 51-query set
+(eval.query_set.load_query_set), the frozen SHOULD_ABSTAIN_IDS ground
+truth and RETRIEVABLE_BUT_INCOMPLETE_HITS (eval.agentic_sweep), the
+confusion-matrix machinery (eval.agentic_sweep.confusion_matrix), arm A as
+the non-agentic baseline (eval.agentic_sweep.arm_a_matrix), the
+CachedStructuredLLM disk cache (eval.llm_cache), the deterministic
+gpt-4o-mini/temperature=0.0/seed=42 setting (extended to
+CorrectiveAgenticConfig, src/config.py), and the route/JudgeDecision
+prompt and schema (adapters.agentic.ROUTE_PROMPT/JUDGE_PROMPT/
+RouteDecision/JudgeDecision) -- grade_documents in the new graph IS that
+same answerability judge, only reinterpreted as a retrieval-sufficiency
+grade rather than a final abstention decision.
+
+New in this phase, built from scratch, not an extension of an existing
+check: the generate node (src/adapters/corrective_rag.py's GENERATE_PROMPT,
+adapted from app/app_logic.py::generate_answer's grounded-prompt approach
+but run through the src/adapters/llm.py seam rather than an inline
+ChatOpenAI client), the grade_generation faithfulness judge and its rubric
+(#20 below), the rewrite_query node, the two conditional edges
+(decide_to_generate, decide_after_generation), and the budget guard
+(loop_count vs max_iterations, default 3 total retrieve+generate passes).
+
+## 19a. The ground-truth subtlety this phase introduces: "should abstain" vs "single-shot retrieval missed it"
+
+SHOULD_ABSTAIN_IDS (12 ids) was frozen against arm A/B/C1's single-shot,
+never-rewritten retrieval (METHODOLOGY.md #11). Of those 12:
+
+- **5 are `neither` queries** (neither-01..05): the corpus has no answer no
+  matter how the question is phrased. No rewrite can change this. Correctly
+  abstaining on these is a clean, phase-invariant signal, directly
+  comparable to phase 4's abstention quality on the same 5.
+- **7 are queries the corpus CAN answer, but the original phrasing's
+  single-shot retrieval missed** (pol-08, pol-09, pol-10, faq-01, faq-05,
+  faq-14, faq-16 -- eval.corrective_sweep.RESCUE_TARGET_IDS). This is
+  exactly the case the corrective rewrite loop is built to try to rescue.
+
+Because this graph can rewrite the query and re-retrieve, a non-abstain on
+one of the 7 RESCUE_TARGET_IDS is not automatically a false negative the
+way it would be for arm A/B/C1/C2 (none of which ever change the query) --
+it may be the correction loop doing exactly what it was built for.
+Consequently this phase reports **two separate numbers, never merged into
+one**:
+
+1. The full 12-id confusion matrix (eval.corrective_sweep.matrices_for_run),
+   for direct side-by-side comparability with phase 4's arms.
+2. **Rescue rate** (eval.corrective_sweep.rescue_rate_for_run): of the 7
+   RESCUE_TARGET_IDS only, the fraction NOT abstained on -- framed
+   positively (a rescue), not as a miss.
+
+The writeup must read both together and say plainly if the 12-id matrix's
+precision/recall shifts are being driven mostly by rescues on the 7 (a
+genuine capability gain) versus by something else (e.g. a change in
+neither-query behavior, which would be a real regression, not a rescue).
+
+## 20. Faithfulness rubric for grade_generation, stated before any answer is generated
+
+grade_generation asks a narrower question than phase 4's judge: not "is
+this content sufficient to answer the question" (already decided by
+grade_documents) and not "is this answer correct" in any absolute sense,
+but **"does every factual claim in the generated answer trace back to
+something actually stated in the retrieved excerpts."** A fluent,
+plausible-sounding answer that adds anything the excerpts don't say --
+a number, a name, a specific claim -- is "not grounded" even if the added
+claim happens to be true. Verbatim rubric:
+src/adapters/corrective_rag.py's FAITHFULNESS_PROMPT.
+
+This is an LLM-judged metric, not a programmatic one (e.g. n-gram overlap
+or NLI entailment scoring), for the same reason phase 4's abstention judge
+was LLM-judged rather than a distance threshold: whether a claim is
+"supported" is a semantic question a fixed rule can't reliably answer.
+The same limitation phase 4 flagged about its own judge applies here too --
+this judge can itself be wrong, and its own failure mode (see #19's
+grade_generation fail-open below) is treated the same way phase 4 treated
+judge-call failures: excluded from the scored matrix, reported separately,
+never silently folded into a content judgment.
+
+**Fail-open asymmetry, deliberate:** grade_documents fails open to
+"sufficient" (an infra failure there is not a content judgment; proceeding
+to generate is the safe default, same reasoning as phase 4's judge failing
+open to "answerable"). grade_generation fails open to "not_grounded" --
+the opposite direction -- because an unverifiable answer must never be
+presented as grounded just because the checker itself broke. This
+asymmetry is intentional, not an inconsistency; see the code comment at
+grade_generation_node for the same reasoning inline.
+
+## 21. Cost estimate, stated before any real LLM call is made
+
+Per query, one full pass (no correction needed) costs 4 calls: route,
+grade_documents, generate, grade_generation. Each additional corrective
+pass (insufficient documents, or an ungrounded answer) costs one
+rewrite_query call plus another grade_documents+generate+grade_generation
+triplet -- 4 more calls. Worst case at max_iterations=3: 1 (route) + 3x3
+(grade_documents/generate/grade_generation across 3 passes) + 2 (two
+rewrites between the 3 passes) = 12 calls for one query, one run.
+
+Most of the 51 queries are expected to resolve in pass 1 (4 calls); only
+the queries whose single-shot retrieval was known to be weak (the 7
+RESCUE_TARGET_IDS, plus any query where grade_generation's stricter
+faithfulness bar catches a plausible-but-unsupported answer arm
+A/B/C1/C2's judge would have accepted) are expected to spend a second or
+third pass. **Approved estimate: an average of 6 calls/query x 51 queries
+x 3 runs (eval.corrective_sweep.N_RUNS) = 918 calls**
+(eval.corrective_sweep.APPROVED_CALL_ESTIMATE), hard-stopped at 1.5x
+(eval.corrective_sweep.HARD_STOP_CALLS = 1377) via the same
+_check_call_budget pattern as eval/run_agentic_eval.py. At gpt-4o-mini
+pricing, this is materially more than phase 4's ~$0.06/459-call run
+(roughly double the call count) but still well under $1; the actual
+run prints its real (non-cached) call count and this estimate is not
+treated as the answer -- only the printed count is.
+
+## 22. Predictions, logged before any real LLM call is made for this phase
+
+**Prediction 1 (rescue rate vs neither-recall):** the corrective loop will
+improve non-abstention on the 7 RESCUE_TARGET_IDS (rescue rate > 0%, which
+arm A/B/C1/C2 all structurally score as 0% by definition of
+SHOULD_ABSTAIN_IDS) more than it changes behavior on the 5 `neither`
+queries -- rewriting a query that has no true answer in the corpus is not
+expected to conjure one, so neither-recall should stay comparable to phase
+4's C1/C2, not improve alongside the rescue rate.
+
+**Prediction 2 (new failure surface, honestly expected):** the
+generate+grade_generation step introduces failure modes phase 4 never had
+to face: expect at least some queries where generate produces a fluent
+but unsupported claim and grade_generation's own judge fails to catch it
+(a false "grounded"). This is not evidence the approach is broken -- it is
+the expected cost of adding a generation step at all, and must be reported
+as such rather than treated as a surprising negative result.
+
+**Prediction 3 (budget is not free, expected honestly):** expect a
+non-trivial corrective_fire_rate even on queries that were already
+answerable on pass 1 -- an overly strict grade_documents or
+grade_generation call can trigger an unnecessary rewrite that costs budget
+for no recall gain. If mean_loops is high relative to the eventual
+recall/precision improvement over arm A, that is a real cost to report,
+not to tune away.
+
+**Honest-negative commitment, stated now:** if the corrective loop's
+12-id confusion matrix does not beat arm A/phase 4's C2 after accounting
+for the rescue-rate distinction in #19a, or if its call cost is not
+justified by whatever gain it does show, results/ANALYSIS.md must say so
+plainly, in the same register as phase 4's "formal win condition not met"
+finding -- this phase does not get a different honesty bar because it
+was built more recently.

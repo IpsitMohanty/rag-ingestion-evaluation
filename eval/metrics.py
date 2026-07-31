@@ -110,6 +110,32 @@ def _distribution_stats(values: list[float]) -> dict[str, float | int | None]:
     }
 
 
+def faithfulness_rate(grounded_flags: list[bool]) -> float | None:
+    """Phase 5 (eval/METHODOLOGY.md #19): fraction of generated, non-abstained
+    answers judged grounded in their retrieved excerpts by grade_generation.
+    A distinct question from the phase-4 abstention confusion matrix (is the
+    retrieved/generated content trustworthy at all) from whether abstention
+    itself was the right call -- deliberately not folded into ConfusionMatrix.
+    None (not 0.0) when nothing was generated, so an all-abstained slice
+    reads as "no data" rather than a false 0% faithfulness score.
+    """
+    if not grounded_flags:
+        return None
+    return sum(grounded_flags) / len(grounded_flags)
+
+
+def mean_loops(loop_counts: list[int]) -> float:
+    """Phase 5: average number of retrieve+generate passes per query
+    (1 = no correction fired; up to max_iterations on budget exhaustion)."""
+    return statistics.mean(loop_counts) if loop_counts else 0.0
+
+
+def corrective_fire_rate(fired_flags: list[bool]) -> float:
+    """Phase 5: fraction of queries where at least one corrective
+    rewrite+re-retrieve cycle actually fired (loops > 1)."""
+    return sum(fired_flags) / len(fired_flags) if fired_flags else 0.0
+
+
 def confidence_separation(neither_scores: list[float], should_hit_scores: list[float]) -> dict:
     """Compares top-1 distance distributions. Distance is lower-is-better,
     so good separation means neither_scores are systematically HIGHER

@@ -8,7 +8,11 @@ eval/METHODOLOGY.md #9-18 for the evaluation this graph exists to run).
 Naming, binding for README/ANALYSIS.md/commits: this is "LLM-routed
 retrieval with an LLM abstention judge, built on LangGraph". A linear
 pipeline, two LLM calls, no loops, no tool selection beyond retrieval, no
-self-correction. Not an agent; never call it one.
+self-correction. Not an agent; never call it one. This module and its
+graph are unchanged by phase 5 (src/adapters/corrective_rag.py) -- that
+graph adds the conditional branching and bounded corrective loop this one
+deliberately lacks, which is what earns "agent" as an honest label there
+and not here. Kept side by side, both still run, both still compared.
 
 route_llm/judge_llm are injected as already-built structured-output
 runnables (an object exposing .invoke(prompt) -> RouteDecision /

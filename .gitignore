@@ -4,6 +4,11 @@ __pycache__/
 .pytest_cache/
 .ipynb_checkpoints/
 
+# No .env file exists in this repo today -- OPENAI_API_KEY is read from the
+# environment, never a file (see eval/run_agentic_eval.py, eval/run_corrective_eval.py).
+# Ignored anyway, defense-in-depth, in case one gets created locally later.
+.env
+
 # Persisted Chroma vector store -- rebuilt by `python src/cli.py ingest ...`,
 # not something to track.
 .chroma/

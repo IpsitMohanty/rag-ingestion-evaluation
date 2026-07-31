@@ -130,6 +130,24 @@ class AgenticConfig:
 
 
 @dataclass(frozen=True)
+class CorrectiveAgenticConfig:
+    # Phase 5 seam: the corrective, self-reflective LangGraph loop
+    # (src/adapters/corrective_rag.py) -- grade_documents/rewrite_query
+    # around retrieval (CRAG), generate/grade_generation around the answer
+    # (Self-RAG). Same deterministic settings as AgenticConfig, for the
+    # same reason (eval/METHODOLOGY.md #15): comparability across phases
+    # matters more here than picking new values.
+    llm: LLMConfig = field(default_factory=lambda: LLMConfig(
+        backend="openai", model_name="gpt-4o-mini", temperature=0.0, seed=42,
+    ))
+    # Total retrieve+generate passes allowed before a graceful abstention
+    # (never a hallucinated answer) -- see eval/METHODOLOGY.md #19 for why
+    # 3, and src/adapters/corrective_rag.py's decide_to_generate /
+    # decide_after_generation for the only two places a cycle can continue.
+    max_iterations: int = 3
+
+
+@dataclass(frozen=True)
 class Config:
     ingestion: IngestionConfig = field(default_factory=IngestionConfig)
     embedding: EmbeddingConfig = field(default_factory=EmbeddingConfig)
@@ -137,6 +155,7 @@ class Config:
     retriever: RetrieverConfig = field(default_factory=RetrieverConfig)
     llm: LLMConfig = field(default_factory=LLMConfig)
     agentic: AgenticConfig = field(default_factory=AgenticConfig)
+    corrective_agentic: CorrectiveAgenticConfig = field(default_factory=CorrectiveAgenticConfig)
 
 
 DEFAULT_CONFIG = Config()
