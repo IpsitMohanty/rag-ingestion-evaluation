@@ -472,6 +472,81 @@ and the LoRA critic-loading path -- never added to `requirements.txt` or
 `requirements-dev.txt`, so the keyless arms' and the deployed Streamlit
 app's dependency surface (`app/requirements.txt`) are unaffected.
 
+## 6a. Stage 4 implementation note and pre-registered predictions -- dated 2026-08-09, before any decomposition code runs
+
+**Implementation note, filling a gap #6 left open.** #6's diagram names
+three agents plus a conditional-edge "thin router"; it does not say where
+`rewrite_query` lives, since phase 5's own graph has no agent grouping to
+place it in. Decision, made now, not discovered mid-implementation: the
+**retrieval agent's node handles both entry modes** -- on first entry
+(no `route` yet in state) it does `route` + `retrieve`, exactly as
+`corrective_rag.py`'s `route_node`/`retrieve_node`; on a retry entry
+(the thin router sent it back) it does `rewrite_query` + `retrieve`
+instead, reusing `REWRITE_PROMPT`/`RewrittenQuery` unchanged, never
+re-routing on a retry -- the same behavior phase 5's fixed edge shape
+(`rewrite_query -> retrieve`, never `rewrite_query -> route`) already
+has. This keeps the graph at exactly three named agent nodes plus the
+existing `respond`/`abstain` terminals (not counted as agents, same as
+phase 5), consistent with #6's diagram, while reproducing phase 5's loop
+shape exactly rather than inventing a new one.
+
+**Predictions, pre-registered before any run, per this document's own
+standing discipline (#10) -- ship these even if they hold:**
+
+1. **Quality: per-query decisions should match phase 5's, up to LLM
+   API-level nondeterminism.** The Baseline critic agent, retrieval
+   agent, and generator agent all invoke the identical prompts/schemas/
+   fail-open logic `corrective_rag.py` already uses (reused, not
+   retyped -- #6's hard constraint). There is no architectural reason a
+   pure reorganization into agent-grouped nodes should change *what* gets
+   decided, only how the code that decides it is arranged. Predict the
+   confusion matrix, rescue rate, and faithfulness rate land within the
+   same noise band phase 5 itself already documented (`temperature=0`/
+   `seed=42` is OpenAI's own best-effort, not guaranteed, determinism --
+   `eval/METHODOLOGY.md` #15, `results/ANALYSIS.md`'s own "zero measured
+   variance... on the aggregate" note) -- not necessarily byte-identical,
+   but not a systematic quality shift either.
+2. **Call count: near-identical.** Same five LLM call sites (route,
+   critic/`grade_documents`-equivalent, `rewrite_query`, `generate`,
+   `grade_generation`) -- the thin router adds no LLM calls of its own.
+   Predict the new graph's real call count over one pass of the 51-query
+   set lands within a few calls of phase 5's own per-run figure (measured
+   545 total / 3 runs, `results/ANALYSIS.md`).
+3. **Latency: equal-or-worse for the decomposed graph, never meaningfully
+   better.** LLM round-trip time dominates wall-clock cost; both graphs
+   are already LangGraph state machines (phase 5 is not "no graph," it is
+   an 8-node graph), so decomposition changes node *count* (8 down to 5:
+   3 agents + respond + abstain) and *grouping*, not whether a graph
+   framework is involved at all. Fewer, coarser node-transitions could
+   shave negligible in-process overhead at best; there is no mechanism by
+   which grouping existing LLM calls into fewer named nodes makes those
+   calls faster. Predict the measured delta lands within timing noise, or
+   the decomposed graph is measurably (if narrowly) slower.
+4. **Explicit null framing:** if 1-3 hold as predicted -- equivalent
+   quality, near-identical call count, no latency win -- that is the
+   expected, reported result, not a failed search for something more
+   interesting. This phase's multi-agent split's actual value, if any, is
+   the swappable-critic seam and code organization (#6), not a runtime
+   performance or quality improvement; the results doc must say this
+   plainly rather than mining the numbers for a difference to report.
+
+**Cost estimate, stated before any real call is made (mirrors
+`eval/METHODOLOGY.md` #21's discipline).** Fair latency comparison
+requires **fresh, uncached** calls for both graphs, run back-to-back in
+the same session -- a cached call returns near-instantly and would not
+reflect real latency, so this comparison cannot reuse phase 5's
+populated `eval/.llm_cache.json` the way Stage 2's extraction did. Old
+graph: `corrective_rag.build_corrective_graph`, imported unmodified, run
+fresh over the 51-query set (one pass, not phase 5's original 3 -- this
+is a structural/timing comparison, not a re-litigation of the
+already-established API-variance question). New graph: this phase's
+multi-agent graph, Baseline critic, same 51 queries, one fresh pass.
+Same per-query worst-case-12-calls structure as phase 5 (`#19`'s
+estimate: ~6 calls/query average). **Approved estimate: 51 queries x 2
+graphs x ~6 calls/query = 612 calls, hard stop 918 (1.5x)**, same
+hard-stop-not-just-warning discipline as every other real-call harness in
+this repo.
+
 ## 7. Deliverables, mapped to stages
 
 **Updated per #5b (2026-08-09):** items 2 and 4 change scope from what
