@@ -69,6 +69,10 @@
     "grounded": true,
     "reasoning": "The generated answer accurately reflects that the daily mid-day meal entitlement for school children under PM POSHAN is not mentioned in the excerpts."
   },
+  "04f83bb19adc65c53cb27f419a6ef124e7af810c68d21239d62f287cc5f95158": {
+    "paraphrased_question": "What are the different methods available for AWWs to include a breastfeeding mother in the list of beneficiaries?",
+    "reasoning": "The question was restructured to focus on 'methods available' instead of 'ways' and used 'include' instead of 'add' for variety."
+  },
   "0522c494a244a8b1eb997c3b550222608fd05ae9aee4052bc59df76beca56927": {
     "answerable": true,
     "reasoning": "Excerpt 2 specifically states the daily mid-day meal entitlement for school children under PM POSHAN, detailing the amounts for different categories of children."
@@ -161,6 +165,14 @@
   "0cd03be46916c0b0b56099810bc6b25d64ee706244fd661fc05359bed4c8d187": {
     "answer": "The RCH Profile feature refers to the Reproductive Child Health monitoring system, which tracks women throughout their reproductive cycle and assists health workers in service delivery, including antenatal and postnatal check-ups and immunization services. The data for the RCH Profile is sourced from the RCH System and is displayed in the Poshan Tracker Application."
   },
+  "0ce7574aaa5f38b65916ee0be4b6582db5cde6c5d52ca50049c8a1c341b30c7c": {
+    "paraphrased_question": "What steps should be taken to modify the designated recipient if a student is accepted into an educational institution?",
+    "reasoning": "I restructured the sentence and used synonyms like 'modify' for 'update' and 'designated recipient' for 'beneficiary' to convey the same meaning."
+  },
+  "0d1fcb6ffc7068757db88bf695751e262b0321785e5a04657900d85efdc33652": {
+    "paraphrased_question": "What steps should a recipient take if the electronic Know Your Customer process or the Financial Registration System fails to function?",
+    "reasoning": "I replaced 'beneficiary' with 'recipient' and rephrased 'e-KYC or FRS' to 'electronic Know Your Customer process or the Financial Registration System' for clarity."
+  },
   "0d27b7165b135cc0c4d4f8540bf0b18bd7d08d360f3192b25f824cd162eb18da": {
     "grounded": true,
     "reasoning": "Every specific claim in the answer is directly supported by the excerpts, including the purpose of the Poshan Tracker, its role in monitoring and tracking, and its focus on nutrition delivery systems."
@@ -168,6 +180,14 @@
   "0d60deab41c07d922637a4a815984eb47e75af5cd6430694db1dacf462cce24d": {
     "reasoning": "The question specifically pertains to support for technical problems with the app, which is likely covered in the FAQ section.",
     "source": "faq"
+  },
+  "0d94bc308ff08f77c2fe86cdacc8763bd9b66796cb3740154885dc6714381156": {
+    "paraphrased_question": "What can I find in the section dedicated to Home Visits?",
+    "reasoning": "I replaced 'available' with 'can I find' and rephrased 'Home Visits section' to 'section dedicated to Home Visits' for clarity."
+  },
+  "0e3dc48b1e7a63d204d9a3a41f754032d47316c1813feb47da7c9353e4b8b6b4": {
+    "paraphrased_question": "What is the total number of instructional units available in the app?",
+    "reasoning": "I replaced 'training modules' with 'instructional units' and rephrased the question for clarity."
   },
   "0e4bd103ef0a087b07369df4afcd83dd6eea235cfb75c03daaa62c39e753f9b6": {
     "reasoning": "The question was rephrased to explicitly mention 'child health and nutrition' to clarify the context and improve the chances of retrieving relevant information.",
@@ -268,6 +288,10 @@
     "reasoning": "The eligibility criteria for receiving a hot cooked meal at the Anganwadi Centre is likely detailed in the long-form government policy document.",
     "source": "policy_pdf"
   },
+  "159a7d16166cc224f3235ece5b807e6e5b90db13b26174f7e2e5f94a611c037f": {
+    "paraphrased_question": "What is the process for indicating extra food items in the app?",
+    "reasoning": "I replaced 'mark' with 'indicating' and 'Additional Supplementary Food' with 'extra food items' for clarity while maintaining the original meaning."
+  },
   "15a8699fa195bb6b40a195acff0c52d51cfe37da3e626a4a5f53ca5733c3d950": {
     "answerable": true,
     "reasoning": "Excerpt 4 provides specific information about the introduction of the Poshan Tracker as a governance tool to strengthen nutrition delivery support systems."
@@ -362,6 +386,10 @@
     "answerable": true,
     "reasoning": "Excerpt 4 mentions the criteria for upgrading Mini-Anganwadis to full-fledged Anganwadis based on population norms and specifies that these norms apply in tribal and difficult areas, which implies broader applicability."
   },
+  "1a39e3068fc17fdbee444e97fac1cf2c4c3a411f0d12f818eb8180815d1779f0": {
+    "paraphrased_question": "Which age range is encompassed by the group for teenage females in the Poshan Tracker application?",
+    "reasoning": "I replaced 'What age group' with 'Which age range' and 'adolescent girls category' with 'group for teenage females' to maintain the meaning while using different vocabulary."
+  },
   "1a52340910fe9bc0cfa8701ffe44fb27ec5c1d685fd5d35ca9fc0571da2b48ef": {
     "answerable": false,
     "reasoning": "None of the excerpts provide specific categories of people that an Anganwadi worker can enroll using the app."
@@ -381,6 +409,10 @@
   "1ad43986157b1eecc844130c783d4769b2bfffb4a2b037405ba3578438e1c281": {
     "answerable": false,
     "reasoning": "None of the excerpts provide a definition or explanation of stunting, wasting, and underweight in children."
+  },
+  "1ad85f90e0fa6f3cd6f0587eee4d90731cb3cc354b22fddabdacfa056a2e4646": {
+    "paraphrased_question": "What steps should a community health worker take to access the Poshan Tracker app for the initial time?",
+    "reasoning": "I replaced 'AWW' with 'community health worker' and rephrased the question to focus on the steps for first-time access."
   },
   "1b05c964a1d70feaefb35240ad2e3448777bc6c7068f49f2927e87752eeaa5d0": {
     "answerable": false,
@@ -405,6 +437,10 @@
     "answerable": true,
     "reasoning": "The first two excerpts explicitly state that Aadhaar verification is mandatory to avail the benefits, which includes receiving the cooked meal."
   },
+  "1c29a4785d3c4ccf19d89da923f66ab181d8d8593cdff13a3bf3453898624e22": {
+    "paraphrased_question": "What immunizations are available for infants aged 0 to 6 months?",
+    "reasoning": "I replaced 'Vaccines' with 'immunizations' and rephrased 'Children 0-6 Months' to 'infants aged 0 to 6 months' for clarity."
+  },
   "1c8be241a7ae17d691b0573d1a9c694ed03045e2f710575f758980bb58de2c72": {
     "answerable": true,
     "reasoning": "Excerpt 5 explicitly mentions 'Poshan 2.0' as an Integrated Nutrition Support Programme associated with the Anganwadi scheme."
@@ -420,6 +456,10 @@
   "1c9e82814228c5f8eeb8f7454774a7ff008a500b2652b199ee769d12807957a0": {
     "answerable": true,
     "reasoning": "Excerpt 2 specifically states that an AWW can add details of twins/triplet children while registering a lactating mother, which directly addresses the process for registering multiple-birth children."
+  },
+  "1d19b9dda480a3618a688183ba35a120f5316985b057f8071e9926c2d6c8cc75": {
+    "paraphrased_question": "If a designated worker has not conducted a scheduled visit at a residence, is it possible to reschedule and carry it out later?",
+    "reasoning": "I replaced 'AWW' with 'designated worker' and rephrased 'missed a Home Visit' to 'not conducted a scheduled visit at a residence' for clarity."
   },
   "1d67987eefe9b86f13a7efba90e5f070ba9703b0b5dfc7fce709c1e8bbe8b860": {
     "answer": "If a user's login credentials are rejected by the app, they need to ensure they are entering the correct mobile/email or password. If the issue persists, they should contact their concerned Supervisor/CDPO or join the VC at 4.15 pm through poshantracker.in/contactus."
@@ -517,8 +557,16 @@
     "reasoning": "The question pertains to the categories of people that can be enrolled by an Anganwadi worker, which is likely detailed in the policy document regarding eligibility criteria and scheme structure.",
     "source": "policy_pdf"
   },
+  "226d5f7757aeb217875fbe376ab8f8411081562cbaa9dfb41bff369b3f17d7e0": {
+    "paraphrased_question": "What is the way to determine if the recipient has been indicated as deceased?",
+    "reasoning": "I replaced 'Beneficiary' with 'recipient' and 'marked dead' with 'indicated as deceased' to convey the same meaning using different terms."
+  },
   "227898de4cef1133bb447eaa79aac17d34bcc8364d4fbc02a179016f608af284": {
     "answer": "The Home Visit module in the app covers routine visits made by AWWs to beneficiaries to ensure proper maternal and child health care. This includes counseling, follow-up on health status, ensuring behavioral change and community support, and providing awareness regarding nutritional essence and various services available. Additionally, AWWs can see records of Completed, Due, and Missed Home Visits with counts and listings."
+  },
+  "233d9c5354be6f04c674bf47f9291556e9a133b7831bfa0b0aefcc748b14c818": {
+    "paraphrased_question": "What is the process for accessing the list of beneficiaries that have been transferred out?",
+    "reasoning": "I replaced 'retrieve' with 'accessing' and 'Migrated Out list' with 'list of beneficiaries that have been transferred out' to clarify the concept without using the original terminology."
   },
   "244f058c066e821f71964bb0e9055fd5b4fbfeb7af2d58622ccfdbf779c02aec": {
     "answerable": true,
@@ -539,6 +587,10 @@
     "reasoning": "I made the term 'Paanch Sutra' explicit by adding 'five principles' to clarify the question and broaden its context.",
     "rewritten_query": "What are the five principles of Poshan ke Paanch Sutra?"
   },
+  "2501d4a5b7b8b8d2cd274d9bc8e54313bd75d0fe82aef1e07d417a0e47c35325": {
+    "paraphrased_question": "What is the maximum number of times that the activities listed in the nutrition monitoring tool can be reported within a month?",
+    "reasoning": "I replaced 'events' with 'activities' and 'Poshan Tracker' with 'nutrition monitoring tool' while rephrasing the question for clarity."
+  },
   "2584d31b35998d310f75edbce05975d8ad523619277a92a2077ab91bef854d06": {
     "reasoning": "The question pertains to the registration process for multiple-birth children, which is likely detailed in the long-form government policy document.",
     "source": "policy_pdf"
@@ -558,6 +610,14 @@
   "267c020ddeb59fe812e136308c4d9980f84d342f6089d69ccdecb91d22635e87": {
     "answer": "The districts covered under the nutrition scheme for adolescent girls are the Aspirational Districts of States, including Assam and North-Eastern States."
   },
+  "275709b7345212e0f1fa94c69e46478851fb9186e453dedaa45591cbafc42437": {
+    "paraphrased_question": "Is it possible to monitor attendance on a daily basis on Sundays?",
+    "reasoning": "The question was rephrased to use 'monitor attendance' instead of 'do daily tracking/attendance' and 'on Sundays' was kept intact for clarity."
+  },
+  "275f1234c0ecf293fc5ac925cbcb6af7bee76176da92d217b450ed54dca45e78": {
+    "paraphrased_question": "Is the software accessible solely in the English language?",
+    "reasoning": "I replaced 'Application' with 'software' and 'available' with 'accessible' while maintaining the original meaning."
+  },
   "276a066eb9869e1cef85e3d0fdd5f52e17aee2b0f6914049733beaf86bb49a85": {
     "grounded": false,
     "reasoning": "The answer incorrectly states that all beneficiaries need Aadhaar-based verification to receive cooked meals, while the excerpts specify that a child's Aadhaar card is not mandatory and benefits can be accessed using the mother's Aadhaar card."
@@ -572,6 +632,10 @@
   "2827730b6915469f1ba0d2b39c85d70d7c70b7312dcc5d3b54ba7da396c3d10b": {
     "answerable": false,
     "reasoning": "None of the excerpts specifically identify the beneficiaries under the Anganwadi Services scheme."
+  },
+  "2854236eed4891f927c9743249bbe3f67cebd747ce8ab84295a8a73bf0dbc27b": {
+    "paraphrased_question": "Can you explain what the process of transferring data away from the platform entails?",
+    "reasoning": "I replaced 'Migrate Out' with a description of the action it represents, making it more understandable for someone unfamiliar with the specific term."
   },
   "28cc8cd5439b3fbc670cf615e64587997b7ec7ac686a0b7c74ad6311c80d1bb8": {
     "answerable": true,
@@ -592,6 +656,14 @@
   "2aa7c06b57551794add14061c0417f94a86f3a33f7919fe4d667ab9e22aaecca": {
     "answerable": true,
     "reasoning": "The first excerpt specifically states that growth monitoring details can be viewed in the Care Profile section of the profile card."
+  },
+  "2aa85606234acc34619e18e6878d644998f164bf6f2afae0dd492a698aee2b2f": {
+    "paraphrased_question": "How can we access the roster of children categorized as SAM and those who are underweight?",
+    "reasoning": "I replaced 'see' with 'access' and 'list' with 'roster', while rephrasing 'children categorized as' to clarify the terms without using the original terminology."
+  },
+  "2b386a7a91a56c5e9b10ac3317628fef44643fa43f19e6952fd30eb5431fd1aa": {
+    "paraphrased_question": "What should be done if a recipient is unable to go to the community nutrition center to collect their supplementary food through the distribution system?",
+    "reasoning": "I replaced 'beneficiary' with 'recipient', 'Anganwadi Centre' with 'community nutrition center', and 'THR' with 'supplementary food', while rephrasing the structure for clarity."
   },
   "2b61bf29e8f4a75a77b392ae3702fa2593c7d68717285aa45c3d38ce71d0cad9": {
     "reasoning": "The question specifically asks about the services provided under the Anganwadi Services scheme, which would be detailed in the long-form government policy document.",
@@ -623,6 +695,10 @@
   "2c95baf9fe2f01cdd9eec14d864e1efbdc80f2531feacdbb9e25dc4180d487f3": {
     "answerable": true,
     "reasoning": "The first excerpt specifically states that growth monitoring details can be viewed in the Care Profile section of the profile card."
+  },
+  "2cc43a3d2ebd00fbbf95e49e0d8f21fc7e40ee1c9e4687478097d06d2850b37a": {
+    "paraphrased_question": "What immunizations are available for kids aged 6 months to 3 years?",
+    "reasoning": "I replaced 'Vaccines' with 'immunizations' and rephrased 'can be provided to Children 6 Months to 3 Years' to 'are available for kids aged 6 months to 3 years'."
   },
   "2ccdbb3d2a765a189455a359aaca0a0386ffee8984a5b617d068f2c4e1fa4393": {
     "answerable": true,
@@ -667,6 +743,10 @@
   "2f850b3fb6cf8e5e3e57d22648ea2daf9a428a89eb380897858a2e5aab42780a": {
     "reasoning": "The question specifically pertains to the features of the Poshan Tracker mobile app, which is covered in the FAQ.",
     "source": "faq"
+  },
+  "30be96d64a9c4046a8183c3a957a186cf3ce4887032c78f28a620cbb920ce5b1": {
+    "paraphrased_question": "How is the color scheme organized for the section related to kids?",
+    "reasoning": "I replaced 'color coding' with 'color scheme' and 'children category' with 'section related to kids' to maintain the meaning while using different phrasing."
   },
   "3189def0ae51234304905649c396f9145cecf501405f0939f5596c96bd6be357": {
     "answerable": true,
@@ -765,6 +845,10 @@
     "grounded": true,
     "reasoning": "Every claim in the answer is directly supported by the excerpts, specifically the second excerpt which states that an AWW can add details of twins/triplets while registering a lactating mother."
   },
+  "36e261c0b95659116526dbf2c16637697bec833aba132158f348794e68662aec": {
+    "paraphrased_question": "Is it possible to input all the information using a local language?",
+    "reasoning": "I replaced 'data entry' with 'input all the information' and 'regional language' with 'local language' for a more general phrasing."
+  },
   "370653c567cae19c4373c7d1e2ecdbcf7b4056d66bf02f4a8ece90d8f1d0b572": {
     "answerable": true,
     "reasoning": "The excerpts specify that beneficiaries must be registered at the nearest Anganwadi Centre with Aadhaar identification to avail benefits under the scheme, indicating that Aadhaar verification is required."
@@ -795,6 +879,10 @@
   "397078cbd8dd80ea6e38aacb8a74c56be24bdda8252c5ab81d2e268b3e2c2b93": {
     "reasoning": "The eligibility criteria for being designated as a ration nominee is likely detailed in the long-form government policy document.",
     "source": "policy_pdf"
+  },
+  "39930e3f1b9026a4fac961ab462f2e85483f33d4c84cb73ba36aa38c29e707c9": {
+    "paraphrased_question": "What occurs if the designated person's Aadhaar number has already been utilized?",
+    "reasoning": "I replaced 'nominee' with 'designated person' and rephrased 'is already used' to 'has already been utilized' for clarity."
   },
   "39c46a9444a97b2a7bf185f7153cbe36ef3a3e40718493beedf74c101a80c16d": {
     "answerable": false,
@@ -841,9 +929,17 @@
     "answerable": false,
     "reasoning": "None of the excerpts specifically list the staff roles that fall under the 'AWC User' login category."
   },
+  "3c6d37ab34385d68ab7d0a756a801905f44a8b718fc146a9cf1d73afaa113776": {
+    "paraphrased_question": "What is the method used to determine the AWH reward?",
+    "reasoning": "I replaced 'incentive' with 'reward' and rephrased the structure to ask about the method of calculation."
+  },
   "3c8ffe8590c248cf4623bb159132939af1eb908066232a254dbc9f446a0fc1e7": {
     "answerable": true,
     "reasoning": "The first excerpt explicitly defines the different verification status labels (Unverified, Partially Verified, Verified) in a Beneficiary Profile, directly answering the question."
+  },
+  "3cf766a056444651043aed3172a7f898b862e19b3a5dce129ee749fd4d03ea57": {
+    "paraphrased_question": "What recipients are taken into account for the assessment of growth tracking?",
+    "reasoning": "I replaced 'beneficiaries' with 'recipients' and 'calculated' with 'taken into account', while rephrasing 'Growth Monitoring' as 'assessment of growth tracking'."
   },
   "3d0fa77b5e6fb50240839db6fd3f70251495cf96d5268791377d98a80c41df02": {
     "answerable": true,
@@ -970,6 +1066,10 @@
     "reasoning": "The question pertains to specific staff roles related to the AWC User login category, which is likely detailed in the long-form policy document.",
     "source": "policy_pdf"
   },
+  "4423a43dcd7015c9a77231a55ed174641ad77f290a806e61d53deac623b47404": {
+    "paraphrased_question": "What is the lowest percentage of home visits that an Anganwadi Worker must complete to qualify for the performance bonus?",
+    "reasoning": "I replaced 'minimum' with 'lowest', 'Home Visit' with 'home visits', 'AWW' with 'Anganwadi Worker', and 'Performance Incentive' with 'performance bonus', while restructuring the sentence for clarity."
+  },
   "447b09e692011ad83d53ec362afb614df6dc81ed611991a11db46880f0275203": {
     "answer": "The app tracks Td and Tetanus toxoid containing vaccines for teenage girl beneficiaries."
   },
@@ -989,8 +1089,20 @@
     "reasoning": "The question specifically pertains to the features of the Poshan Tracker app, which is covered in the FAQ.",
     "source": "faq"
   },
+  "450191f6aa80e79be32d6bd889222e2977b86fb43980231401243b53638b1769": {
+    "paraphrased_question": "What information is necessary to include a designated beneficiary?",
+    "reasoning": "I replaced 'details' with 'information' and 'nominee' with 'designated beneficiary' to maintain the meaning while using different terms."
+  },
   "4529511a44f9bcd3474394066cede0086a9990b64e1fcdaf0980e415cd370ed1": {
     "answer": "The districts covered under the nutrition scheme for adolescent girls are the Aspirational Districts of States, including Assam and North-Eastern States."
+  },
+  "452cc8b9681ac1e3753b700929fb1dc1659e0b0a0d81047ee08df2bb1e3cd766": {
+    "paraphrased_question": "Do I need approval from the beneficiary to include a designated recipient?",
+    "reasoning": "I replaced 'beneficiary consent' with 'approval from the beneficiary' and 'add Nominee' with 'include a designated recipient' for clarity and variation."
+  },
+  "461978d317e4e0366a8c6000050eae4ca10dca83caa31300939560da7749d28b": {
+    "paraphrased_question": "Can I indicate the introduction of solid foods for infants aged 0 to 6 months?",
+    "reasoning": "I replaced 'mark complementary feeding' with 'indicate the introduction of solid foods' to clarify the concept while maintaining the original meaning."
   },
   "4676979fdac18cebbb859bd48bf3c2160c84b72c43732e5af76bc2179115f69c": {
     "answerable": false,
@@ -1040,6 +1152,10 @@
   "4b3129f1e6a6bdc5e443b3cafb77dfc58d63d309f25e9b990bce191ccde1eb3f": {
     "answer": "The daily mid-day meal entitlement for school children under PM POSHAN is not specified in the provided excerpts."
   },
+  "4b72cc6cbd9f2fc9075e42bc4ca99dd4e90d37b6218c71396534fe5fa5c8dc2b": {
+    "paraphrased_question": "What types of materials are available in the resource section?",
+    "reasoning": "I replaced 'What can we find' with 'What types of materials are available' and specified 'resource section' to clarify the context."
+  },
   "4b8691f84cfa0ef45ce822b4721835d9e9cea93ea4a057bd0bc9a40eca877ec0": {
     "answerable": true,
     "reasoning": "The first excerpt explicitly lists the services provided under the Anganwadi Services Scheme, including supplementary nutrition, pre-school education, nutrition and health education, immunization, health check-up, and referral services."
@@ -1047,6 +1163,10 @@
   "4b95ade3b89525db5b9f69cd49964d8433b89e75b17a6f3afc1145e5c3fcf5e8": {
     "answerable": true,
     "reasoning": "The first excerpt provides a clear definition of the RCH Profile feature, explaining its purpose and functionality."
+  },
+  "4bf51bfca091c245f9d96c14610fbe31a6df9e3fbca9f2e8a779e52fe1b9dc8e": {
+    "paraphrased_question": "At what point will the newly included candidate show up on the distribution interface for THR?",
+    "reasoning": "I replaced 'added nominee' with 'newly included candidate' and 'appear' with 'show up', while rephrasing the structure for clarity."
   },
   "4bf671c4b166c7a7c5a0f31d3375ab9355d0f1d7a264a70f585feb034aba854a": {
     "answer": "An official can view the Poshan Tracker Dashboard by signing onto the dashboard at the link https://admin.poshantracker.in/. Only nominated Nodal level officials at various levels are provided with unique credentials to access the dashboard."
@@ -1223,6 +1343,14 @@
     "answerable": false,
     "reasoning": "The excerpts do not provide specific information on how Anganwadi Services under Mission Poshan 2.0 differ from ICDS or what new components have been added."
   },
+  "58531dd8a9e577990f8ed8b69ef90a694df218b6e4327ace3d1b15c78986fa62": {
+    "paraphrased_question": "How long can a recipient qualify for in-home visits?",
+    "reasoning": "I replaced 'beneficiary' with 'recipient' and 'remain eligible for home visits' with 'qualify for in-home visits' to maintain the original meaning while using different terms."
+  },
+  "5854caeb59056f80189dfbee89e27ae8da0a026a44527a172638f2005da37288": {
+    "paraphrased_question": "What is the maximum number of recipients that can be associated with a single Aadhaar identification card?",
+    "reasoning": "I replaced 'Beneficiaries' with 'recipients' and restructured the sentence to ask about the maximum number associated with the Aadhaar card."
+  },
   "5858ee6ae4997dd2a7ab9ad86a16f4b0cb15492e1acf8277088ce9069e290a2c": {
     "answerable": false,
     "reasoning": "None of the excerpts provide specific information about 'Poshan ke Paanch Sutra'."
@@ -1234,6 +1362,10 @@
     "answerable": true,
     "reasoning": "The first excerpt provides specific information on how to access the Poshan Tracker Dashboard, including the link and the requirement for unique credentials."
   },
+  "5968c2352dd87b0425548130a00ea6c068dd0e7459066ff181e90b01d99c4226": {
+    "paraphrased_question": "What does the feature for recognizing the Aadhaar of a parent or guardian do within the app?",
+    "reasoning": "The question was restructured to focus on the function of the feature rather than its name, using synonyms for clarity."
+  },
   "59abe42d7fdf47b988cbed10bf7386431fc6dcfd526f420776b8b0407fcd6d38": {
     "answerable": true,
     "reasoning": "Excerpt 4 specifically states the vaccines provided to adolescent girls, which directly answers the question about immunizations tracked for teenage girl beneficiaries."
@@ -1241,6 +1373,10 @@
   "59c620e8e5992be368a48c4137023bb6994c3cc328fe8af1d0cd48f1414e648e": {
     "reasoning": "The question specifically asks about beneficiaries under the Anganwadi Services scheme, which is detailed in the long-form government policy document.",
     "source": "policy_pdf"
+  },
+  "5ad742cbd9f4926b9a19af9e4b432ea19987284f7fa4c3a1b007b642aaf9fdaf": {
+    "paraphrased_question": "At what point can the date for transferring a woman who is expecting to one who is nursing be chosen?",
+    "reasoning": "I restructured the sentence and used synonyms like 'transferring' for 'migration' and 'nursing' for 'lactating' to maintain the original meaning."
   },
   "5afe75135b7f4e2d0425d37d7feefea7ae1d289a05608d5de036af70f864fea8": {
     "answerable": false,
@@ -1289,8 +1425,16 @@
     "answerable": true,
     "reasoning": "The excerpts specify that beneficiaries must be registered at the nearest Anganwadi Centre with Aadhaar identification to avail benefits under the scheme, indicating that Aadhaar verification is required."
   },
+  "5d163f7c94e62c51d3a95ec7e5c7cee2a2eb6dc24a2b5db4a686fc66658a198e": {
+    "paraphrased_question": "Can you explain what the Control Hub is?",
+    "reasoning": "I replaced 'Action Centre' with 'Control Hub' and rephrased the question for clarity."
+  },
   "5d20075f7ee03bec41d5c4873f90596f0fba9e3eed04d4aac4950abd0305a303": {
     "answer": "The app confirms a beneficiary's identity using their face through a two-step process. First, during the one-time e-KYC, a live photo of the beneficiary is captured and matched with the Aadhaar photo to verify their identity. Second, at the time of Take-Home Ration (THR) distribution, a fresh photo of the beneficiary is taken and matched with the previously stored verified image. Successful face matching allows the distribution of THR to the correct beneficiary."
+  },
+  "5d2848f90f09908ac2ec3547fe6db8f8b0bcfc3cc6e7db2c882b789eb9f93787": {
+    "paraphrased_question": "What steps are involved in generating an ABHA identification number?",
+    "reasoning": "The question was rephrased to use 'generating' instead of 'creating' and 'identification number' instead of 'ID' while maintaining the original meaning."
   },
   "5d451b8408993e4ea62b5c8e1e4c73f4bb9a874371c64c590dca1fef4ccb38f6": {
     "reasoning": "The question pertains to the concept of Poshan Vatika, which is likely detailed in the long-form government policy document regarding nutrition programs.",
@@ -1447,6 +1591,10 @@
     "reasoning": "The question was rephrased to explicitly ask about the methods or criteria used, which may help in retrieving more relevant content.",
     "rewritten_query": "What methods or criteria does the system use to calculate a woman's current month of pregnancy?"
   },
+  "66eaea3cac392c59c986571f9143f9464cd0c6edd48ea660ac7eff42b5decab0": {
+    "paraphrased_question": "What is the process for modifying the details of a recipient's account?",
+    "reasoning": "I replaced 'update' with 'modifying' and 'profile' with 'details of a recipient's account' to convey the same meaning in a different way."
+  },
   "674f99ee3de0ac6c05c6fb4614041c7acbefbd126da64317e576c6d4f7ca2e36": {
     "reasoning": "The question pertains to health insurance coverage, which is likely addressed in the long-form government policy document rather than the FAQ.",
     "source": "policy_pdf"
@@ -1495,6 +1643,10 @@
   },
   "6ac770afcd03b5c2bb2c0ce302a862bbda837afc0441e3e2d5c25a2031f3a858": {
     "answer": "The growth of children aged 6 months to 6 years gets measured under the Growth Monitoring feature."
+  },
+  "6b2fa71277ade5f1d462eeb68f083a3fe4795e868f655d833dec3857c47df55a": {
+    "paraphrased_question": "What causes a delay in the submission of information?",
+    "reasoning": "I replaced 'Why does it take time' with 'What causes a delay' and changed 'data' to 'information' for a more general phrasing."
   },
   "6c0bc94e53e88cece9c0d8ec8a23557267e87441fd0f28f83c42afe3d37f5b94": {
     "answerable": true,
@@ -1556,6 +1708,10 @@
     "reasoning": "The question pertains to specific details about the coverage of the nutrition scheme, which is likely outlined in the long-form government policy document.",
     "source": "policy_pdf"
   },
+  "6edf4e4fb54110ca36fc98574823a51deef26e7214839fe325e69bde188ad217": {
+    "paraphrased_question": "Is the software accessible to all users?",
+    "reasoning": "I replaced 'Application' with 'software' and 'everyone' with 'all users' to maintain the meaning while changing the wording."
+  },
   "6f0d128d27c33928a3cc855cd58b8aed4b3b4a85bfe4cfabf59ac0229ad94b66": {
     "answer": "To install the app on your phone, follow these steps:\n1. Ensure you have an Android phone with Version 6.0 or above.\n2. Go to the Google Play Store.\n3. Type \"Poshan Tracker\" in the search box.\n4. Download and install the application from there. \n\nIt is advised not to download the app from any other unknown platforms."
   },
@@ -1573,6 +1729,10 @@
   "707ebd49ce0c6ddee01a117eff74493b8e774266eb2b87e67717cfbfe6e5bc37": {
     "answerable": false,
     "reasoning": "None of the excerpts specifically list the staff roles that fall under the 'AWC User' login category."
+  },
+  "71087129208385440c17a47886b974846342b8504dc73064f2589a65270837c4": {
+    "paraphrased_question": "What is the total number of gatherings displayed in the app?",
+    "reasoning": "I replaced 'Events' with 'gatherings' and 'listed' with 'displayed' to maintain the meaning while using different vocabulary."
   },
   "71413fa71fd423b35057160913f3874dd3a078b4c833442fd9fe4a7309bbe70f": {
     "answerable": true,
@@ -1592,6 +1752,10 @@
   "721817efd756e9997be0a472f0c4f24ac89e794d9c03bf579d381d1917aadec9": {
     "answerable": true,
     "reasoning": "Excerpt 4 specifically states that children from 0 months to 6 years and adolescent girls are the beneficiaries whose growth is measured under the Growth Monitoring feature."
+  },
+  "7248d646a38c253e0f576cbd1625b46145807b7ad7dda35c12b4140132e8bdc1": {
+    "paraphrased_question": "What is the minimum age needed for someone to be nominated?",
+    "reasoning": "I replaced 'required' with 'needed' and restructured the sentence to clarify the context of nomination."
   },
   "7253fa9b52bd7b81f742cafc892268347f4385a575ec1fbf103b36120190487c": {
     "grounded": true,
@@ -1658,6 +1822,10 @@
   "778f59982070db956963e666f0d938d20755c1ee0787df70105a984e507df5bb": {
     "answerable": true,
     "reasoning": "The first excerpt specifically states that growth monitoring details can be viewed in the Care Profile section of the profile card."
+  },
+  "77a94554509a065eeb129ba974f94bb8bb6c799534e26a0cd1c0c7906deadd44": {
+    "paraphrased_question": "What does the feature for confirming a mobile phone number do within the app?",
+    "reasoning": "I replaced 'Verify Mobile Number' with 'feature for confirming a mobile phone number' and restructured the sentence for clarity."
   },
   "77ca38471bd86a0d0fd27aadd732384205ee277f3fa4a778309be29413531c89": {
     "reasoning": "The phrasing was adjusted to clarify the requirement aspect, making it more direct and likely to retrieve relevant information.",
@@ -1799,6 +1967,10 @@
     "answerable": true,
     "reasoning": "Excerpt 2 mentions that the guidelines are issued under the provisions of Sections 4(a), 5(1)(a), and 6, which implies a legal basis for the Anganwadi and Poshan 2.0 scheme guidelines."
   },
+  "835471c80c1ef3b4144ca5d695c5cdbe7b9ea65c4d5fae6f1b170f429a703593": {
+    "paraphrased_question": "Is it possible to modify the selected individual after they have been included?",
+    "reasoning": "I replaced 'nominee' with 'selected individual' and 'updated' with 'modify' to create a more general phrasing."
+  },
   "8394ff2593fadac1a138c4c777920ebca7423cbea3a6776ea716d416578ae7dc": {
     "grounded": false,
     "reasoning": "The answer claims that moderate malnutrition is 'not explicitly defined in the excerpts,' which is not supported by the provided excerpts, making the answer not fully grounded."
@@ -1871,6 +2043,10 @@
   "864abf56ff8fa2271f77db4b19216186036aca7fd5b4a21416da9199ce5e2417": {
     "answerable": true,
     "reasoning": "Excerpt 3 specifically states that supplementary nutrition, including hot cooked meals, is provided to every pregnant woman and lactating mother up to 6 months after childbirth, and every child in the age group of 6 months to 6 years, which directly answers the eligibility question."
+  },
+  "87663aeeb95f799d8ba06c8d1c3914dc09dfb0dd4ede67df2094078834883163": {
+    "paraphrased_question": "What steps should I follow to reset my security PIN if I can't remember it?",
+    "reasoning": "I replaced 'MPIN' with 'security PIN' and restructured the question for clarity."
   },
   "876edc2e13ec517b15692c8c2de60a3c2807a95f04b39d26955e70cd93de377b": {
     "answerable": true,
@@ -1955,12 +2131,24 @@
     "reasoning": "The question specifically pertains to the features of the Poshan Tracker mobile app, which is covered in the FAQ.",
     "source": "faq"
   },
+  "8c8605a634af0de2bb862805b33bd1b412273f7edf5c7744f03c25305126040c": {
+    "paraphrased_question": "How can someone assess the health condition of a child?",
+    "reasoning": "The question was rephrased to use 'assess' instead of 'calculate' and 'health condition' instead of 'health status' for clarity."
+  },
   "8ca90aa33465d6deb55c1ca367840edb46f5a07d86976f49fde71cf28f956bb6": {
     "answerable": false,
     "reasoning": "None of the excerpts specifically list the staff roles that fall under the 'AWC User' login category."
   },
+  "8d2e9bb555705d547c71e5148e935f5f58247f4ded7ded37fda50d6f8b73db84": {
+    "paraphrased_question": "What is the process of the Food Resource System during the gathering of Take-Home Ration?",
+    "reasoning": "I replaced 'How does' with 'What is the process of' and rephrased 'FRS' as 'Food Resource System' for clarity."
+  },
   "8e0576b0ac94a56e8c46d3610c6d26c617ff9358a91eb586bdd668ee842b022f": {
     "answer": "The districts covered under the nutrition scheme for adolescent girls are the Aspirational Districts of States, including Assam and North-Eastern States."
+  },
+  "8e806668b8450d40739bf0a9675816c015cb3cc9228c91714b9fd4a5ce83efeb": {
+    "paraphrased_question": "What is the duration for which a breastfeeding mother can remain on the list of recipients?",
+    "reasoning": "I replaced 'lactating' with 'breastfeeding' and 'active in the beneficiary list' with 'remain on the list of recipients' to maintain the original meaning while using different vocabulary."
   },
   "8eaf9d7f0b3a891ac2fa1664907730cbf02aa0602240e8952cdc7b11bf9f70bb": {
     "grounded": true,
@@ -2012,12 +2200,24 @@
   "9138123b3457a059eb9293a01b47d16b720e2cf3004144091d51c5a019992d28": {
     "answer": "An official can view the Poshan Tracker Dashboard by signing onto the dashboard at the link https://admin.poshantracker.in/. Only nominated Nodal level officials at various levels are provided with unique credentials to access the dashboard."
   },
+  "918901b65778793570490c339ce821ead9813abb5d80ca9b576d5df1390610f2": {
+    "paraphrased_question": "What measures are in place to protect the information of beneficiaries?",
+    "reasoning": "The question was rephrased to focus on the protective measures rather than the data itself."
+  },
   "919bbeb5443bcc66534630a7db0f788a6dde8ac39980f1336b705e05e4397bdb": {
     "answer": "The process for registering multiple-birth children in the system involves the Anganwadi Worker (AWW) adding details of twins or triplets while registering a lactating mother. There is an option available in the app specifically for this purpose."
+  },
+  "91a4a07224d66eca98ec4ae6e30c641a0e44f3344cde05d48fa16df526a3b014": {
+    "paraphrased_question": "What steps should be taken if a woman expecting a child experiences a loss of pregnancy or undergoes a termination of pregnancy?",
+    "reasoning": "The question was rephrased to use different terms for 'pregnant woman,' 'miscarriage,' and 'abortion' while maintaining the original meaning."
   },
   "91c15643e4e4f11a372aff7c36642dbf6cf39243db07f2983bb112eb96aede3f": {
     "answerable": false,
     "reasoning": "None of the excerpts provide specific information about connecting a Jan Dhan bank account to the Poshan Tracker application."
+  },
+  "9217c3579b2f56f53a3de4521acfff4c29c16398e996d0ee97b1f2a4eed7ffab": {
+    "paraphrased_question": "What method is used to determine the condition of low blood health?",
+    "reasoning": "I replaced 'Anaemic Health Status' with 'condition of low blood health' and rephrased the question for clarity."
   },
   "924523932f5cf2345be0c3a48f82ac02c94001ffeb4b7ef3862b54e6913216c9": {
     "answer": "Yes, a beneficiary needs Aadhaar-based verification to receive the cooked meal, as all beneficiaries will require an Aadhaar number to avail benefits under the scheme."
@@ -2159,6 +2359,10 @@
     "grounded": true,
     "reasoning": "Every claim in the answer is directly supported by the excerpts, specifically the differences in data timing between the dashboard and the Master List."
   },
+  "99ec0a2b33d527bba8556aaf740f2a22cd72771ed12231b103dbe1eabda3a94f": {
+    "paraphrased_question": "What steps should be taken to modify the location settings in the AWC feature of AWW?",
+    "reasoning": "The question was restructured to focus on the action of modifying settings and used 'location settings' instead of 'AWC Location' for clarity."
+  },
   "9a0c2014e0fdbb31d90f2f41cf9a8d665334daed02ceca379487e1633bca5403": {
     "grounded": true,
     "reasoning": "Every claim in the answer is directly supported by the excerpts, specifically regarding the requirement for Aadhaar registration and the use of the mother's Aadhaar card."
@@ -2170,6 +2374,10 @@
   "9a23deb0560e8ef2cd562e56940d3aeddcc1a365ce9edf7dba3e6ab212600ffd": {
     "answerable": false,
     "reasoning": "None of the excerpts provide specific information about who is eligible to be designated as someone's ration nominee."
+  },
+  "9a379c52b0f666dd323fee4ffd718f157f3d747036090a5470d07d7f1599f5dc": {
+    "paraphrased_question": "Is it necessary for me to notify you about every occasion we have commemorated in my Anganwadi using the Raise Issue feature?",
+    "reasoning": "I replaced 'Should I inform you about all events we have celebrated' with 'Is it necessary for me to notify you about every occasion we have commemorated' and specified 'using the Raise Issue feature' to clarify the context."
   },
   "9a4845dfcfac9aa5f8282bad6640bd9cbd0e50fd415ec6905a5b410f15f1f34b": {
     "answerable": false,
@@ -2295,6 +2503,10 @@
     "answerable": false,
     "reasoning": "None of the excerpts provide the specific five principles of Poshan ke Paanch Sutra."
   },
+  "a031478a115c09d250fccf2f9ec799c50455f0177db611a32253c95e0a01c5dd": {
+    "paraphrased_question": "Is it possible to use the app without an internet connection?",
+    "reasoning": "I replaced 'accessed' with 'use' and 'without the internet' with 'without an internet connection' for clarity."
+  },
   "a06a4fbbe0e7ee6c5ff2b115aea296f779b6cb63846e2cc97d60b593e8bcb8c5": {
     "answerable": false,
     "reasoning": "None of the excerpts provide a clear definition or explanation of what a Village Health Sanitation and Nutrition Day (VHSND) is."
@@ -2311,6 +2523,10 @@
     "answerable": true,
     "reasoning": "The excerpts specify that beneficiaries must be registered at the nearest Anganwadi Centre with Aadhaar identification to avail benefits under the scheme, indicating that Aadhaar verification is required."
   },
+  "a100b43f8cb3c6bb427475b522cb3e936cf27185e3871d007b22ea075cee0e8e": {
+    "paraphrased_question": "Is it possible to modify the participation records?",
+    "reasoning": "I replaced 'change' with 'modify' and 'attendance' with 'participation records' to convey the same meaning using different terms."
+  },
   "a10a3cfb1e983a6299eff0ac279a6e9bfa16090db6ff76a1c5bf9b14f6fc67c1": {
     "answerable": true,
     "reasoning": "Excerpt 3 explicitly states the benefits of introducing face-based verification, including ensuring that THR reaches the rightful beneficiary and preventing misuse."
@@ -2319,9 +2535,17 @@
     "reasoning": "The question pertains to a specific feature of the Poshan Tracker app, which is likely covered in the FAQ section.",
     "source": "faq"
   },
+  "a27282502f9673c0b53338db7922ff14a6d51317888301db2c988aa7204eaca6": {
+    "paraphrased_question": "What is the duration that a recipient can stay on the list of beneficiaries that have been transferred out?",
+    "reasoning": "I replaced 'beneficiary' with 'recipient' and 'Migrated Out Beneficiaries list' with 'list of beneficiaries that have been transferred out' to maintain clarity while rephrasing."
+  },
   "a2a139379d7539bff91028948357043cd05790886296e6a3cfb195cbb0559519": {
     "answerable": false,
     "reasoning": "The excerpts do not provide specific information about the population norms or criteria for setting up AWCs, nor do they confirm if these norms are applicable across all States including North-Eastern States."
+  },
+  "a313f3174f25df508fee01e563d22841493f61aac40aa98c829024d22d2a3f14": {
+    "paraphrased_question": "Which individuals are eligible to be chosen as candidates in the category for young females?",
+    "reasoning": "I replaced 'selected as a nominee' with 'eligible to be chosen as candidates' and rephrased 'Adolescent girls category' to 'category for young females'."
   },
   "a32c3611b83fbc2834bd0095b2bc21b32f33a5cb43f98acd58e1568a66e15d44": {
     "reasoning": "The phrasing was changed from 'link' to 'connect' and 'inside' to 'to' for clarity and to align with common terminology used in app functionalities.",
@@ -2358,11 +2582,23 @@
     "answerable": true,
     "reasoning": "The excerpts specify that Take-Home Ration (THR) is distributed twice a month, which directly answers the question about the monthly limit on the number of days THR can be given."
   },
+  "a518473c66af2bfeb72be3d559e962f3b9cabc3938ef49ad4e1cb943d4bede95": {
+    "paraphrased_question": "What steps should be taken to modify or refresh the account details of a user in the AWC system?",
+    "reasoning": "The question was rephrased to use different terms like 'modify' and 'refresh' instead of 'update' and 'change', and 'account details' instead of 'profile'."
+  },
   "a54f5216a09ab9be7f69d7db54add096c18cb84ac2bff95231950d6d7683ba39": {
     "answer": "A normal child aged 6 to 72 months is entitled to receive 500 calories per day under the scheme."
   },
+  "a5ac87b331b7a7b5ef95c918da02fdf3a50a11b7456d6da8ccc7decbe6b38b11": {
+    "paraphrased_question": "Are kids required to undergo facial recognition checks in order to receive their Take-Home Ration?",
+    "reasoning": "I replaced 'children' with 'kids' and 'face verification' with 'facial recognition checks' while maintaining the original meaning."
+  },
   "a6bd39eda39c55b02e408e748ed6a0749da0dab0566d81106863d49755baa75e": {
     "answer": "A normal child aged 6 to 72 months is entitled to receive 500 calories per day under the scheme."
+  },
+  "a7726ada71605a8b7d503750fb9c49e0044d1430f7d111a2c89d79dfdcf90ef0": {
+    "paraphrased_question": "What immunization is available for kids aged 3 to 6 years?",
+    "reasoning": "I replaced 'Vaccine' with 'immunization' and rephrased 'Children 3-6 Years' to 'kids aged 3 to 6 years' for clarity."
   },
   "a7a0839f1e8fce2aa6d1bddacb3487e41e9691ddc09f52c82ffd103280195396": {
     "grounded": true,
@@ -2371,6 +2607,10 @@
   "a84eb6de99f972c03aa1b26399bd0b1d340d549693ea3d223a54263f241d564e": {
     "answerable": true,
     "reasoning": "Excerpt 2 mentions that the guidelines are issued under the provisions of specific sections, which implies a legal basis for the Anganwadi and Poshan 2.0 scheme guidelines."
+  },
+  "a884484b329f39cd71477a54a48fb38ba75e030e2297223132c1f60e13495670": {
+    "paraphrased_question": "What functions do community health facilitators and their overseers perform in the Family Registration System?",
+    "reasoning": "I replaced 'Anganwadi Workers and Supervisors' with 'community health facilitators and their overseers' to describe the roles without using the specific terminology."
   },
   "a888e916e77df1ef641031b0aea34df80364b9bbb7cb045ffea56cf33fb26a39": {
     "answer": "The minimum age to become an Anganwadi Worker or Helper is 18 years, and the maximum age is 35 years. The minimum educational qualification required is the 12th Standard. The retirement age for Anganwadi Workers/Helpers is determined by the concerned State Government/UT Administration, but they must not be engaged beyond the age of 65 years."
@@ -2405,6 +2645,10 @@
     "answerable": true,
     "reasoning": "Excerpt 3 specifically states that supplementary nutrition, including hot cooked meals, is provided to every pregnant woman and lactating mother up to 6 months after childbirth, and every child in the age group of 6 months to 6 years, which directly answers the eligibility question."
   },
+  "aab1a9afc22fd41c720439d8a67115475e981ebe9f019de73eb7d427c0e86d85": {
+    "paraphrased_question": "What is the process for sending in a THR?",
+    "reasoning": "I replaced 'submit' with 'sending in' and rephrased 'How to' to 'What is the process for' to maintain the same inquiry while using different wording."
+  },
   "aae54c0bcc512dce842154da1127dab143a676a89228a45c206506d0045c40bc": {
     "answerable": true,
     "reasoning": "Excerpt 5 specifically defines Saksham Anganwadi as part of an Integrated Nutrition Support Programme aimed at addressing malnutrition."
@@ -2416,6 +2660,10 @@
   "ab5ac0dc397bc9a8932b40a1950c5f84d67164132b83d38b024288998b9ccdad": {
     "answerable": false,
     "reasoning": "None of the excerpts specifically identify the beneficiaries under the Anganwadi Services scheme."
+  },
+  "ab7dad4a6bec9ca1ae241219d1f41f5a4f2492e90358b7ee0aa1455727270f3d": {
+    "paraphrased_question": "What actions can be taken if a recipient cannot go to the AWC to receive their THR?",
+    "reasoning": "The question was rephrased to use 'recipient' instead of 'beneficiary' and 'actions can be taken' instead of 'should be done', while maintaining the original meaning."
   },
   "ab8842c86de135cab679f37603ce708003bf099fe504495330a48fc0d2d3213b": {
     "answerable": true,
@@ -2502,6 +2750,10 @@
     "reasoning": "The question pertains to definitions and classifications related to malnutrition, which are likely detailed in the long-form government policy document.",
     "source": "policy_pdf"
   },
+  "aff5932ccb366e471ec65ce8ea90c46ef7fe9b8a4d673ec76834fc2a15e2bd55": {
+    "paraphrased_question": "How can we find details regarding Human Capital Management?",
+    "reasoning": "I replaced 'get information about' with 'find details regarding' and expanded 'HCM' to 'Human Capital Management' for clarity."
+  },
   "b0794b6fbae331151772e0547722f137500f04844facbf2a82ec7121cee3f35b": {
     "answer": "The excerpts do not provide specific conditions that an Anganwadi worker must meet to qualify for a performance bonus."
   },
@@ -2534,6 +2786,10 @@
   "b2554a5d586e7cd32a936f092b3716a80f7470bebbd1717cfd613dc059428ad7": {
     "answerable": false,
     "reasoning": "None of the excerpts provide specific information about who can be designated as a ration nominee for an individual."
+  },
+  "b28af13fcc85c1b4d8cd99e1ed1057b5ea44eb27b1325706017a1ea4663d3384": {
+    "paraphrased_question": "What group of children designated as beneficiaries is eligible for participation?",
+    "reasoning": "I replaced 'beneficiary category' with 'group of children designated as beneficiaries' and 'considered for attendance' with 'eligible for participation' to maintain the original meaning while using different phrasing."
   },
   "b2a6a5ec687da10f29a41b2631f051f6b910314d6a60d2c52398effb3827f603": {
     "grounded": true,
@@ -2586,6 +2842,10 @@
     "grounded": true,
     "reasoning": "The answer accurately reflects the information in the excerpts, which specify that children aged 6 months to 6 years are measured for height and weight under the Growth Monitoring feature."
   },
+  "b63400ddb663304c8c2b6a09710cf7beb09991ef75f7624ac60e1d641b739565": {
+    "paraphrased_question": "What is the importance of knowing the date of the most recent menstrual cycle for someone receiving benefits?",
+    "reasoning": "The question was restructured to clarify the context and used synonyms for 'Last Menstrual Period' while maintaining the original meaning."
+  },
   "b6a96964cae664a21f2c2902b6ef209c46dbce94d780331349347e62c0acc87b": {
     "answerable": true,
     "reasoning": "The first excerpt explicitly defines MAM as Moderately Acute Malnourished, directly answering the question about who MAM children are."
@@ -2605,6 +2865,10 @@
   "b824f73a2f29810650a7aee07999cdf6391456690ee11f2e0b551c8eacbd4d73": {
     "answerable": true,
     "reasoning": "The first excerpt explicitly defines the different verification status labels (Unverified, Partially Verified, Verified) in a Beneficiary Profile, directly answering the question."
+  },
+  "b8389880a1a2c4fce97fe0a3fd605b0c79765b8c1081cd350d027d737a5441e2": {
+    "paraphrased_question": "What is the process for modifying the Aadhaar information for a child rather than that of a parent or guardian?",
+    "reasoning": "The question was restructured to focus on the process of changing Aadhaar details for a child, using different vocabulary."
   },
   "b84043c73a7789abe837f99cf8370b2fbda6ec19b53ed8e4bc84bda537e9732a": {
     "reasoning": "The question pertains to specific guidelines or principles related to the Poshan scheme, which would be detailed in the policy document.",
@@ -2750,6 +3014,10 @@
     "reasoning": "The question pertains to the role of Poshan Abhiyaan within the broader context of government schemes, which is detailed in the policy document.",
     "source": "policy_pdf"
   },
+  "c1a0cd93f9fa3bfe8474bd335d043a7acaa16528a5513873d77a7644a3b80ed9": {
+    "paraphrased_question": "How is the color scheme organized for the category related to expectant mothers?",
+    "reasoning": "I replaced 'color coding' with 'color scheme organized' and 'Pregnant Women' with 'category related to expectant mothers' to maintain the meaning while using different phrasing."
+  },
   "c1c87e261a77c6fe26fd0ac161d74d14685755fcf7ce82251c2d1836e67c7d8d": {
     "answerable": true,
     "reasoning": "The first excerpt provides a clear definition of the RCH Profile, explaining that it refers to the monitoring of women throughout their reproductive cycle and the services associated with it."
@@ -2768,6 +3036,10 @@
   "c20b88b32f686386e723010a11966b08c4ef00e977c267dd2d09baa55980ef86": {
     "answerable": false,
     "reasoning": "None of the excerpts provide specific information on how Anganwadi Services under Mission Poshan 2.0 differ from the erstwhile ICDS or what new components have been added."
+  },
+  "c212a6969b4310c67fd9863f165de139f25f2e00d0f110d3311b532dddea9b5c": {
+    "paraphrased_question": "In which type of recipient group is it possible to include a designated representative?",
+    "reasoning": "I replaced 'beneficiary category' with 'type of recipient group' and 'nominee' with 'designated representative' to convey the same meaning using different terms."
   },
   "c230c18259c5b6a989776cca404665d15ddd1e9ce256d8fa17366e0201a21a0e": {
     "grounded": true,
@@ -2864,6 +3136,10 @@
     "answerable": true,
     "reasoning": "The first excerpt specifically states that growth monitoring details can be viewed in the Care Profile section of the profile card."
   },
+  "ca610910d51dedc33fac7e0135a6bd22c3b2f83cc123a519f34482c79fc99832": {
+    "paraphrased_question": "Who qualifies to receive the extra food assistance?",
+    "reasoning": "I replaced 'eligible' with 'qualifies' and 'Additional Supplementary Food' with 'extra food assistance' to convey the same meaning using different terms."
+  },
   "ca8d98894a453424d9183ce3fc6f033b2c52af4ceccfd7312fd957f0b4e22bf3": {
     "answerable": true,
     "reasoning": "Excerpt 1 provides specific instructions on what to do when login credentials are rejected, stating that the user needs to input the correct mobile/email or password."
@@ -2924,6 +3200,10 @@
     "answerable": true,
     "reasoning": "Excerpt 2 specifically describes the role of Poshan Abhiyaan as a pillar for outreach within the context of Saksham Anganwadi and Poshan 2.0, addressing malnutrition and promoting health."
   },
+  "cdb1be7b1b3cb231d7a8e18a6bc34cd414a9d700f284e6b1ed89f02daece3782": {
+    "paraphrased_question": "What steps should I follow to modify or refresh my phone number?",
+    "reasoning": "I replaced 'change or update' with 'modify or refresh' and rephrased the structure to maintain the same meaning."
+  },
   "cdd4adb6aeba11c225b20f0f248b2a37ae41a0c98089f53a6b86faba58dd194e": {
     "answerable": true,
     "reasoning": "Excerpt 1 and Excerpt 4 provide specific information about Jan Andolan under Poshan Abhiyaan, detailing its themes and activities."
@@ -2947,6 +3227,14 @@
     "answerable": true,
     "reasoning": "Excerpt 3 specifically states that an Anganwadi worker should contact their concerned Supervisor/CDPO for help with application login issues."
   },
+  "cfd5dadd3b42c7b2865cc0b1be140397ca5602835b15ec6e491c9fe893013c63": {
+    "paraphrased_question": "Can you explain the function that allows the transfer of beneficiary designations?",
+    "reasoning": "I replaced 'Migrate Beneficiary feature' with 'function that allows the transfer of beneficiary designations' to describe the concept without using the specific terminology."
+  },
+  "cffaa74718b26f174295fd2b5d382b7bb5e9acb5b08470d7fe57e21d3d3a5e60": {
+    "paraphrased_question": "What types of recipients are eligible for in-home visits?",
+    "reasoning": "I replaced 'categories of beneficiaries' with 'types of recipients' and 'entitled to receive' with 'eligible for' to maintain the same meaning while using different vocabulary."
+  },
   "cffc351ee9407c294d4d0714ee4a09504a2e55543e397c26f1962e8c81083969": {
     "answerable": false,
     "reasoning": "None of the excerpts provide specific information on how Anganwadi Services under Mission Poshan 2.0 differ from the erstwhile ICDS or what new components have been added."
@@ -2969,6 +3257,10 @@
     "answerable": true,
     "reasoning": "Excerpt 3 explicitly states the benefits of introducing face-based verification, including ensuring that THR reaches the rightful beneficiary and preventing misuse."
   },
+  "d0e2a6badc4818344ce6f1ab980583b07e2ce3d7fba10dce37af340e90fd3f34": {
+    "paraphrased_question": "What is the reason that the name of the recipient appears in the list of recipients even after selecting Yes for the School Going option?",
+    "reasoning": "I replaced 'beneficiary' with 'recipient' and restructured the sentence for clarity while maintaining the original meaning."
+  },
   "d0fb6acccc9f7810807f92f95c4299ed80d85469a1943eb14c5971abfe4d58c7": {
     "answerable": false,
     "reasoning": "None of the excerpts provide specific definitions or explanations of the terms stunting, wasting, and underweight in the context of child health and nutrition."
@@ -2976,6 +3268,10 @@
   "d11ec36fc8cdae16a853fef77d0be3ccde71cf038a31e0bfcaadcabcf286b995": {
     "answerable": false,
     "reasoning": "None of the excerpts explicitly state the name of the national nutrition mission that the Anganwadi scheme is aligned under."
+  },
+  "d1873ffb09c30a3fa15c43a05f9a7c12eb6ef927cf8b8320b3ebad7225dbeae2": {
+    "paraphrased_question": "How can we locate non-active beneficiaries within the control panel?",
+    "reasoning": "I replaced 'find' with 'locate' and 'Dashboard' with 'control panel' while using 'non-active' instead of 'Inactive' to maintain the meaning."
   },
   "d206406e3aa5ddbeb9e2c963d8f4c0ac6b15b2316fe5f36a0bab342529e190ce": {
     "reasoning": "The question specifically pertains to the functionality of the Poshan Tracker app, which is covered in the FAQ section.",
@@ -3001,6 +3297,10 @@
     "reasoning": "The question pertains to the definition of a Saksham Anganwadi, which is likely detailed in the long-form government policy document.",
     "source": "policy_pdf"
   },
+  "d3624b5b3a3e886b26a54d68c25785b5d4397f4c511188a458993cea1407ae54": {
+    "paraphrased_question": "What is the maximum number of times that progress tracking can occur within a month?",
+    "reasoning": "I replaced 'Growth Monitoring' with 'progress tracking' and restructured the sentence for clarity."
+  },
   "d36d7681a5c2c4e665f23b79ef359933881210b91432fe08a2028b411e3deada": {
     "answer": "Jan Andolan under Poshan Abhiyaan refers to the community engagement initiatives that promote nutrition awareness and practices. It includes events like Poshan Maah and Poshan Pakhwada, which are celebrated annually, particularly in September as Rashtriya Poshan Maah. These events aim to reach out to communities and involve various stakeholders such as frontline workers, community groups, and government departments in promoting nutrition-related messages. Activities covered under Jan Andolan include Annaprashan Diwas, Suposan Diwas, and public health messages focusing on nutrition improvement, hand-wash and sanitation, prevention of anemia, and the importance of a diverse diet."
   },
@@ -3019,6 +3319,10 @@
   "d3f580388b6c96ed200660fd887375fd5d53080f2d448ea622d1ac6e82bd85d7": {
     "reasoning": "The question pertains to a specific feature of the Poshan Tracker app, which is likely covered in the FAQ section.",
     "source": "faq"
+  },
+  "d41df37f8108c0a5cf5587f69e99464ff04f4a9f9edad3a75dc22b6e5c5f8c9b": {
+    "paraphrased_question": "Who is eligible to access the THR benefit?",
+    "reasoning": "I replaced 'avail' with 'access' and 'can' with 'is eligible to' for clarity and restructured the sentence."
   },
   "d43ed582e06cc2c2b19bb781924277c6abeb6d8d7e28b27176c477ccc170a0b5": {
     "grounded": true,
@@ -3048,11 +3352,19 @@
     "reasoning": "The question was rephrased to explicitly mention 'Integrated Child Development Services (ICDS)' for clarity and to ensure that the comparison is clear, while also emphasizing the introduction of new components.",
     "rewritten_query": "What are the differences between Anganwadi Services under Mission Poshan 2.0 and the previous Integrated Child Development Services (ICDS), and what new components have been introduced in the current program?"
   },
+  "d6be7bc68b49edae5a6981f9bdc34d4b1afe791d03aa8256768a81cf456b06c6": {
+    "paraphrased_question": "Who can see the RCH Profile within the Poshan Tracker App?",
+    "reasoning": "I changed 'For whom is' to 'Who can see' for clarity and rephrased 'visible in' to 'within' to maintain the same meaning."
+  },
   "d717a7ec4f27aea711e360224420a1128e20bc5f47d263574b44d10d24e8b09e": {
     "answer": "The different verification status labels in a Beneficiary Profile indicate the following:\n- **Unverified**: The beneficiary has not verified their mobile number and Aadhaar details.\n- **Partially Verified**: The beneficiary has only verified their mobile number.\n- **Verified**: The beneficiary has verified their Aadhaar details."
   },
   "d734177d366c6f0ae923148a44aee1846429f1556633bcabcf19773f47ac6c3b": {
     "answer": "The dashboard's beneficiary count might differ from the actual Master List because the data shown in the Main Internal Dashboard are from previous months, while the Master List contains current data that is reflected instantly. Additionally, data in the app reflects on the dashboard after one day, which can also contribute to discrepancies."
+  },
+  "d74738cf49c06c48d5e33d23593e4b0fe6a924b33d97bff5fec7b36f6f4de55a": {
+    "paraphrased_question": "What is the significance of the option to \"Raise Issue\" within the app?",
+    "reasoning": "I replaced 'mean' with 'significance' and rephrased the structure to clarify the context of the option."
   },
   "d753112965207ed823f8461cd455a65d7318e4d994973a1e887071b8f2140a2b": {
     "reasoning": "Changed 'different categories of people' to 'types of individuals' for clarity and simplicity, making it more likely to match relevant content.",
@@ -3095,6 +3407,10 @@
   "d9a8ed9755b146ff134e2f7ae1a8d3cdf9a32321598e99019df532ef5cbb3e69": {
     "answerable": true,
     "reasoning": "The excerpts provide specific information about the growth monitoring feature, indicating that it measures the growth of children aged 6 months to 6 years."
+  },
+  "d9aa73f396edb45f46037282dd45aa72ff714854e6dacf700e7dfecff14ebc62": {
+    "paraphrased_question": "How can we find out which version of the application we are using?",
+    "reasoning": "The question was rephrased to ask about discovering the current version of the app without using the term 'check' or 'application version' directly."
   },
   "d9c5e91a22f4841268685dce361eacbcccdbadfa42563cf908662ed6837eea16": {
     "answerable": true,
@@ -3168,6 +3484,10 @@
     "answerable": true,
     "reasoning": "Excerpt 1 provides a list of relationships that can be selected as a nominee, directly answering the question about who is eligible."
   },
+  "ddb2288ffc89be2aa5edb04337b4f23ec5d7a64ea80607b51d92287dd78baf19": {
+    "paraphrased_question": "What is the method for calculating the monthly Take-Home Ration when both the recipient and their designated representative receive it?",
+    "reasoning": "I replaced 'beneficiary' with 'recipient' and 'nominee' with 'designated representative' while restructuring the sentence for clarity."
+  },
   "ddec4efd403ef54c834ff12615dbd620f0ba1457024793f04724dcc1a93d38be": {
     "grounded": true,
     "reasoning": "The generated answer accurately reflects the information provided in the excerpts, specifically stating that an Anganwadi worker should contact their Supervisor or CDPO for login issues."
@@ -3207,6 +3527,14 @@
     "answerable": false,
     "reasoning": "None of the excerpts provide specific conditions that an Anganwadi worker must meet to qualify for a performance bonus."
   },
+  "e120e5627bc5dbf6d5a374697cb5753e9f5038719b8d23282d69d20924b44e6d": {
+    "paraphrased_question": "Is it possible to provide the rewards to a designated recipient even if a nominee has been appointed?",
+    "reasoning": "I replaced 'THR' with 'rewards' and rephrased the structure to clarify the inquiry about providing benefits to a recipient."
+  },
+  "e12cf64e7a0966074714195ad116ced37d33d78b05bc2bae8a751911293ac710": {
+    "paraphrased_question": "How can I indicate the elements of a Targeted Saksham AWC within the application?",
+    "reasoning": "The question was restructured to clarify the action of indicating elements and replaced 'mark' with 'indicate' for variety."
+  },
   "e232e90185329f8e5cea3ba86dc1d8194e7f49ab367c2550ccdfae0e04e0ab08": {
     "answerable": false,
     "reasoning": "None of the excerpts provide specific information about the types of individuals that an Anganwadi worker can register through the app."
@@ -3231,6 +3559,10 @@
     "grounded": true,
     "reasoning": "Every specific claim in the answer about accessing the Poshan Tracker Dashboard is directly supported by the excerpts."
   },
+  "e31cfe92d6a0c902a15e00058ee804cc4a3363d7b7fca1a4c85dce20bf829a3a": {
+    "paraphrased_question": "What types of documentation can be accessed through the Poshan Tracker Portal?",
+    "reasoning": "I replaced 'Reports' with 'documentation' and 'available' with 'can be accessed' to create a more general inquiry."
+  },
   "e35c13fc237ba8b6ebd3cd8edcd0eb83a1c3ba9bf70be31cc311403a02002468": {
     "reasoning": "The question pertains to the legal basis for the Anganwadi and Poshan 2.0 scheme guidelines, which would be detailed in the policy document.",
     "source": "policy_pdf"
@@ -3238,6 +3570,10 @@
   "e39bcd6796279108cc7f61461d33c1b1422e4786e1f9386c0c927ae0ad1b2b9e": {
     "answerable": false,
     "reasoning": "None of the excerpts provide a clear definition or explanation of what a Village Health Sanitation and Nutrition Day (VHSND) is."
+  },
+  "e3ba8d67c088737593f7839a45ca8b7b7c7f10065ff3b028a93bff17765987df": {
+    "paraphrased_question": "Under what circumstances will the recipient or designated individual not receive the THR?",
+    "reasoning": "I replaced 'In which cases' with 'Under what circumstances' and rephrased 'beneficiary/nominee' to 'recipient or designated individual' for clarity."
   },
   "e3f8482b1652053b56f6a552c536470bdf0f0154fb4f1d4d17d1580dd4c8e015": {
     "reasoning": "The question specifically pertains to the features of the Poshan Tracker mobile app, which is covered in the FAQ.",
@@ -3250,6 +3586,10 @@
   "e478e6f4e8cefeb12a571801fa6737219906e08b81edf5ececac58108122b384": {
     "reasoning": "The question pertains to the cash benefit under the PMMVY scheme, which is detailed in the government policy document.",
     "source": "policy_pdf"
+  },
+  "e485d4e01aa0b38baf73a11bcced5ef5a2df2a7429bc04713c4fbdeedc08c93c": {
+    "paraphrased_question": "Can you explain what AWC Infra refers to?",
+    "reasoning": "The question was rephrased to ask for an explanation of the term instead of directly asking for its definition."
   },
   "e4d4905f96da35c9136e0e9d144ac80eaeb1d632c0877efb76357a7f36c0a8e8": {
     "grounded": true,
@@ -3357,6 +3697,10 @@
     "answerable": true,
     "reasoning": "The first two excerpts explicitly state that the application is available in 24 different languages, confirming that it supports languages other than English."
   },
+  "eb3307e2f46afc62855db73cdd2f4714418fa3d5be6cd6fc33277f458d919770": {
+    "paraphrased_question": "Is it possible to modify the AWW/AWH profile? What is the limit on the number of edits I can make?",
+    "reasoning": "I replaced 'updated' with 'modify' and 'how many times' with 'what is the limit on the number of' for clarity and variation."
+  },
   "eb3ef2f79b4dc3231a7890c81e65374d5ed82c6f25300978fb5b51bbd500b7c6": {
     "answerable": true,
     "reasoning": "Excerpt 3 provides specific details on how the app confirms a beneficiary's identity using face matching, including the process of capturing and verifying photos."
@@ -3377,9 +3721,17 @@
     "answerable": false,
     "reasoning": "None of the excerpts provide a specific reason for the addition of face-based verification to the ration distribution process."
   },
+  "ebc743e7b86cd0fa4a730a281a182886ce869c4e33576e3dbef37ec6797af460": {
+    "paraphrased_question": "What purpose does the process of addressing beneficiary grievances serve?",
+    "reasoning": "I replaced 'use' with 'purpose' and rephrased 'Beneficiary Redressal' as 'the process of addressing beneficiary grievances' to clarify the concept."
+  },
   "ec04b1839717db21d190362fa9a1f3e9a5cb0477d0f71405f0780fc949b877c7": {
     "reasoning": "The question pertains to a specific functionality of the Poshan Tracker app, which is covered in the FAQ section.",
     "source": "faq"
+  },
+  "ec20058b7fe2afe339defb42212c190a4e094a7595da4d91acf2835557d87896": {
+    "paraphrased_question": "What can I find in the section dedicated to tracking development progress?",
+    "reasoning": "I replaced 'Growth Monitoring' with 'tracking development progress' to describe the feature without using its specific name."
   },
   "ec238db0a60caf11dabe50c57db2d7d930d1c6ac1149716de383022705ef445e": {
     "answerable": true,
@@ -3404,6 +3756,10 @@
     "grounded": true,
     "reasoning": "Every specific claim in the answer is directly supported by the excerpts, including the purpose of the Poshan Tracker, its role in monitoring and tracking, and its focus on nutrition delivery systems."
   },
+  "ec9be43fcbfe0ef28a4217776e2f4130ec0df0765d59f90fd903abd56d88c15a": {
+    "paraphrased_question": "Is it possible to modify the condition of an AWC (whether it is active or inactive)?",
+    "reasoning": "I replaced 'edit' with 'modify' and 'status' with 'condition' while rephrasing 'Open/Close' to 'active or inactive' for clarity."
+  },
   "eca65e19be6712ebdc5eeb4252fd66980457726a39c4800346b986ad86be13fd": {
     "reasoning": "The question pertains to eligibility criteria and staffing roles, which are detailed in the policy document.",
     "source": "policy_pdf"
@@ -3411,6 +3767,10 @@
   "ecbcc3c0fc107dd45f379d648fb5f1990aaad6780f5aec20e2b53f804d97354e": {
     "answerable": true,
     "reasoning": "Excerpt 4 states that pregnant women and lactating mothers receive Rs. 9.50 per beneficiary per day, which provides the specific cash benefit amount under PMMVY."
+  },
+  "ed390ca8e857b49b38aef0c205a52720b89e1af9edbdfdd4f0e076c9094db1ae": {
+    "paraphrased_question": "What types of classifications can be found within the group for kids aged 3 to 6 years?",
+    "reasoning": "I replaced 'available in the category of' with 'can be found within the group for' and rephrased 'Children (3-6 years)' to 'kids aged 3 to 6 years'."
   },
   "ed9202c8ef7964fdad01459059c68af5e2a7d6d437962e1c5916721af3fbdb29": {
     "answerable": true,
@@ -3590,6 +3950,10 @@
     "answerable": true,
     "reasoning": "The first excerpt specifically states that growth monitoring details can be viewed in the Care Profile section of the profile card, directly answering the question."
   },
+  "fd6404081ef97b085aa8c76bb3089ef389a2ea88d53cef2ffdbe2e6c0333878c": {
+    "paraphrased_question": "What is the reason for the discrepancy between the number of recipients, the area of work, the region, the initiative, the category, and other metrics displayed on the Primary Internal Dashboard compared to those in the Comprehensive List?",
+    "reasoning": "I replaced specific terms with synonyms and restructured the sentence to maintain the original meaning while using different phrasing."
+  },
   "fdb28e0dbb91415b33a7fad81f1ba80eb3924e9080d372a14f55d7c35b92a5b1": {
     "reasoning": "The question specifically asks about beneficiaries under the Anganwadi Services scheme, which is detailed in the long-form government policy document.",
     "source": "policy_pdf"
@@ -3605,6 +3969,10 @@
   "fe17a327b8ceb8d2b9ab2bd12cf14426d7440cf882aa563496fde94b78739595": {
     "reasoning": "The RCH Profile feature is likely a specific functionality of the Poshan Tracker app, which would be covered in the FAQ section.",
     "source": "faq"
+  },
+  "fe1de0d0ee25f0ffb51b1413c5844ed34d39dfe59a04c64c8a4b19c6bf5148bb": {
+    "paraphrased_question": "Is it possible to set up the software on any type of mobile device?",
+    "reasoning": "I replaced 'Application' with 'software' and 'phone' with 'mobile device' while restructuring the sentence."
   },
   "fe3f5d88f8c29df8374da1fba9c015d4a2cb239766e4b8965db195d9ee7320b9": {
     "answerable": true,
