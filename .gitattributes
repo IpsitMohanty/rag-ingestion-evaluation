@@ -1,0 +1,6 @@
+# Vendored reference material -- not this repo's own work, excluded from
+# GitHub's language-detection bar. See README's "Reference material"
+# section: course-notebooks were read but never executed/ported;
+# document-loaders-lab is an earlier, unrelated, already-executed
+# exploration kept for provenance, not part of this pipeline.
+reference/** linguist-vendored
