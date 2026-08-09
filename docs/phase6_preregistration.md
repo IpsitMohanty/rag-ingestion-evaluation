@@ -239,6 +239,100 @@ this critic) meaningless. The split must guarantee a minimum positive
 count in validation -- `floor(0.2 x n_positive)` at a nominal 80/20 split
 -- computed and logged exactly once Stage 2 runs, not assumed here.
 
+## 5a. Amendment -- 2026-08-09: verbatim self-query labeling measured 0/92 positive, corrected to LLM-paraphrased queries
+
+**What was pre-registered above (#5) did not work, measured directly, not
+assumed.** Stage 2 ran the retriever spot-check first (passed cleanly:
+`faq-05` reproduced its frozen phase-5 miss exactly; the full 51-query
+drift check against `SHOULD_ABSTAIN_IDS` passed on all 51 --
+`training/extract_critic_data.py::spot_check_retriever`), then ran the
+mechanical `hit@k` labeling exactly as specified above. Result: **0 of 92
+positive** (`needs_correction=1`), not the ~16 projected. hit@5 = 92/92
+(100%), hit@1 (exact top-1 match) = 89/92 (96.7%), mean top-1 distance
+0.359. A second mechanical variant was tried as a diagnostic (not
+committed, not part of the pipeline): querying with each row's own
+**answer** text instead of its question -- same result, 0/92 positive,
+mean top-1 distance 0.280.
+
+**Root cause, structural, not a bug or a bad draw.** FAQ rows are indexed
+as one whole Document each (`split=False`, `src/config.py`'s
+`IngestionConfig`) -- question and answer together, one chunk per row. A
+query built from *any text stored in that same row* is therefore
+near-guaranteed to retrieve that row at k=5 in a 126-document corpus: this
+is self-retrieval, not a difficulty test, regardless of which field
+supplies the query text. The ~16/92 estimate in #5 projected phase 2's
+hit@5=0.826 onto this pool, but that figure was measured on the 51-query
+eval set's hand-paraphrased (`faq_reworded`) and `policy_derived` queries
+-- independently phrased, not verbatim excerpts of their own gold
+document. Applying a hit rate measured on independently-phrased queries to
+a pool of verbatim-own-text queries compared two structurally different
+retrieval tasks; that comparison was wrong, and is corrected here rather
+than carried forward.
+
+A reusable mechanical paraphrase generator was checked for before writing
+a new one: none exists. `eval/METHODOLOGY.md` #4's 26 `faq_reworded` eval
+queries were **hand-authored**; that section's `jaccard_overlap` machinery
+only measures and stratifies lexical overlap after the fact, it does not
+generate rewordings.
+
+**Amendment: one LLM-generated paraphrase per unused FAQ row**, replacing
+verbatim question text as the query, with the disjointness guarantee
+(#4) and the 92-row FAQ-only scope decision (above) both unchanged.
+Fixed prompt (`training/generate_faq_paraphrases.py::PARAPHRASE_PROMPT`),
+`gpt-4o-mini`, `temperature=0.0`, `seed=42` -- the same deterministic
+convention as every other LLM call in this repo (`AgenticConfig`,
+`CorrectiveAgenticConfig`), cached via `eval.llm_cache.CachedStructuredLLM`
+the same way phase 4/5's real calls are, real call count and cost printed
+before the run is treated as final, same discipline as
+`eval/run_corrective_eval.py`. Approved estimate: 92 calls (one per
+unused row), hard stop 138 (1.5x, matching `eval/agentic_sweep.py` and
+`eval/corrective_sweep.py`'s own convention).
+
+**Stated plainly: this is a partial retreat from #5's "zero hand-labeling,
+zero LLM calls" framing**, not a silent one. Training-*label* generation
+now touches an API key, once, offline, to generate 92 short paraphrases --
+this is categorically different from hand-labeling `needs_correction`
+values (still zero human judgment calls on the labels themselves: `hit@k`
+against the row's own `faq_index` still produces the label mechanically,
+only the *query text* is now LLM-paraphrased rather than verbatim). CE's
+own inference at eval/serving time and the deployed Streamlit demo remain
+fully keyless -- #9's deployment invariant is unaffected; this touches
+offline training-data generation only.
+
+**Acceptance gate, stated before any paraphrase is generated (not fit to
+the results afterward):**
+
+1. Mean Jaccard overlap (`eval.metrics.jaccard_overlap`, unchanged) across
+   the 92 (paraphrase, original-question) pairs must fall in **[0.05,
+   0.25]** -- the hand-authored 26's own regime (mean 0.134, median
+   0.101), with headroom on both sides for a differently-sized, LLM- not
+   human-authored sample.
+2. **No more than 14 of the 92** (~15%) may exceed 0.5 overlap -- the hand
+   set's high-overlap tail was 3/26 (11.5%), rounded up generously for a
+   smaller/noisier automated sample.
+3. The resulting `hit@k` relabeling, run immediately after the gate
+   passes, must yield **at least 10 positive examples** -- passing the
+   overlap-regime check alone is necessary but not sufficient; the pool
+   must actually be usable, not just lexically dissimilar in aggregate.
+
+**If any check fails: stop.** Do not re-run the paraphrase generator with
+adjusted prompt wording to try to pass the gate -- tuning generation
+parameters until a precommitted check passes is exactly the kind of
+post-hoc parameter search `eval/METHODOLOGY.md` #8a's "decision rule
+stated before the numbers were looked at" discipline exists to rule out.
+A gate failure's next step is hand-authored paraphrasing (the "hand-author
+paraphrases" alternative raised alongside this amendment), reported and
+reviewed before proceeding, not a second automated attempt.
+
+**Consequence for the null predictions (#3), sharpened:** the positive
+class, if the gate passes, consists entirely of LLM-paraphrase-induced
+misses on FAQ-sourced, individually-answerable questions -- an even
+narrower slice of the eval set's actual query distribution than #5
+originally described (which at least imagined naturally-occurring misses
+on unmodified FAQ text). Any result must be read with this narrower
+provenance in mind, not just the general train/eval construct gap #3
+already names.
+
 ## 6. Architecture
 
 ```
