@@ -116,43 +116,56 @@ def _decision_agreement(old_run: list[dict], new_run: list[dict]) -> dict:
     }
 
 
-def main() -> None:
-    queries = load_query_set()
-    embeddings = embeddings_adapter.get_embeddings(DEFAULT_CONFIG.embedding)
+def run_comparison_once(faq_store, policy_index, queries: list[dict], order: str = "old_first") -> dict:
+    """Builds fresh (uncached) instances of both graphs against the given,
+    already-built cell and runs each once over `queries`, in the order
+    requested -- `order` controls only which graph experiences "ran first
+    in this process" effects (connection warm-up, etc.), not which graph
+    the returned dict calls "old"/"new". Factored out of main() so
+    eval/run_paired_timing_runs.py can call this 4x with alternating
+    order without rebuilding the retrieval indices each time (results
+    doc's paired-timing follow-up, docs/phase6_results.md).
+    """
+    if order not in ("old_first", "new_first"):
+        raise ValueError(f"order must be 'old_first' or 'new_first', got {order!r}")
 
-    with tempfile.TemporaryDirectory(ignore_cleanup_errors=True) as tmp:
-        faq_store, policy_index = masweep.build_representative_cell(embeddings, Path(tmp))
+    old_config = DEFAULT_CONFIG.corrective_agentic
+    new_config = DEFAULT_CONFIG.multiagent_critic
 
-        # --- old graph: phase 5's own, imported unmodified ---
-        old_config = DEFAULT_CONFIG.corrective_agentic
-        old_raw = get_corrective_structured_llms(old_config)
-        old_llms = _timed_llms(old_raw)
+    def _run_old():
+        old_llms = _timed_llms(get_corrective_structured_llms(old_config))
         old_graph = build_corrective_graph(*old_llms, faq_store, policy_index, k=masweep.K)
-
         old_run, old_wall_s = _run_and_time(
             old_graph, csweep.run_single_pass, queries, route_enabled=True, max_iterations=old_config.max_iterations,
         )
         _check_call_budget(old_llms, "old (phase 5)")
+        return old_run, old_wall_s, old_llms
 
-        # --- new graph: this phase's, critic="baseline" ---
-        new_config = DEFAULT_CONFIG.multiagent_critic
-        new_raw = get_multiagent_structured_llms(new_config)
-        new_llms = _timed_llms(new_raw)
+    def _run_new():
+        new_llms = _timed_llms(get_multiagent_structured_llms(new_config))
         new_graph = build_multiagent_critic_graph(
             *new_llms, faq_store, policy_index, k=masweep.K, critic=new_config.critic,
         )
-
         new_run, new_wall_s = _run_and_time(
             new_graph, masweep.run_single_pass, queries, route_enabled=True, max_iterations=new_config.max_iterations,
         )
-        _check_call_budget(old_llms + new_llms, "combined")
+        _check_call_budget(new_llms, "new (phase 6)")
+        return new_run, new_wall_s, new_llms
+
+    if order == "old_first":
+        old_run, old_wall_s, old_llms = _run_old()
+        new_run, new_wall_s, new_llms = _run_new()
+    else:
+        new_run, new_wall_s, new_llms = _run_new()
+        old_run, old_wall_s, old_llms = _run_old()
 
     old_summary = _summary_for("phase5_monolith", old_run, old_llms, old_wall_s)
     new_summary = _summary_for("phase6_multiagent_baseline", new_run, new_llms, new_wall_s)
     agreement = _decision_agreement(old_run, new_run)
-
     total_calls = old_summary["real_llm_calls"] + new_summary["real_llm_calls"]
-    results = {
+
+    return {
+        "order": order,
         "cell_id": masweep.CELL_ID,
         "k": masweep.K,
         "old_graph": old_summary,
@@ -165,10 +178,20 @@ def main() -> None:
         "hard_stop_calls": HARD_STOP_CALLS,
     }
 
+
+def main() -> None:
+    queries = load_query_set()
+    embeddings = embeddings_adapter.get_embeddings(DEFAULT_CONFIG.embedding)
+
+    with tempfile.TemporaryDirectory(ignore_cleanup_errors=True) as tmp:
+        faq_store, policy_index = masweep.build_representative_cell(embeddings, Path(tmp))
+        results = run_comparison_once(faq_store, policy_index, queries, order="old_first")
+
     out_path = REPO_ROOT / "results" / "multiagent_critic_eval_results.json"
     out_path.parent.mkdir(exist_ok=True)
     out_path.write_text(json.dumps(results, indent=2), encoding="utf-8")
 
+    old_summary, new_summary, agreement = results["old_graph"], results["new_graph"], results["decision_agreement"]
     print(f"Wrote {out_path}")
     print(f"Old graph (phase 5 monolith): {old_summary['real_llm_calls']} calls, {old_summary['wall_clock_s']:.1f}s wall-clock")
     print(f"New graph (phase 6 multi-agent, baseline critic): {new_summary['real_llm_calls']} calls, {new_summary['wall_clock_s']:.1f}s wall-clock")
@@ -176,7 +199,7 @@ def main() -> None:
     print(f"Wall-clock delta (new - old): {results['wall_clock_delta_s']:+.1f}s")
     print(f"Abstain-decision agreement: {agreement['abstain_agreement_rate']:.3f} "
           f"({len(agreement['abstain_decision_mismatches'])} mismatches: {agreement['abstain_decision_mismatches']})")
-    print(f"Total real (non-cached) LLM calls this run: {total_calls}")
+    print(f"Total real (non-cached) LLM calls this run: {results['total_real_llm_calls']}")
 
 
 def _check_call_budget(llms: list[TimingLLM], label: str) -> None:

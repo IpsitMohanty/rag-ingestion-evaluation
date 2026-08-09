@@ -70,31 +70,51 @@ the multi-agent graph made *fewer* calls, within the "a few calls"
 band `#6a` predicted before either graph ran.
 
 **Prediction 3 (latency: equal-or-worse, never meaningfully better) --
-NOT confirmed as stated.** Measured: old graph 352.7s wall-clock
-(1.406s mean per-call), new graph 298.8s (1.220s mean per-call) -- the
-decomposed graph was **15.3% faster** (-54.0s), not equal-or-worse. This
-is reported plainly, not reframed as a near-miss: the prediction was
-wrong as measured.
+NOT confirmed as stated in the initial single run; the effect itself did
+not replicate under paired testing.** Initial measurement: old graph
+352.7s wall-clock (1.406s mean per-call), new graph 298.8s (1.220s mean
+per-call) -- the decomposed graph was **15.3% faster** (-54.0s), not
+equal-or-worse, reported plainly rather than reframed as a near-miss.
+That single run had the old graph go first, an acknowledged confound
+(`#6a`), so it did not settle whether "faster" tracked graph identity or
+run order.
 
-**Read carefully, not spun either direction.** The 6-fewer-calls
-difference explains only part of the gap proportionally (242/248 is 2.4%
-fewer calls, not 15.3% less time) -- per-call latency itself was also
-lower in the new graph's run (1.220s vs. 1.406s, 13.2% faster per call),
-which call-count alone does not explain. Two explanations are both live
-and this single comparison cannot distinguish them: (a) a genuine
-structural effect (5 LangGraph node-transitions vs. 8, or some other
-difference between the graphs), or (b) ordinary API/network timing
-variance between two sequential ~5-6 minute runs in the same session --
-the old graph ran *first*, so any warm-up, connection reuse, or
-time-of-day server-load effect would bias against it regardless of graph
-structure. **This was a single run per graph (`#6a`'s own design, a
-structural/timing comparison, not a repeat of phase 5's 3-run
-variance study) -- it is evidence, not proof, and should not be read as
-"decomposition makes this faster" without a repeat run** (ideally with
-run order swapped or randomized) to separate the two explanations. Filed
-as an open question, not resolved here.
+**Paired follow-up (4 runs, alternating which graph goes first --
+`eval/run_paired_timing_runs.py`, `results/multiagent_critic_paired_timing_runs.json`,
+1,936 additional real calls): the 15.3% gap dissolves, it does not
+replicate.**
 
-### Table: decomposition call-count and latency
+| Run | Order | Old wall-clock | New wall-clock | Delta (new - old) |
+|---|---|---|---|---|
+| 0 | old first | 296.0s | 299.9s | +3.8s |
+| 1 | new first | 295.3s | 299.1s | +3.8s |
+| 2 | old first | 314.0s | 295.9s | -18.1s |
+| 3 | new first | 321.9s | 296.4s | -25.4s |
+
+Identity effect (new graph's time minus old's, regardless of which ran
+first): +3.8s, +3.8s, -18.1s, -25.4s -- **sign flips twice**, mean -9.0s
+(~2.9%, roughly a third of the original 15.3%). Position effect
+(whichever graph ran first minus whichever ran second, regardless of
+identity): -3.8s, +3.8s, +18.1s, -25.4s -- also sign-flipping, mean
+-1.8s. **Neither a consistent graph-identity pattern nor a consistent
+run-order pattern emerged across 4 runs.** The original -54.0s/-15.3%
+result was itself one draw from this same noisy distribution, not a
+stable effect -- at n=4 per condition the honest conclusion is that
+run-to-run timing variance (most plausibly ordinary API/network
+variance, though this data cannot fully confirm even that) exceeds any
+structural signal from the architecture change, not that the
+architecture reliably speeds anything up or down. Cause of the
+run-to-run variance itself is **unresolved**, filed as an open question,
+not chased further here (`#6a`'s own scope: a structural/timing
+comparison, not a full benchmark harness).
+
+**Prediction accounting, one line:** 2 of 3 held (quality, call count);
+1 missed favorably in its first measurement and did not hold up under
+repeat testing (latency: initially 15.3% faster, dissolved to a
+sign-flipping ~2.9% mean under paired runs) -- cause of the run-to-run
+variance unresolved.
+
+### Table: decomposition call-count and latency (single comparison run)
 
 | | Phase 5 monolith (8 nodes) | Phase 6 multi-agent (5 nodes, Baseline critic) | Delta |
 |---|---|---|---|
@@ -115,26 +135,27 @@ as an open question, not resolved here.
    repo's FAQ corpus both fell below a workable training-pool size --
    `#5a`/`#5b` are a methodology-and-corpus finding, not a critic-quality
    finding, and must not be cited as either.
-2. **The latency prediction was wrong as stated**, and the honest
-   replacement claim is narrower than "decomposition is faster": the
-   measured 15.3% latency improvement is real for this one comparison run
-   but confounded with run order and cannot yet be attributed to the
-   architecture change with confidence.
+2. **The latency prediction was wrong in its first measurement, and the
+   effect it found does not replicate.** The initial 15.3% latency
+   improvement looked real for one comparison run; 4 paired runs with
+   alternating order show a sign-flipping, much smaller mean delta
+   (~2.9%) with no consistent identity or position pattern -- the honest
+   claim is "no reliable latency effect detected, in either direction,"
+   not "decomposition is faster."
 3. **Quality is not byte-identical** between the two graphs (49/51, not
    51/51) -- consistent with, not distinguishable from, this exact
    prompt/model's already-documented best-effort (not guaranteed)
    determinism, but stated as a measured fact, not assumed away.
-4. **This is a single comparison run, not a 3-run variance study** --
-   `#6a` pre-registered this scope deliberately (a structural/timing
-   comparison, not a re-litigation of phase 5's own already-settled
-   API-variance question), but it means neither the latency nor the
-   2-query quality delta above has an error bar.
+4. **The quality/call-count comparison is still a single run, not a
+   3-run variance study** -- `#6a` pre-registered this scope
+   deliberately, so the 2-query quality delta and the 6-call count delta
+   still have no error bar, even though latency was checked further.
 
 **Net read:** the multi-agent decomposition reproduces phase 5's
 decision quality within the same noise band phase 5 itself already
-documents, at a near-identical (very slightly lower) call count, with a
-first-look latency advantage that is real in this run but not yet
-separable from ordinary timing variance. The swappable critic seam this
-architecture buys (`#6`) is real and unused this phase; the trained
-critic it was built for remains a follow-on, pending a corpus where the
-training pool measured in `#5a`/`#5b` would not saturate immediately.
+documents, at a near-identical (very slightly lower) call count, and --
+after the paired follow-up -- no reliably measurable latency difference
+in either direction. The swappable critic seam this architecture buys
+(`#6`) is real and unused this phase; the trained critic it was built for
+remains a follow-on, pending a corpus where the training pool measured in
+`#5a`/`#5b` would not saturate immediately.
