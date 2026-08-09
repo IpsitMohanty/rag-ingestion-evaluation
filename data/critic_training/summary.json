@@ -1,0 +1,19 @@
+{
+  "source": "92 unused FAQ rows (data/faq/all_faq.json), verbatim question text, mechanical hit_at_k labeling -- docs/phase6_preregistration.md #5",
+  "cell_id": "cleaned_pdf__format_aware__cs800_ov100__similarity",
+  "k": 5,
+  "seed": 42,
+  "val_fraction": 0.2,
+  "total_examples": 92,
+  "positive_needs_correction_1": 0,
+  "negative_needs_correction_0": 92,
+  "positive_rate": 0.0,
+  "train_count": 74,
+  "val_count": 18,
+  "val_positive_count": 0,
+  "preregistered_estimate": {
+    "positive": 16,
+    "negative": 76,
+    "note": "docs/phase6_preregistration.md #5 -- projected from phase 2's hit@5=0.826, not measured; this summary's positive_needs_correction_1 is the measured figure."
+  }
+}

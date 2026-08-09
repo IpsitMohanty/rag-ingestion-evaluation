@@ -37,6 +37,18 @@ phase 4 structurally couldn't (0% -> 41.7% recall on the hardest 12
 queries), with zero fabricated answers detected, but wrongly refuses 18%
 of queries that were already fine -- see
 [Phase 5](#phase-5-a-corrective-self-reflective-rag-loop-built-on-langgraph)
+below. **Phase 6** built and ran a multi-agent decomposition of phase 5's
+loop, splitting it into named LangGraph agents behind a swappable critic
+seam; it reproduces phase 5's decision quality faithfully at an equal
+(very slightly lower) call count, with no reliably measurable latency
+difference (an initial single-run 15.3% edge dissolved under 4 paired
+alternating-order runs). Two disciplined attempts to train that
+swappable critic on this repo's own FAQ corpus both landed below a
+workable pool size (0/92, then 6/92 against a pre-registered floor of
+10) -- a corpus-retrieval-saturation finding, not a critic-quality one --
+so the trained-critic arms are deferred to a future, non-saturated
+corpus rather than built on unusable data -- see
+[Phase 6](#phase-6-multi-agent-corrective-rag----a-trained-critic-that-never-got-trained)
 below.
 
 Two things worth knowing before anything else here, because they
@@ -52,9 +64,13 @@ qualify every other number in this README:
   improving. See the [k=5-to-k=10 plateau](results/ANALYSIS.md#the-k5-to-k10-plateau-a-representation-ceiling-not-a-retrieval-depth-problem).
 
 Full methodology (settled in writing *before* any run) is in
-`eval/METHODOLOGY.md`; full findings are in `results/ANALYSIS.md`. Still
-not built: the LLM-answer-quality evaluation arm (generating and grading
-answers from both arms; see [Baseline arm](#baseline-arm-cost-and-recall-built-and-run)).
+`eval/METHODOLOGY.md` (phases 1-5) and `docs/phase6_preregistration.md`
+(phase 6, including two dated mid-flight amendments -- see below); full
+findings are in `results/ANALYSIS.md` (phases 1-5) and
+`docs/phase6_results.md` (phase 6). Still not built: the LLM-answer-quality
+evaluation arm (generating and grading answers from both arms; see
+[Baseline arm](#baseline-arm-cost-and-recall-built-and-run)), and phase 6's
+CE/LoRA trained critics (deferred to a future, non-saturated corpus).
 
 ## Corpus
 
@@ -237,19 +253,22 @@ pip install -r requirements-dev.txt
 pytest
 ```
 
-133 passed, 4 skipped (137 total), ~49s on this machine. All but four
-run fully offline: no network call, no model download, no API call. The
-four exceptions are gated behind explicit env flags and not run in CI.
-`test_huggingface_backend_produces_expected_dimension` (`RUN_NETWORK_TESTS=1`)
-constructs the real `HuggingFaceEmbeddings` backend, which is *eager*:
-it downloads/loads the sentence-transformers model at construction
-time, not on first use. Two more (`RUN_NETWORK_TESTS=1`) are in
-`tests/test_onnx_parity.py`, which verifies the deployed app's ONNX
-query embeddings match the torch-computed ones and needs the real torch
-model available/cached. The fourth (`RUN_LLM_TESTS=1` plus
-`OPENAI_API_KEY`) is phase 4's real-OpenAI structured-output test,
-verifying the route/judge schema against the actual API rather than a
-mock. Everywhere else,
+193 passed, 6 skipped (199 total), well under a minute on this machine.
+All but six run fully offline: no network call, no model download, no
+API call. The six exceptions are gated behind explicit env flags and not
+run in CI. `test_huggingface_backend_produces_expected_dimension`
+(`RUN_NETWORK_TESTS=1`) constructs the real `HuggingFaceEmbeddings`
+backend, which is *eager*: it downloads/loads the sentence-transformers
+model at construction time, not on first use. Two more
+(`RUN_NETWORK_TESTS=1`) are in `tests/test_onnx_parity.py`, which
+verifies the deployed app's ONNX query embeddings match the
+torch-computed ones and needs the real torch model available/cached. The
+remaining three (`RUN_LLM_TESTS=1` plus `OPENAI_API_KEY`) are each
+phase's real-OpenAI structured-output test, verifying that phase's
+route/judge/critic schema against the actual API rather than a mock:
+phase 4's (`tests/test_agentic.py`), phase 5's
+(`tests/test_corrective_rag.py`), and phase 6's
+(`tests/test_multiagent_critic_rag.py`). Everywhere else,
 adapter/pipeline contract tests, including the phase 2 harness tests
 (`test_eval_*.py`), use `langchain_core.embeddings.DeterministicFakeEmbedding`,
 a hash-based Embeddings implementation, to prove the vectorstore/retriever
@@ -785,6 +804,85 @@ own cache; the other four call sites were fresh), ~$0.10 estimated
 `OPENAI_API_KEY=... python -m eval.run_corrective_eval` (gated the same
 way as phase 4 -- not run in CI, real paid calls unless the disk cache
 already covers every call).
+
+## Phase 6: multi-agent corrective RAG -- a trained critic that never got trained
+
+**What this is, plainly:** phase 5's monolithic loop decomposed into
+three named LangGraph agents (retrieval, critic, generator) behind a
+swappable critic seam, meant to test whether a *trained* critic
+(cross-encoder or LoRA) fires phase 5's corrective loop less often than
+its prompted grader without giving up phase 5's genuine rescues. **What
+it's worth:** the trained-critic question is still open -- this repo's
+own FAQ corpus turned out too small and too easily self-retrieved to
+build a training pool from, twice, in two different ways -- but the
+decomposition question got a clean answer: splitting the loop into named
+agents doesn't cost anything measurable, and the swappable-critic seam is
+real and ready for whichever corpus answers the first question.
+
+**Honest headline, upfront:** corpus retrieval saturation blocked the
+trained-critic arm before it could be built -- 0 of 92 candidate training
+rows needed correction using verbatim FAQ text, and only 6 of 92 using
+LLM-paraphrased text validated against the hand-authored eval queries'
+own lexical-overlap regime, both under a pre-registered floor of 10. The
+multi-agent decomposition itself reproduces phase 5's behavior
+faithfully, at an equal (very slightly lower) call count and no
+measurably worse latency. The trained critic is deferred, not
+abandoned, to a future, non-saturated second-domain corpus.
+
+Full pre-registered design, including two dated mid-flight amendments
+recording exactly where the original plan didn't survive contact with
+the data: `docs/phase6_preregistration.md`. Full results, checked one
+prediction at a time: `docs/phase6_results.md`.
+
+**Part 1 -- training data: two disciplined attempts, both below a
+workable floor.** `eval/queries.yaml`'s 51-query eval set uses 34 of the
+126 FAQ rows as ground truth; the other 92 are untouched and eval-set-disjoint
+by construction. Querying with each row's own verbatim question text
+(mechanical, zero hand-labeling) measured **0/92** needing correction --
+every query trivially retrieved its own row at k=5, since FAQ rows are
+indexed as one whole document each. An LLM-paraphrased retry (fixed
+prompt, `gpt-4o-mini`, `temperature=0`/`seed=42`, validated to land in
+the same Jaccard-overlap regime the 26 hand-authored eval queries
+occupy) only reached **6/92**, still under the pre-registered floor of
+10. Both are a finding about *this corpus's* retrieval saturation, not
+about whether a trained critic can beat a prompted one -- **no critic was
+ever trained**, so that question is deferred to a future corpus, not
+answered here. Evidence for both attempts (`data/critic_training/`) and
+the extraction/paraphrase scripts (`training/`) are committed; no model
+weights exist as a result.
+
+**Part 2 -- Stage 4: does the decomposition itself cost anything?**
+`src/adapters/multiagent_critic_rag.py` -- three agents (retrieval,
+critic, generator) plus thin-router conditional edges, five graph nodes
+total versus phase 5's eight. `src/adapters/corrective_rag.py` is
+untouched; the Baseline critic reuses its prompts, schemas, and
+fail-open logic verbatim, not retyped. Run fresh, back-to-back, uncached,
+over the same 51-query set as phase 5 (490 real calls, one pass each):
+
+| | Phase 5 (8 nodes) | Phase 6 (5 nodes) | Delta |
+|---|---|---|---|
+| Real LLM calls | 248 | 242 | -6 |
+| Per-query decision agreement | -- | 96.1% (49/51) | within phase 5's own documented API-nondeterminism band |
+| Rescue rate / faithfulness / fire rate | 5/7, 1.0, 0.333 | 5/7, 1.0, 0.333 | identical |
+
+A first, single timed comparison showed the decomposed graph 15.3%
+faster -- but that run had the old graph go first, an acknowledged
+confound. **4 follow-up runs, alternating which graph went first, made
+the effect dissolve**: the identity delta (new graph's time minus old's)
+was +3.8s, +3.8s, -18.1s, -25.4s across the 4 runs -- sign-flipping, mean
+-9.0s (~2.9%), with no consistent pattern by graph identity or by run
+order. The honest conclusion is "no reliably measurable latency
+difference," not "decomposition is faster" -- reported as a wrong
+initial prediction that didn't survive a repeat, not smoothed into a win.
+
+**`critic="ce"`/`"lora"`** are wired into the config seam
+(`MultiAgentCriticConfig`) and raise `NotImplementedError` naming this
+section if selected -- deferred, not silently stubbed to `"baseline"`.
+
+Reproduce: `OPENAI_API_KEY=... python -m eval.run_multiagent_critic_eval`
+(single comparison) or `python -m eval.run_paired_timing_runs` (the
+4-run follow-up, ~4x the cost) -- neither runs in CI, same gating as
+every other real-call harness in this repo.
 
 ## Reference material
 
