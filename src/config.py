@@ -148,6 +148,28 @@ class CorrectiveAgenticConfig:
 
 
 @dataclass(frozen=True)
+class MultiAgentCriticConfig:
+    # Phase 6 seam (docs/phase6_preregistration.md #6): the same
+    # corrective loop as CorrectiveAgenticConfig above, reorganized into
+    # named agents (src/adapters/multiagent_critic_rag.py) with a
+    # swappable critic. Same deterministic settings as AgenticConfig/
+    # CorrectiveAgenticConfig, for the same comparability reason
+    # (eval/METHODOLOGY.md #15).
+    llm: LLMConfig = field(default_factory=lambda: LLMConfig(
+        backend="openai", model_name="gpt-4o-mini", temperature=0.0, seed=42,
+    ))
+    max_iterations: int = 3
+    # "baseline": corrective_rag.py's grade_documents call, reused
+    # verbatim (prompt/schema/fail-open logic unchanged). "ce"/"lora":
+    # deferred, not built this phase -- docs/phase6_preregistration.md
+    # #5b (training pool measured below a workable size on this corpus
+    # twice; the seam exists for a future non-saturated corpus, not
+    # wired to a trained critic yet). Selecting "ce"/"lora" raises
+    # NotImplementedError, not a silent fallback.
+    critic: Literal["baseline", "ce", "lora"] = "baseline"
+
+
+@dataclass(frozen=True)
 class Config:
     ingestion: IngestionConfig = field(default_factory=IngestionConfig)
     embedding: EmbeddingConfig = field(default_factory=EmbeddingConfig)
@@ -156,6 +178,7 @@ class Config:
     llm: LLMConfig = field(default_factory=LLMConfig)
     agentic: AgenticConfig = field(default_factory=AgenticConfig)
     corrective_agentic: CorrectiveAgenticConfig = field(default_factory=CorrectiveAgenticConfig)
+    multiagent_critic: MultiAgentCriticConfig = field(default_factory=MultiAgentCriticConfig)
 
 
 DEFAULT_CONFIG = Config()
