@@ -63,6 +63,13 @@ LangGraph agents change call-count or latency, for better or worse?
 
 ## 1. Three arms (a config-sweep axis, not three separate builds)
 
+**Status (see #5b, dated 2026-08-09): CE and LoRA are deferred, not
+built, this phase.** The design below is the original three-arm axis as
+pre-registered; #5b records why Stage 4 executes Baseline-only and where
+CE/LoRA move to. Left as originally written, not rewritten, so the
+record shows both what was planned and what the training-data checkpoint
+actually supported.
+
 | Arm | Critic mechanism | Inference cost |
 |---|---|---|
 | **Baseline** | phase-5 prompted inline self-grade (`JUDGE_PROMPT`/`JudgeDecision`, frozen, unchanged) | LLM call |
@@ -76,6 +83,12 @@ grid, `src/config.py`'s per-phase config dataclasses), not a reason to
 fork the graph three times.
 
 ## 2. Win condition and primary metric (pin one number, not a loose "firing rate")
+
+**Status (see #5b): not evaluated this phase.** The win condition and
+curve below apply once a trained critic exists to compare against
+Baseline; #5b defers that to a future corpus. Left as originally
+pre-registered, not rewritten, as the standard this repo's eventual
+trained-critic follow-on is still held to.
 
 **Confusion table over the 51 queries, under phase 5, verified directly
 against `results/corrective_eval_results.json` (run 0; identical on runs
@@ -333,6 +346,79 @@ on unmodified FAQ text). Any result must be read with this narrower
 provenance in mind, not just the general train/eval construct gap #3
 already names.
 
+## 5b. Amendment -- 2026-08-09: paraphrase gate 1 passed, gate 2 failed (6/92) -- CE/LoRA training deferred, not attempted a third way
+
+`training/generate_faq_paraphrases.py` ran as #5a specified: 92 real
+`gpt-4o-mini` calls (well under the 138 hard stop), fixed prompt,
+`temperature=0.0`, `seed=42`, cached in `eval/.llm_cache.json`.
+
+**Gate 1 (Jaccard-overlap regime) passed.** Mean overlap 0.153 -- inside
+the pre-registered [0.05, 0.25] band and close to the hand-authored 26's
+own mean (0.134); 0 of 92 exceeded the 0.5 high-overlap threshold (limit
+14). The paraphrases are genuinely comparable in character to the
+hand-made eval queries, confirmed, not assumed.
+
+**Gate 2 (>=10 positive examples after relabeling) failed.** Relabeling
+with the paraphrased text (same `hit@k` logic, same pinned retriever)
+gave **6 positive / 86 negative** -- a real improvement over #5a's 0/92,
+but under the precommitted floor: a stratified split would leave ~1
+positive example in validation, the exact meaninglessness problem the
+floor exists to prevent. Per #5a's own text, the script halted on its
+own recognition of the failed gate and did not write `faq_expansion.jsonl`
+or proceed further.
+
+**Decision, checked against #5a's stated anti-pattern before being made:**
+do not lower `MIN_POSITIVE_EXAMPLES` from 10 to 6 to accept this pool --
+revising a precommitted gate after seeing it fail is the exact pattern
+#5a's text warns against ("do not re-run... tuning generation parameters
+until a precommitted check passes"), and lowering the acceptance bar
+after the fact is the same move by another name. Do not attempt a third
+automated pass (e.g. a stronger paraphrase prompt) either -- two
+independent attempts (verbatim text, LLM-paraphrased text) both landing
+below the floor is itself the finding, not a reason to keep searching for
+a prompt that clears it.
+
+**What this finding is, and, precisely, what it is not.** Two
+consecutive labeling attempts -- verbatim FAQ text (0/92) and
+lexically-dissimilar LLM-paraphrased text validated against the
+hand-authored eval queries' own overlap regime (6/92) -- both fall below
+a workable training-pool size on **this specific 126-document corpus**.
+That is a finding about retrieval saturation on a small, dense FAQ index,
+not a finding about whether a trained critic (cross-encoder or LoRA)
+can or cannot beat the phase-5 prompted grader: **no critic was ever
+trained**, so that question is untested here, not falsified. Any later
+write-up must keep this distinction explicit -- "the corpus didn't yield
+enough training signal to attempt the comparison" is a materially
+different, narrower claim than "trained critics don't help," and
+conflating the two would overclaim beyond what this data supports.
+
+**Consequence for Stage 4 (scope change, pre-registered here before Stage
+4 runs, per this document's own discipline):** the CE and LoRA critic
+arms are **deferred, not cancelled** -- both need a corpus where
+independently-phrased queries genuinely miss at a rate a training split
+can use, which this repo's current FAQ corpus does not provide at k=5 on
+a 126-document index. Stage 4 proceeds **Baseline-critic-only**: the
+four-node multi-agent decomposition (retrieval -> critic -> generator ->
+thin router, #6) is tested against phase 5's monolithic loop using only
+the frozen, prompted `grade_documents` critic, over the same 51-query
+set, reporting call-count and latency deltas either way (#3's second
+null prediction, unaffected by this amendment). This answers the
+phase's *decomposition* question on schedule; it does not answer the
+phase's *trained-critic* question, which moves to a **future,
+separately-scoped corpus** with a non-saturated retrieval task (a larger
+or more open-ended document set than this repo's 126-row FAQ index) --
+named as follow-on work in the eventual results doc, not silently
+dropped.
+
+**Kept, not discarded, as evidence:** `data/critic_training/faq_expansion.jsonl`
+(#5a's 92-row verbatim-text attempt, 0 positive),
+`data/critic_training/faq_paraphrases.jsonl` (this amendment's 92
+paraphrases + per-row Jaccard overlap), and
+`data/critic_training/faq_paraphrases_summary.json` (both gates'
+measured numbers) are committed alongside this section -- the 6 genuine
+LLM-paraphrase-induced misses these files contain are real signal a
+future corpus's training pool could be seeded with, not wasted work.
+
 ## 6. Architecture
 
 ```
@@ -388,17 +474,35 @@ app's dependency surface (`app/requirements.txt`) are unaffected.
 
 ## 7. Deliverables, mapped to stages
 
+**Updated per #5b (2026-08-09):** items 2 and 4 change scope from what
+was originally listed here. Original text kept below, struck through in
+spirit (not literally deleted -- see the #5b status note under each
+changed item), so the record shows the original commitment alongside
+what the training-data checkpoint actually supported.
+
 1. `docs/phase6_preregistration.md` -- **this document. Stage 1.**
-2. Critic training scripts (CE and LoRA), reproducible, seeded --
-   `training/extract_critic_data.py` + `training/train_ce_critic.py`
-   (Stage 2, executed for real); `training/train_lora_critic.py` (Stage
-   3, script-only -- see #8).
-3. LangGraph multi-agent graph with config-selectable critic -- Stage 4.
-4. Eval harness extension: three arms over the existing 51-query set,
-   tradeoff-curve output (Baseline + CE run for real; LoRA reported
-   not-run per #8) -- Stage 4.
-5. Results doc: honest negatives, firing-rate/rescue-rate curve, latency
-   + call-count table -- Stage 4.
+2. ~~Critic training scripts (CE and LoRA), reproducible, seeded~~ --
+   `training/extract_critic_data.py` + `training/generate_faq_paraphrases.py`
+   were built and run for real (Stage 2); both attempts (#5a, #5b) fell
+   below the training-pool floor. **`train_ce_critic.py` and
+   `train_lora_critic.py` are deferred to the future non-saturated-corpus
+   follow-on named in #5b, not built this phase** -- writing a training
+   script against a known-unusable 6-example pool would produce a script
+   that runs but whose output means nothing, which is not a real
+   deliverable.
+3. LangGraph multi-agent graph with config-selectable critic -- Stage 4,
+   **built with the `critic` seam present (#6) but exercised
+   Baseline-only** (#5b) -- the config field and node shape support
+   `ce`/`lora` for when a critic exists to plug into it, they are just
+   unused this phase.
+4. ~~Eval harness extension: three arms over the existing 51-query set,
+   tradeoff-curve output~~ -- **Stage 4 runs Baseline-only**: the
+   four-node decomposition vs. phase 5's monolith, call-count and latency
+   reported either way (#5b). No tradeoff curve this phase (a curve needs
+   >=2 critics with a tunable threshold; Baseline is the single reference
+   point #2 already described).
+5. Results doc: honest negatives, **decomposition call-count/latency
+   table** (not a firing-rate/rescue-rate curve, per #5b) -- Stage 4.
 6. Tests green before any merge request; advertised count matches CI
    reality -- Stage 4, checked before any merge is proposed.
 
