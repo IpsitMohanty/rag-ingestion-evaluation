@@ -37,18 +37,18 @@ phase 4 structurally couldn't (0% -> 41.7% recall on the hardest 12
 queries), with zero fabricated answers detected, but wrongly refuses 18%
 of queries that were already fine -- see
 [Phase 5](#phase-5-a-corrective-self-reflective-rag-loop-built-on-langgraph)
-below. **Phase 6** set out to replace phase 5's over-firing inline grader
-with a trained critic and split the loop into named LangGraph agents; two
-disciplined attempts to build a training pool from this repo's own FAQ
-corpus both landed below a workable size (0/92, then 6/92 against a
-pre-registered floor of 10) -- a corpus-retrieval-saturation finding, not
-a critic-quality one, so the trained-critic arms are deferred to a
-future, non-saturated corpus rather than built on unusable data. The
-decomposition itself ran on schedule: it reproduces phase 5's decision
-quality faithfully at an equal (very slightly lower) call count, and an
-initial single-run 15.3% latency edge dissolved under 4 paired
-alternating-order runs -- no reliable latency effect either direction --
-see [Phase 6](#phase-6-multi-agent-corrective-rag----a-trained-critic-that-never-got-trained)
+below. **Phase 6** built and ran a multi-agent decomposition of phase 5's
+loop, splitting it into named LangGraph agents behind a swappable critic
+seam; it reproduces phase 5's decision quality faithfully at an equal
+(very slightly lower) call count, with no reliably measurable latency
+difference (an initial single-run 15.3% edge dissolved under 4 paired
+alternating-order runs). Two disciplined attempts to train that
+swappable critic on this repo's own FAQ corpus both landed below a
+workable pool size (0/92, then 6/92 against a pre-registered floor of
+10) -- a corpus-retrieval-saturation finding, not a critic-quality one --
+so the trained-critic arms are deferred to a future, non-saturated
+corpus rather than built on unusable data -- see
+[Phase 6](#phase-6-multi-agent-corrective-rag----a-trained-critic-that-never-got-trained)
 below.
 
 Two things worth knowing before anything else here, because they
