@@ -67,10 +67,14 @@ Full methodology (settled in writing *before* any run) is in
 `eval/METHODOLOGY.md` (phases 1-5) and `docs/phase6_preregistration.md`
 (phase 6, including two dated mid-flight amendments -- see below); full
 findings are in `results/ANALYSIS.md` (phases 1-5) and
-`docs/phase6_results.md` (phase 6). Still not built: the LLM-answer-quality
-evaluation arm (generating and grading answers from both arms; see
-[Baseline arm](#baseline-arm-cost-and-recall-built-and-run)), and phase 6's
-CE/LoRA trained critics (deferred to a future, non-saturated corpus).
+`docs/phase6_results.md` (phase 6). The answer-quality evaluation arm is
+implemented in `eval/answer_quality.py` and `eval/run_answer_quality.py`;
+results are written to `results/answer_quality_results.json` and summarized
+by `eval/report_answer_quality.py`. The current corpus does not provide enough
+hard, non-self-retrieving labels to support a defensible CE/LoRA fine-tuning
+claim, so trained critics remain deferred. The current practical baseline is
+dense retrieval with the calibrated grounded critic; hybrid retrieval remains
+an experimental comparison arm.
 
 ## Corpus
 
@@ -253,7 +257,17 @@ pip install -r requirements-dev.txt
 pytest
 ```
 
-193 passed, 6 skipped (199 total), well under a minute on this machine.
+Use the repository virtual environment (Python 3.11, matching CI) for this
+command. Python 3.14 is not currently supported by the native scientific
+dependencies used by the embedding stack and can terminate during pytest
+collection with a Windows access violation.
+
+```powershell
+.\.venv\Scripts\python.exe -m pytest
+```
+
+The suite currently collects 213 tests and completes successfully in that
+environment, with the real-network and real-LLM tests skipped by default.
 All but six run fully offline: no network call, no model download, no
 API call. The six exceptions are gated behind explicit env flags and not
 run in CI. `test_huggingface_backend_produces_expected_dimension`

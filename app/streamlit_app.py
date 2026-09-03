@@ -18,7 +18,13 @@ import streamlit as st
 # import must not depend on which one is in play.
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from app_logic import PRESET_QUERIES, generate_answer, load_app_vectorstore, run_query  # noqa: E402
+from app_logic import (  # noqa: E402
+    PRESET_QUERIES,
+    format_citation,
+    generate_answer,
+    load_app_vectorstore,
+    run_query,
+)
 
 st.set_page_config(page_title="RAG Ingestion Evaluation", page_icon="🔍")
 
@@ -122,6 +128,9 @@ if query:
                     "Generated from the retrieved chunks below, using the "
                     "API key you provided. Not grounded beyond what's shown."
                 )
+                st.subheader("Citations")
+                for i, result in enumerate(results, start=1):
+                    st.caption(format_citation(result, i))
 
         st.subheader(f"Top {len(results)} retrieved chunk(s)")
         for i, result in enumerate(results, start=1):

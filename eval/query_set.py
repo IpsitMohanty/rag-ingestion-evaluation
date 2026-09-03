@@ -66,6 +66,36 @@ def load_query_set(path: Path = QUERY_SET_PATH, faq_json_path: Path = FAQ_JSON_P
     return queries
 
 
+def add_reference_answers(
+    queries: list[dict], faq_json_path: Path = FAQ_JSON_PATH
+) -> list[dict]:
+    """Return query copies with reference answers for answer-quality grading.
+
+    FAQ references are sourced from the indexed FAQ row. Policy references use
+    the methodology note already reviewed for each query. ``neither`` queries
+    receive an explicit no-answer reference and are scored on abstention
+    rather than answer correctness.
+    """
+    import json
+
+    faq_rows = json.loads(faq_json_path.read_text(encoding="utf-8"))
+    enriched = []
+    for query in queries:
+        copy = dict(query)
+        refs = query.get("ground_truth") or []
+        faq_ref = next((ref for ref in refs if ref["source"] == "faq"), None)
+        if faq_ref is not None:
+            copy["reference_answer"] = faq_rows[faq_ref["faq_index"]]["answer"]
+        elif query["expected_source"] == "neither":
+            copy["reference_answer"] = "The corpus does not contain an answer."
+        elif query.get("note"):
+            copy["reference_answer"] = query["note"].strip()
+        else:
+            raise ValueError(f"query {query['id']!r} has no reference answer")
+        enriched.append(copy)
+    return enriched
+
+
 def by_bucket(queries: list[dict]) -> dict[str, list[dict]]:
     buckets: dict[str, list[dict]] = {"faq": [], "policy_pdf": [], "either": [], "neither": []}
     for q in queries:

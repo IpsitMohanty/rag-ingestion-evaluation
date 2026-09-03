@@ -72,9 +72,14 @@ Original question: {query}
 This is attempt {attempt} of {max_attempts}.
 """
 
-GENERATE_PROMPT = """Answer the question using ONLY the excerpts below. If \
-the excerpts do not contain enough information to answer, say so plainly \
-rather than guessing or using outside knowledge.
+GENERATE_PROMPT = """Answer the question using ONLY the excerpts below. Include every \
+requested fact, list item, identifier, number, unit, and qualification that \
+the excerpts support. For a multi-part question, answer each supported part \
+and clearly state which part is not present rather than silently omitting it. \
+For FAQ excerpts, preserve the complete beneficiary/category list and the \
+specific feature labels when they are present. If the excerpts do not contain \
+enough information to answer, say so plainly rather than guessing or using \
+outside knowledge.
 
 Question: {query}
 
