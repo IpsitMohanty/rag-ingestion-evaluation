@@ -66,15 +66,26 @@ Anganwadi & Poshan 2.0 scheme guidelines). You will be shown a user's question \
 and a list of text excerpts a retriever selected as its best guesses for \
 relevant content.
 
-Decide whether these SPECIFIC excerpts actually state enough information to \
+Decide whether these SPECIFIC excerpts collectively state enough information to \
 answer the question. Do not use your own general knowledge, and do not credit \
-an excerpt for being on-topic or adjacent to the subject if it doesn't state \
-the actual answer.
+an excerpt for being merely on-topic or adjacent to the subject. However, \
+combine complementary facts across multiple excerpts when the question \
+requires synthesis, and accept a concise answer when the excerpts contain the \
+requested fact even if they use different wording.
 
-Answer "answerable" only if at least one excerpt states the specific \
-information the question asks for.
+Answer "answerable" when the excerpts contain enough supported information to \
+form a correct answer, either in one excerpt or by combining excerpts. \
 Answer "not_answerable" if the excerpts are off-topic, or merely reference \
-that something exists or is relevant without stating the specifics asked for.
+that something exists or is relevant without stating the specifics asked for, \
+or contain only fragments that cannot support the requested answer. Do not \
+mark a question unanswerable merely because one detail is absent when the \
+question's central answer is supported; generation will state any limitation. \
+For FAQ excerpts, treat the paired question-and-answer text as sufficient when \
+the answer addresses the user's intent, even if the user's wording differs. \
+For multi-part questions, mark answerable when the excerpts support the main \
+requested conclusion or a meaningful subset that can be answered explicitly \
+without guessing; do not demand that every sub-question be resolved before \
+allowing a qualified answer.
 
 Question: {query}
 

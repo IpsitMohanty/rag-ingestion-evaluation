@@ -27,6 +27,7 @@ sys.path.insert(0, str(APP_DIR))
 from app_logic import (  # noqa: E402
     PRESET_QUERIES,
     describe_source,
+    format_citation,
     generate_answer,
     load_app_vectorstore,
     run_query,
@@ -105,6 +106,19 @@ def test_empty_query_returns_no_results_without_touching_the_store(vectorstore):
 def test_describe_source_distinguishes_faq_from_policy():
     assert describe_source({"tab": "Beneficiary", "subcategory": ""}) == "faq"
     assert describe_source({"page": 12, "source": "x.pdf"}) == "policy_pdf"
+
+
+def test_format_citation_uses_faq_location():
+    result = {
+        "source": "faq",
+        "metadata": {"tab": "Beneficiary", "subcategory": "General"},
+    }
+    assert format_citation(result, 1) == "[1] faq: Beneficiary / General"
+
+
+def test_format_citation_uses_policy_page():
+    result = {"source": "policy_pdf", "metadata": {"page": 22}}
+    assert format_citation(result, 2) == "[2] policy_pdf: page 22"
 
 
 def test_no_api_key_path_returns_none_without_any_network_call():

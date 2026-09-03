@@ -9,6 +9,7 @@ default distance metric, regardless of which strategy retrieved it.
 """
 import sys
 import uuid
+import re
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
@@ -23,6 +24,81 @@ from adapters import vectorstore as vectorstore_adapter
 from config import RetrieverConfig, VectorStoreConfig
 
 from .metrics import ScoredHit
+
+
+def _tokens(text: str) -> set[str]:
+    return set(re.findall(r"[a-z0-9]+", text.lower()))
+
+
+class LexicalIndex:
+    """Small dependency-free lexical specialist for benchmark experiments."""
+
+    def __init__(self, documents: list[Document], source_type: str):
+        self._documents = [(document, _tokens(document.page_content)) for document in documents]
+        self._source_type = source_type
+
+    def query_scored(self, text: str, k: int) -> list[ScoredHit]:
+        query_tokens = _tokens(text)
+        ranked = []
+        for document, document_tokens in self._documents:
+            overlap = len(query_tokens & document_tokens)
+            if overlap:
+                score = 1.0 - overlap / max(len(query_tokens), 1)
+                ranked.append((score, document))
+        ranked.sort(key=lambda item: item[0])
+        return [
+            ScoredHit(
+                source_type=self._source_type,
+                score=score,
+                document=document,
+                faq_index=document.metadata.get("faq_index"),
+                faq_indices=(
+                    tuple(document.metadata["faq_indices"])
+                    if "faq_indices" in document.metadata else None
+                ),
+                page=document.metadata.get("page"),
+            )
+            for score, document in ranked[:k]
+        ]
+
+
+def query_hybrid(
+    query: str,
+    k: int,
+    faq_store,
+    policy_index,
+    faq_lexical: LexicalIndex,
+    policy_lexical: LexicalIndex,
+    rrf_k: int = 60,
+) -> list[ScoredHit]:
+    """Fuse dense and lexical specialists with reciprocal rank fusion."""
+    dense = query_combined(query, k, faq_store, policy_index)
+    lexical = faq_lexical.query_scored(query, k) + policy_lexical.query_scored(query, k)
+    ranked: dict[tuple[str, str], tuple[float, ScoredHit]] = {}
+    for hits in (dense, lexical):
+        for rank, hit in enumerate(hits, start=1):
+            identity = (
+                hit.source_type,
+                str(hit.faq_index if hit.faq_index is not None else hit.page or hit.document.page_content),
+            )
+            fused_score = 1.0 / (rrf_k + rank)
+            previous = ranked.get(identity)
+            if previous is None:
+                ranked[identity] = (fused_score, hit)
+            else:
+                ranked[identity] = (previous[0] + fused_score, previous[1])
+    fused = sorted(ranked.values(), key=lambda item: item[0], reverse=True)
+    return [
+        ScoredHit(
+            source_type=hit.source_type,
+            score=1.0 - fused_score,
+            document=hit.document,
+            faq_index=hit.faq_index,
+            faq_indices=hit.faq_indices,
+            page=hit.page,
+        )
+        for fused_score, hit in fused[:k]
+    ]
 
 
 def _vectorstore(embeddings: Embeddings, persist_dir: Path, collection_name: str):

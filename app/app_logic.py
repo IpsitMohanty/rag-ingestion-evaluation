@@ -19,6 +19,8 @@ Two vectorstore paths, deliberately different:
 """
 import sys
 import tempfile
+import logging
+import time
 from dataclasses import replace
 from pathlib import Path
 
@@ -37,6 +39,8 @@ from config import DEFAULT_CONFIG  # noqa: E402
 from langchain_core.documents import Document  # noqa: E402
 from langchain_core.embeddings import Embeddings  # noqa: E402
 from langchain_core.vectorstores import VectorStore  # noqa: E402
+
+LOGGER = logging.getLogger(__name__)
 
 # Drawn verbatim from eval/queries.yaml's labeled set (pol-11, faq-01,
 # either-01, neither-01) -- the demo's "known unanswerable" example is
@@ -172,8 +176,9 @@ def run_query(vectorstore: VectorStore, query: str, k: int) -> list[dict]:
     if not query or not query.strip():
         return []
 
+    started = time.perf_counter()
     hits = vectorstore.similarity_search_with_score(query, k=k)
-    return [
+    results = [
         {
             "content": document.page_content,
             "source": describe_source(document.metadata),
@@ -182,6 +187,27 @@ def run_query(vectorstore: VectorStore, query: str, k: int) -> list[dict]:
         }
         for document, score in hits
     ]
+    LOGGER.info(
+        "retrieval_complete query_chars=%d k=%d results=%d elapsed_ms=%.1f",
+        len(query),
+        k,
+        len(results),
+        (time.perf_counter() - started) * 1000,
+    )
+    return results
+
+
+def format_citation(result: dict, index: int) -> str:
+    """Return a stable, user-facing citation without exposing raw internals."""
+    metadata = result.get("metadata", {})
+    if result.get("source") == "faq":
+        tab = metadata.get("tab") or "FAQ"
+        subcategory = metadata.get("subcategory")
+        location = f"{tab} / {subcategory}" if subcategory else tab
+    else:
+        page = metadata.get("page")
+        location = f"page {page}" if page is not None else "policy PDF"
+    return f"[{index}] {result.get('source', 'source')}: {location}"
 
 
 def generate_answer(query: str, results: list[dict], api_key: str | None) -> str | None:
@@ -205,6 +231,7 @@ def generate_answer(query: str, results: list[dict], api_key: str | None) -> str
     if not results:
         return None
 
+    started = time.perf_counter()
     try:
         from langchain_openai import ChatOpenAI
 
@@ -217,8 +244,20 @@ def generate_answer(query: str, results: list[dict], api_key: str | None) -> str
         )
         llm = ChatOpenAI(model="gpt-4o-mini", api_key=api_key, timeout=30)
         response = llm.invoke(prompt)
+        LOGGER.info(
+            "generation_complete query_chars=%d results=%d elapsed_ms=%.1f",
+            len(query),
+            len(results),
+            (time.perf_counter() - started) * 1000,
+        )
         return response.content
     except Exception:
+        LOGGER.warning(
+            "generation_failed query_chars=%d results=%d elapsed_ms=%.1f",
+            len(query),
+            len(results),
+            (time.perf_counter() - started) * 1000,
+        )
         return (
             "Answer generation failed (invalid key, network error, or rate "
             "limit) -- showing retrieved chunks only."

@@ -16,11 +16,20 @@ from adapters import retriever as retriever_adapter
 from adapters.agentic import (
     AgenticResult,
     JudgeDecision,
+    JUDGE_PROMPT,
     RouteDecision,
     build_agentic_graph,
     get_structured_llms,
     run_agentic_query,
 )
+
+
+def test_judge_prompt_allows_synthesis_without_dropping_grounding():
+    assert "collectively" in JUDGE_PROMPT
+    assert "combining excerpts" in JUDGE_PROMPT
+    assert "Do not use your own general knowledge" in JUDGE_PROMPT
+    assert "paired question-and-answer text" in JUDGE_PROMPT
+    assert "meaningful subset" in JUDGE_PROMPT
 from adapters import vectorstore as vectorstore_adapter
 from config import AgenticConfig, RetrieverConfig, VectorStoreConfig
 from conftest import requires_llm
